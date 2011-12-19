@@ -1,3 +1,5 @@
+// http://code.kx.com/wsvn/code/kx/kdb%2B/c/kx/c.java
+
 package kx; //jar cf c.jar kx/*.class
 import java.net.*;import java.io.*;import java.sql.*;import java.lang.reflect.Array;import java.text.*;
 //tick: c c=new c("",5010);Object[]x={"GE",new Double(2.5),new Integer(23)};c.k(".u.upd","trade",x);
