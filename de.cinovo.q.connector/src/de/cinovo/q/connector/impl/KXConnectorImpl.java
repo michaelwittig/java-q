@@ -365,6 +365,7 @@ public final class KXConnectorImpl implements KXConnector {
 					final Object res = KXConnectorImpl.this.c.get().k();
 					if (res == null) {
 						// nothing to do here
+						continue;
 					} else if (res instanceof c.Flip) {
 						final c.Flip flip = (c.Flip) res;
 						final KXTable t = new KXTableImpl("", flip.x, flip.y);
@@ -377,7 +378,7 @@ public final class KXConnectorImpl implements KXConnector {
 							final KXTable t = new KXTableImpl(table, flip.x, flip.y);
 							KXConnectorImpl.this.throwData(t);
 						} else if (tres[2] instanceof c.Flip) {
-							final String cmd = (String) tres[0];
+							// final String cmd = (String) tres[0];
 							final String table = (String) tres[1];
 							final c.Flip flip = (c.Flip) tres[2];
 							final KXTable t = new KXTableImpl(table, flip.x, flip.y);

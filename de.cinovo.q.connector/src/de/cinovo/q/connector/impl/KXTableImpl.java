@@ -10,7 +10,7 @@ package de.cinovo.q.connector.impl;
 
 import java.lang.reflect.Array;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +33,7 @@ public final class KXTableImpl implements KXTable {
 	private final String table;
 
 	/** Columns. */
-	private final String[] cols;
+	private final List<String> cols;
 
 	/** Column name to index. */
 	private final Map<String, Integer> col2index = new HashMap<String, Integer>();
@@ -49,7 +49,7 @@ public final class KXTableImpl implements KXTable {
 	protected KXTableImpl(final String aTable, final String[] aColumns, final Object[] aData) {
 		super();
 		this.table = aTable;
-		this.cols = aColumns;
+		this.cols = Arrays.asList(aColumns);
 		for (int i = 0; i < aColumns.length; i++) {
 			this.col2index.put(aColumns[i], i);
 		}
@@ -114,11 +114,7 @@ public final class KXTableImpl implements KXTable {
 
 	@Override
 	public List<String> getColNames() {
-		final List<String> cols = new ArrayList<String>(this.getCols());
-		for (final String c : this.cols) {
-			cols.add(c);
-		}
-		return cols;
+		return this.cols;
 	}
 
 	@Override
@@ -138,7 +134,7 @@ public final class KXTableImpl implements KXTable {
 			sb.append(String.format("%10s ", col));
 		}
 		sb.append(System.getProperty("line.separator"));
-		for (final String col : this.getColNames()) {
+		for (int i = 0; i < this.getCols(); i++) {
 			sb.append(String.format("%10s ", "--"));
 		}
 		sb.append(System.getProperty("line.separator"));
