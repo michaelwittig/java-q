@@ -6,9 +6,12 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.connector;
+package de.cinovo.q.connector.impl;
 
 import java.sql.Timestamp;
+
+import de.cinovo.q.connector.KXTable;
+import de.cinovo.q.connector.KXTableRow;
 
 /**
  * KXTableRow.

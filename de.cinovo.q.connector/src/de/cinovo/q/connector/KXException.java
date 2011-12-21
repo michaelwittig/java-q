@@ -14,7 +14,7 @@ package de.cinovo.q.connector;
  * @author mwittig
  *
  */
-public class KXException extends Exception {
+public final class KXException extends Exception {
 
 	/** Serial version UID. */
 	private static final long serialVersionUID = 1L;
@@ -32,6 +32,11 @@ public class KXException extends Exception {
 	 */
 	public KXException(final String message) {
 		super(message);
+	}
+
+	@Override
+	public String toString() {
+		return "KXException: " + this.getMessage();
 	}
 
 }

@@ -6,7 +6,12 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.connector;
+package de.cinovo.q.connector.impl;
+
+import de.cinovo.q.connector.KXConnector;
+import de.cinovo.q.connector.KXConnectorListener;
+import de.cinovo.q.connector.KXError;
+import de.cinovo.q.connector.KXException;
 
 /**
  * Creates KXConnectors.

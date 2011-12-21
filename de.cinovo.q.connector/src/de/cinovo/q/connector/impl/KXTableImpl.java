@@ -80,23 +80,7 @@ public final class KXTableImpl implements KXTable {
 
 	@Override
 	public Object getAt(final int col, final int row) {
-		if (this.data[col] instanceof int[]) {
-			final int[] colData = (int[]) this.data[col];
-			return colData[row];
-		} else if (this.data[col] instanceof long[]) {
-			final long[] colData = (long[]) this.data[col];
-			return colData[row];
-		} else if (this.data[col] instanceof float[]) {
-			final float[] colData = (float[]) this.data[col];
-			return colData[row];
-		} else if (this.data[col] instanceof double[]) {
-			final double[] colData = (double[]) this.data[col];
-			return colData[row];
-		} else {
-			final Object[] colData = (Object[]) this.data[col];
-			return colData[row];
-		}
-		
+		return c.at(this.data[col], row);
 	}
 
 	@Override

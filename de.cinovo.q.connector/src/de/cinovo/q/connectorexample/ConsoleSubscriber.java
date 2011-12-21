@@ -13,11 +13,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import de.cinovo.q.connector.KXConnector;
-import de.cinovo.q.connector.KXConnectorFactory;
 import de.cinovo.q.connector.KXConnectorListener;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
 import de.cinovo.q.connector.KXTable;
+import de.cinovo.q.connector.impl.KXConnectorFactory;
 
 /**
  * Console subscriber.
@@ -28,7 +28,7 @@ import de.cinovo.q.connector.KXTable;
 public final class ConsoleSubscriber implements KXConnectorListener {
 
 	/** KX connector. */
-	private final KXConnector c = KXConnectorFactory.create(this, "192.168.64.61", 5010, true);
+	private final KXConnector c = KXConnectorFactory.create(this, "localhost", 5010, true);
 
 	/**
 	 * @param args Arguments not needed
@@ -109,12 +109,12 @@ public final class ConsoleSubscriber implements KXConnectorListener {
 
 	@Override
 	public void error(final KXError e) {
-		System.err.println("KXError: " + e);
+		System.out.println(e);
 	}
 
 	@Override
 	public void exception(final KXException e) {
-		System.err.println("KXException: " + e);
+		System.out.println(e);
 		e.printStackTrace();
 	}
 

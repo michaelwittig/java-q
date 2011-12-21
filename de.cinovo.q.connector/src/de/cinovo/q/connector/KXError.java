@@ -26,4 +26,9 @@ public final class KXError extends Exception {
 		super(message);
 	}
 
+	@Override
+	public String toString() {
+		return "KXError: " + this.getMessage();
+	}
+
 }
