@@ -67,7 +67,7 @@ public final class KXConnectorImpl implements KXConnector {
 			if (!this.c.compareAndSet(null, new c(this.host, this.port))) {
 				throw new KXError("Already connected");
 			}
-			//this.c.get().s.setSoTimeout(SOCKET_TIMEOUT);
+			this.c.get().s.setSoTimeout(SOCKET_TIMEOUT);
 		} catch (final KException e) {
 			throw new KXException("KException", e);
 		} catch (final IOException e) {
@@ -76,6 +76,11 @@ public final class KXConnectorImpl implements KXConnector {
 		new Thread(new Reader()).start();
 	}
 
+	/**
+	 * Throw an exception if something happened, that the system can not fix.
+	 *
+	 * @param e Exception
+	 */
 	private void throwKXException(final KXException e) {
 		this.executor.execute(new Runnable() {
 			@Override
@@ -85,6 +90,11 @@ public final class KXConnectorImpl implements KXConnector {
 		});
 	}
 
+	/**
+	 * Throw an error if something happened, that the system can fix on his own, but is might important to know.
+	 *
+	 * @param e Error
+	 */
 	private void throwKXError(final KXError e) {
 		this.executor.execute(new Runnable() {
 			@Override
@@ -94,6 +104,11 @@ public final class KXConnectorImpl implements KXConnector {
 		});
 	}
 
+	/**
+	 * Throw data.
+	 *
+	 * @param t table
+	 */
 	private void throwData(final KXTable t) {
 		this.executor.execute(new Runnable() {
 			@Override
