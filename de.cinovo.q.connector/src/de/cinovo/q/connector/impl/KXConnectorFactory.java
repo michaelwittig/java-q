@@ -8,10 +8,11 @@
 
 package de.cinovo.q.connector.impl;
 
-import de.cinovo.q.connector.KXConnector;
-import de.cinovo.q.connector.KXConnectorListener;
+import de.cinovo.q.connector.KXConnectorAsync;
+import de.cinovo.q.connector.KXConnectorSync;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
+import de.cinovo.q.connector.KXListener;
 
 /**
  * Creates KXConnectors.
@@ -31,9 +32,9 @@ public final class KXConnectorFactory {
 	 * @throws KXError If the KXConnector is already connected
 	 * @return KXConnector
 	 */
-	public static KXConnector create(final KXConnectorListener listener, final String host, final int port, final boolean reconnectOnError,
+	public static KXConnectorAsync create(final KXListener listener, final String host, final int port, final boolean reconnectOnError,
 			final boolean connect) throws KXException, KXError {
-		final KXConnector c = KXConnectorFactory.create(listener, host, port, reconnectOnError);
+		final KXConnectorAsync c = KXConnectorFactory.create(listener, host, port, reconnectOnError);
 		if (connect) {
 			c.connect();
 		}
@@ -47,8 +48,34 @@ public final class KXConnectorFactory {
 	 * @param reconnectOnError Reconnect on error?
 	 * @return KXConnector
 	 */
-	public static KXConnector create(final KXConnectorListener listener, final String host, final int port, final boolean reconnectOnError) {
-		final KXConnector c = new KXConnectorImpl(listener, host, port, reconnectOnError);
+	public static KXConnectorAsync create(final KXListener listener, final String host, final int port, final boolean reconnectOnError) {
+		final KXConnectorAsync c = new KXConnectorAsyncImpl(listener, host, port, reconnectOnError);
+		return c;
+	}
+
+	/**
+	 * @param host Host
+	 * @param port Port
+	 * @param connect Connect?
+	 * @throws KXException If the connection can not be established
+	 * @throws KXError If the KXConnector is already connected
+	 * @return KXConnector
+	 */
+	public static KXConnectorSync create(final String host, final int port, final boolean connect) throws KXException, KXError {
+		final KXConnectorSync c = KXConnectorFactory.create(host, port);
+		if (connect) {
+			c.connect();
+		}
+		return c;
+	}
+
+	/**
+	 * @param host Host
+	 * @param port Port
+	 * @return KXConnector
+	 */
+	public static KXConnectorSync create(final String host, final int port) {
+		final KXConnectorSync c = new KXConnectorSyncImpl(host, port);
 		return c;
 	}
 

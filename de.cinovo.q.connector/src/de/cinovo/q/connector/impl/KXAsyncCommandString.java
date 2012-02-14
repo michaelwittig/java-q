@@ -6,12 +6,12 @@ import kx.c;
 import kx.c.KException;
 
 /**
- * KX string command.
+ * KX string command without result.
  *
  * @author mwittig
  *
  */
-final class KXStringCommand extends KXCommand {
+final class KXAsyncCommandString implements KXAsyncCommand {
 
 	/** Command. */
 	private final String cmd;
@@ -19,7 +19,7 @@ final class KXStringCommand extends KXCommand {
 	/**
 	 * @param aCmd Command
 	 */
-	public KXStringCommand(final String aCmd) {
+	public KXAsyncCommandString(final String aCmd) {
 		super();
 		this.cmd = aCmd;
 	}
@@ -29,8 +29,8 @@ final class KXStringCommand extends KXCommand {
 	}
 
 	@Override
-	Object execute(final c c) throws KException, IOException {
-		return c.k(this.cmd);
+	public void execute(final c c) throws KException, IOException {
+		c.ks(this.cmd);
 	}
 
 }

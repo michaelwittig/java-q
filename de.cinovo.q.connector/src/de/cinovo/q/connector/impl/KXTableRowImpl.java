@@ -38,7 +38,7 @@ public final class KXTableRowImpl implements KXTableRow {
 	}
 
 	@Override
-	public Object get(final int col) {
+	public Object getBy(final int col) {
 		return this.table.getAt(col, this.row);
 	}
 
@@ -66,7 +66,7 @@ public final class KXTableRowImpl implements KXTableRow {
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < this.table.getCols(); i++) {
-			sb.append(String.format("%10s ", this.get(i).toString()));
+			sb.append(String.format("%10s ", this.getBy(i).toString()));
 		}
 		return sb.toString();
 	}

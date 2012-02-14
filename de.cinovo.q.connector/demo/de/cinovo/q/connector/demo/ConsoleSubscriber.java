@@ -6,14 +6,14 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.connectorexample;
+package de.cinovo.q.connector.demo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import de.cinovo.q.connector.KXConnector;
-import de.cinovo.q.connector.KXConnectorListener;
+import de.cinovo.q.connector.KXConnectorAsync;
+import de.cinovo.q.connector.KXListener;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
 import de.cinovo.q.connector.KXTable;
@@ -25,10 +25,10 @@ import de.cinovo.q.connector.impl.KXConnectorFactory;
  * @author mwittig
  *
  */
-public final class ConsoleSubscriber implements KXConnectorListener {
+public final class ConsoleSubscriber implements KXListener {
 
 	/** KX connector. */
-	private final KXConnector c = KXConnectorFactory.create(this, "localhost", 5010, true);
+	private final KXConnectorAsync c = KXConnectorFactory.create(this, "localhost", 5010, true);
 
 	/**
 	 * @param args Arguments not needed

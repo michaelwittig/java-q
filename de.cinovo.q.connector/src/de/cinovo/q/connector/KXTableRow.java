@@ -22,7 +22,7 @@ public interface KXTableRow {
 	 * @param col Column
 	 * @return Cell data
 	 */
-	Object get(int col);
+	Object getBy(int col);
 
 	/**
 	 * @param col Column

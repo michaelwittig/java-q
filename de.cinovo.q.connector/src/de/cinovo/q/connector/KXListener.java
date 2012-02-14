@@ -9,14 +9,12 @@
 package de.cinovo.q.connector;
 
 /**
- * KXConnector listener.
- *
- * Every KXConnector has one KXConnectorListener.
+ * KX listener.
  *
  * @author mwittig
  *
  */
-public interface KXConnectorListener {
+public interface KXListener {
 
 	/**
 	 * KXError occurred. Is handled by the KXConnector. Just an information.

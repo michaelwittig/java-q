@@ -9,7 +9,7 @@
 package de.cinovo.q.connector;
 
 /**
- * KXExceptiosn must be handled by yourself! They areindicatijng that the system is not in a proper state.
+ * KXExceptiosn must be handled by yourself! They are indicating that the system is not in a proper state any longer.
  *
  * @author mwittig
  *

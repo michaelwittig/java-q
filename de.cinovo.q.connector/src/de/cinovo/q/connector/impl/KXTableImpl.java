@@ -10,6 +10,7 @@ package de.cinovo.q.connector.impl;
 
 import java.lang.reflect.Array;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import kx.c;
-
 import de.cinovo.q.connector.KXTable;
 import de.cinovo.q.connector.KXTableRow;
 
@@ -57,6 +57,21 @@ public final class KXTableImpl implements KXTable {
 	}
 
 	/**
+	 * @param aTable table
+	 * @param flip Flip
+	 */
+	protected KXTableImpl(final String aTable, final c.Flip flip) {
+		this(aTable, flip.x, flip.y);
+	}
+
+	/**
+	 * @param flip Flip
+	 */
+	protected KXTableImpl(final c.Flip flip) {
+		this(null, flip.x, flip.y);
+	}
+
+	/**
 	 * @param name Column name
 	 * @return Column index
 	 */
@@ -85,26 +100,22 @@ public final class KXTableImpl implements KXTable {
 
 	@Override
 	public Object getAt(final String col, final int row) {
-		final Object[] colData = (Object[]) this.data[this.colName2Index(col)];
-		return colData[row];
+		return getAt(this.colName2Index(col), row);
 	}
 
 	@Override
 	public String getStringAt(final String col, final int row) {
-		final String[] colData = (String[]) this.data[this.colName2Index(col)];
-		return colData[row];
+		return (String) this.getAt(col, row);
 	}
 
 	@Override
 	public float getFloatAt(final String col, final int row) {
-		final float[] colData = (float[]) this.data[this.colName2Index(col)];
-		return colData[row];
+		return (Float) this.getAt(col, row);
 	}
 
 	@Override
 	public Timestamp getTimestampAt(final String col, final int row) {
-		final Timestamp[] colData = (Timestamp[]) this.data[this.colName2Index(col)];
-		return colData[row];
+		return (Timestamp) this.getAt(col, row);
 	}
 
 	@Override
@@ -128,6 +139,15 @@ public final class KXTableImpl implements KXTable {
 	}
 
 	@Override
+	public List<KXTableRow> toList() {
+		final List<KXTableRow> rows = new ArrayList<KXTableRow>(this.getRows());
+		for (final KXTableRow row : this) {
+			rows.add(row);
+		}
+		return rows;
+	}
+
+	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		for (final String col : this.getColNames()) {
@@ -140,7 +160,7 @@ public final class KXTableImpl implements KXTable {
 		sb.append(System.getProperty("line.separator"));
 		for (final KXTableRow row : this) {
 			for (int i = 0; i < this.getCols(); i++) {
-				sb.append(String.format("%10s ", row.get(i).toString()));
+				sb.append(String.format("%10s ", row.getBy(i).toString()));
 			}
 			sb.append(System.getProperty("line.separator"));
 		}

@@ -80,4 +80,9 @@ public interface KXTable extends Iterable<KXTableRow> {
 	 */
 	String getTable();
 
+	/**
+	 * @return List with rows
+	 */
+	List<KXTableRow> toList();
+
 }
