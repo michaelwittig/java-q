@@ -51,25 +51,21 @@ public final class SelectImpl implements Select {
 	 * @param sb StringBuilder
 	 */
 	private void sortToQ(final StringBuilder sb) {
+		final String sorting;
 		if (this.numberOfRows != null && this.sort != null) {
-			sb.append("[");
-			sb.append(this.numberOfRows);
-			sb.append(";");
-			sb.append(this.sort.toQ());
-			sb.append("]");
+			sorting = this.numberOfRows + ";" + this.sort.toQ();
 		} else if (this.numberOfRows != null && this.rowNumber != null) {
-			sb.append("[");
-			sb.append(this.rowNumber);
-			sb.append(" ");
-			sb.append(this.numberOfRows);
-			sb.append("]");
+			sorting = this.rowNumber + " " + this.numberOfRows;
 		} else if (this.numberOfRows != null) {
-			sb.append("[");
-			sb.append(this.numberOfRows);
-			sb.append("]");
+			sorting = String.valueOf(this.numberOfRows);
 		} else if (this.sort != null) {
+			sorting = this.sort.toQ();
+		} else {
+			sorting = null;
+		}
+		if (sorting != null) {
 			sb.append("[");
-			sb.append(this.sort.toQ());
+			sb.append(sorting);
 			sb.append("]");
 		}
 	}
