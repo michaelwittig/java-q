@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.cinovo.q.query.Select;
+import de.cinovo.q.query.Select.Sort.Direction;
 import de.cinovo.q.query.Table;
 import de.cinovo.q.query.column.Column;
 import de.cinovo.q.query.filter.Filter;
@@ -29,6 +30,15 @@ public final class SelectImpl implements Select {
 	/** Filters. */
 	private final List<Filter> filters = new ArrayList<Filter>();
 
+	/** Limit. */
+	private Integer numberOfRows;
+
+	/** Start. */
+	private Integer rowNumber;
+
+	/** Order. */
+	private Sort sort;
+
 	/**
 	 * @param aTable Table
 	 */
@@ -37,9 +47,38 @@ public final class SelectImpl implements Select {
 		this.table = aTable;
 	}
 
+	/**
+	 * @param sb StringBuilder
+	 */
+	private void sortToQ(final StringBuilder sb) {
+		if (this.numberOfRows != null && this.sort != null) {
+			sb.append("[");
+			sb.append(this.numberOfRows);
+			sb.append(";");
+			sb.append(this.sort.toQ());
+			sb.append("]");
+		} else if (this.numberOfRows != null && this.rowNumber != null) {
+			sb.append("[");
+			sb.append(this.rowNumber);
+			sb.append(" ");
+			sb.append(this.numberOfRows);
+			sb.append("]");
+		} else if (this.numberOfRows != null) {
+			sb.append("[");
+			sb.append(this.numberOfRows);
+			sb.append("]");
+		} else if (this.sort != null) {
+			sb.append("[");
+			sb.append(this.sort.toQ());
+			sb.append("]");
+		}
+	}
+
 	@Override
 	public String toQ() {
-		final StringBuilder sb = new StringBuilder("select ");
+		final StringBuilder sb = new StringBuilder("select");
+		this.sortToQ(sb);
+		sb.append(" ");
 		for (final Column<?> c : this.columns) {
 			sb.append(c.toQ());
 			sb.append(",");
@@ -76,6 +115,22 @@ public final class SelectImpl implements Select {
 		return this.filters;
 	}
 
+	@Override
+	public Integer getNumberOfRows() {
+		return this.numberOfRows;
+	}
+
+	@Override
+	public Integer getRowNumber() {
+		return this.rowNumber;
+	}
+
+	@Override
+	public Sort getSortColmn() {
+		return this.sort;
+	}
+
+
 	/**
 	 * Select builder implementation.
 	 *
@@ -109,6 +164,40 @@ public final class SelectImpl implements Select {
 		@Override
 		public SelectBuilder filter(final Filter filter) {
 			this.select.filters.add(filter);
+			return this;
+		}
+
+		@Override
+		public SelectBuilder limit(final int numberOfRows) {
+			this.select.numberOfRows = numberOfRows;
+			return this;
+		}
+
+		@Override
+		public SelectBuilder start(final int rowNumber) {
+			this.select.rowNumber = rowNumber;
+			return this;
+		}
+
+		@Override
+		public SelectBuilder order(final Direction direction, final Column<?> column) {
+			this.select.sort = new Sort() {
+
+				@Override
+				public String toQ() {
+					return direction.toQ() + column.toQ();
+				}
+
+				@Override
+				public Column<?> getColumn() {
+					return column;
+				}
+
+				@Override
+				public Direction getDirection() {
+					return direction;
+				}
+			};
 			return this;
 		}
 
