@@ -6,25 +6,23 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.query.column.impl;
+package de.cinovo.q.query.column;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import de.cinovo.q.query.type.Type;
 
 /**
- * ASimpleOrdinalColumn test.
+ * Virtual column.
  *
  * @author mwittig
  *
+ * @param <T>
  */
-public class ASimpleOrdinalColumnTest {
+public interface Virtualling<T extends Type<?>> {
 
-	/** */
-	@Test
-	public final void test() {
-		final IntegerColumn col = new IntegerColumn("test");
-		assertEquals("test", col.toQ());
-	}
+	/**
+	 * @param virtual Virtual
+	 * @return Virtual column
+	 */
+	VirtualColumn<T> virtual(String virtual);
 
 }

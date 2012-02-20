@@ -8,6 +8,9 @@
 
 package de.cinovo.q.query.column.impl;
 
+import de.cinovo.q.query.column.AggregateColumn;
+import de.cinovo.q.query.column.AggregatingOrdinal;
+import de.cinovo.q.query.column.Aggregation;
 import de.cinovo.q.query.column.Column;
 import de.cinovo.q.query.filter.ComparisonFiltering;
 import de.cinovo.q.query.filter.Filter;
@@ -25,7 +28,8 @@ import de.cinovo.q.query.type.impl.TypeInteger;
  *
  * @param <T> Type
  */
-public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASimpleNominalColumn<T> implements ComparisonFiltering<T>, XbarGrouping<T> {
+public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASimpleNominalColumn<T>
+	implements ComparisonFiltering<T>, XbarGrouping<T>, AggregatingOrdinal<T> {
 
 	/**
 	 * @param aName Name
@@ -33,6 +37,21 @@ public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASi
 	 */
 	public ASimpleOrdinalColumn(final String aName, final Class<T> aType) {
 		super(aName, aType);
+	}
+
+	@Override
+	public final AggregateColumn<T> min() {
+		return this.createAggregation(Aggregation.min);
+	}
+
+	@Override
+	public final AggregateColumn<T> max() {
+		return this.createAggregation(Aggregation.max);
+	}
+
+	@Override
+	public final AggregateColumn<T> avg() {
+		return this.createAggregation(Aggregation.avg);
 	}
 
 	@Override

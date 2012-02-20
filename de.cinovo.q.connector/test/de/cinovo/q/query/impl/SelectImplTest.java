@@ -1,3 +1,11 @@
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Eclipse Public License v1.0
+// which accompanies this distribution, and is available at
+// http://www.eclipse.org/legal/epl-v10.html
+// -------------------------------------------------------------------------------
+
 package de.cinovo.q.query.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -140,6 +148,40 @@ public class SelectImplTest {
 				.group(sym.group())
 				.build();
 		assertEquals("select by sym from test", select.toQ());
+	}
+
+	/** */
+	@Test
+	public final void testWithVirtualColumn() {
+		final TimeColumn utctime = new TimeColumn("utctime");
+		final SymbolColumn sym = new SymbolColumn("sym");
+		final Table table = new TableBuilderImpl("test")
+			.column(utctime)
+			.column(sym)
+			.build();
+		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
+		final Select select = builder
+				.column(sym.virtual("sym2"))
+				.build();
+		assertEquals("select sym2:sym from test", select.toQ());
+	}
+
+	/** */
+	@Test
+	public final void testWithGroupAndAggregation() {
+		final TimeColumn utctime = new TimeColumn("utctime");
+		final SymbolColumn sym = new SymbolColumn("sym");
+		final Table table = new TableBuilderImpl("test")
+			.column(utctime)
+			.column(sym)
+			.build();
+		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
+		final Select select = builder
+				.column(sym.last().virtual("sym2"))
+				.column(utctime.min())
+				.group(sym.group())
+				.build();
+		assertEquals("select sym2:last sym,min utctime by sym from test", select.toQ());
 	}
 
 }

@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------
-// Copyright (c) 2011 Cinovo AG
+// Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
 // are made available under the terms of the Eclipse Public License v1.0
 // which accompanies this distribution, and is available at
@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import de.cinovo.q.connector.KXConnectorAsync;
-import de.cinovo.q.connector.KXListener;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
+import de.cinovo.q.connector.KXListener;
 import de.cinovo.q.connector.KXTable;
 import de.cinovo.q.connector.impl.KXConnectorFactory;
 

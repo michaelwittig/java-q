@@ -6,25 +6,46 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.query.column.impl;
+package de.cinovo.q.query.column;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import de.cinovo.q.Q;
 
 /**
- * ASimpleOrdinalColumn test.
+ * Aggregations.
  *
  * @author mwittig
  *
  */
-public class ASimpleOrdinalColumnTest {
+public enum Aggregation implements Q {
 
-	/** */
-	@Test
-	public final void test() {
-		final IntegerColumn col = new IntegerColumn("test");
-		assertEquals("test", col.toQ());
+	/** Minimum. */
+	min("min"),
+
+	/** maximum. */
+	max("max"),
+
+	/** First element. */
+	first("first"),
+
+	/** Last element. */
+	last("last"),
+
+	/** Avg.*/
+	avg("avg");
+
+	/** Q. */
+	private final String q;
+
+	/**
+	 * @param aQ Q
+	 */
+	private Aggregation(final String aQ) {
+		this.q = aQ;
+	}
+
+	@Override
+	public String toQ() {
+		return this.q;
 	}
 
 }

@@ -8,7 +8,12 @@
 
 package de.cinovo.q.query.column.impl;
 
+import de.cinovo.q.query.column.AggregateColumn;
+import de.cinovo.q.query.column.AggregatingNominal;
+import de.cinovo.q.query.column.Aggregation;
 import de.cinovo.q.query.column.Column;
+import de.cinovo.q.query.column.VirtualColumn;
+import de.cinovo.q.query.column.Virtualling;
 import de.cinovo.q.query.filter.EqualityFiltering;
 import de.cinovo.q.query.filter.Filter;
 import de.cinovo.q.query.filter.impl.FilterComparator;
@@ -24,7 +29,8 @@ import de.cinovo.q.query.type.NominalType;
  *
  * @param <T> Type
  */
-public abstract class ASimpleNominalColumn<T extends NominalType<?>> implements Column<T>, EqualityFiltering<T>, Grouping {
+public abstract class ASimpleNominalColumn<T extends NominalType<?>>
+	implements Column<T>, EqualityFiltering<T>, Virtualling<T>, AggregatingNominal<T>, Grouping {
 
 	/** Name. */
 	private final String name;
@@ -55,6 +61,29 @@ public abstract class ASimpleNominalColumn<T extends NominalType<?>> implements 
 	@Override
 	public final Class<T> getType() {
 		return this.type;
+	}
+
+	@Override
+	public final VirtualColumn<T> virtual(final String virtual) {
+		return new VirtualColumnImpl<T>(virtual, this);
+	}
+
+	@Override
+	public final AggregateColumn<T> first() {
+		return this.createAggregation(Aggregation.first);
+	}
+
+	@Override
+	public final AggregateColumn<T> last() {
+		return this.createAggregation(Aggregation.last);
+	}
+
+	/**
+	 * @param aggregation Aggregation
+	 * @return Filter
+	 */
+	protected final AggregateColumn<T> createAggregation(final Aggregation aggregation) {
+		return new AggregateColumnImpl<T>(aggregation, this);
 	}
 
 	@Override

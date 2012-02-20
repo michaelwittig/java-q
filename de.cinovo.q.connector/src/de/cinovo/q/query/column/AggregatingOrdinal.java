@@ -6,25 +6,32 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.query.column.impl;
+package de.cinovo.q.query.column;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import de.cinovo.q.query.type.Type;
 
 /**
- * ASimpleOrdinalColumn test.
+ * Aggregating.
  *
  * @author mwittig
  *
+ * @param <T> Type
  */
-public class ASimpleOrdinalColumnTest {
+public interface AggregatingOrdinal<T extends Type<?>> extends AggregatingNominal<T> {
 
-	/** */
-	@Test
-	public final void test() {
-		final IntegerColumn col = new IntegerColumn("test");
-		assertEquals("test", col.toQ());
-	}
+	/**
+	 * @return Minimum
+	 */
+	AggregateColumn<T> min();
+
+	/**
+	 * @return maximum
+	 */
+	AggregateColumn<T> max();
+
+	/**
+	 * @return Average
+	 */
+	AggregateColumn<T> avg();
 
 }
