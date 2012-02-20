@@ -1,9 +1,14 @@
-package de.cinovo.q.query.column;
+package de.cinovo.q.query.column.impl;
 
-import de.cinovo.q.query.filter.ComparisonFilter;
+import de.cinovo.q.query.column.Column;
+import de.cinovo.q.query.filter.ComparisonFiltering;
 import de.cinovo.q.query.filter.Filter;
 import de.cinovo.q.query.filter.impl.FilterComparator;
+import de.cinovo.q.query.group.Group;
+import de.cinovo.q.query.group.XbarGrouping;
+import de.cinovo.q.query.group.impl.XbarGroupImpl;
 import de.cinovo.q.query.type.OrdinalType;
+import de.cinovo.q.query.type.impl.TypeInteger;
 
 /**
  * Abstract simple ordinal column.
@@ -12,7 +17,7 @@ import de.cinovo.q.query.type.OrdinalType;
  *
  * @param <T> Type
  */
-public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASimpleNominalColumn<T> implements ComparisonFilter<T> {
+public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASimpleNominalColumn<T> implements ComparisonFiltering<T>, XbarGrouping<T> {
 
 	/**
 	 * @param aName Name
@@ -20,6 +25,11 @@ public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASi
 	 */
 	public ASimpleOrdinalColumn(final String aName, final Class<T> aType) {
 		super(aName, aType);
+	}
+
+	@Override
+	public final Group xbar(final TypeInteger xbar) {
+		return new XbarGroupImpl<T>(xbar, this);
 	}
 
 	@Override

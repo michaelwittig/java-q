@@ -10,7 +10,7 @@ import de.cinovo.q.query.type.NominalType;
  *
  * @param <T> Type
  */
-public interface EqualityFilter<T extends NominalType<?>> {
+public interface EqualityFiltering<T extends NominalType<?>> {
 
 	/**
 	 * @param value Value

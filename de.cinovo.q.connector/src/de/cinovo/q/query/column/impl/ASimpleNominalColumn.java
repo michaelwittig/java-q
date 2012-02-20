@@ -1,9 +1,12 @@
-package de.cinovo.q.query.column;
+package de.cinovo.q.query.column.impl;
 
-import de.cinovo.q.query.filter.EqualityFilter;
+import de.cinovo.q.query.column.Column;
+import de.cinovo.q.query.filter.EqualityFiltering;
 import de.cinovo.q.query.filter.Filter;
-import de.cinovo.q.query.filter.impl.FilterImpl;
 import de.cinovo.q.query.filter.impl.FilterComparator;
+import de.cinovo.q.query.filter.impl.FilterImpl;
+import de.cinovo.q.query.group.Group;
+import de.cinovo.q.query.group.Grouping;
 import de.cinovo.q.query.type.NominalType;
 
 /**
@@ -13,7 +16,7 @@ import de.cinovo.q.query.type.NominalType;
  *
  * @param <T> Type
  */
-public abstract class ASimpleNominalColumn<T extends NominalType<?>> implements Column<T>, EqualityFilter<T> {
+public abstract class ASimpleNominalColumn<T extends NominalType<?>> implements Column<T>, EqualityFiltering<T>, Grouping {
 
 	/** Name. */
 	private final String name;
@@ -44,6 +47,22 @@ public abstract class ASimpleNominalColumn<T extends NominalType<?>> implements 
 	@Override
 	public final Class<T> getType() {
 		return this.type;
+	}
+
+	@Override
+	public final Group group() {
+		return new Group() {
+
+			@Override
+			public String toQ() {
+				return ASimpleNominalColumn.this.toQ();
+			}
+
+			@Override
+			public Column<T> getColumn() {
+				return ASimpleNominalColumn.this;
+			}
+		};
 	}
 
 	@Override

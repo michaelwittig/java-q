@@ -1,6 +1,5 @@
 package de.cinovo.q.query.column.impl;
 
-import de.cinovo.q.query.column.ASimpleNominalColumn;
 import de.cinovo.q.query.type.impl.TypeSymbol;
 
 /**

@@ -10,7 +10,7 @@ import de.cinovo.q.query.type.OrdinalType;
  *
  * @param <T> Type
  */
-public interface ComparisonFilter<T extends OrdinalType<?>> {
+public interface ComparisonFiltering<T extends OrdinalType<?>> {
 
 	/**
 	 * @param value Value

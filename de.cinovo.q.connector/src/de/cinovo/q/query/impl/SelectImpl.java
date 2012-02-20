@@ -74,6 +74,34 @@ public final class SelectImpl implements Select {
 		}
 	}
 
+	/**
+	 * @param sb StringBuilder
+	 */
+	private void filterToQ(final StringBuilder sb) {
+		if (this.filters.size() > 0) {
+			sb.append(" where ");
+			for (final Filter f : this.filters) {
+				sb.append(f.toQ());
+				sb.append(",");
+			}
+			sb.deleteCharAt(sb.length() - 1);
+		}
+	}
+
+	/**
+	 * @param sb StringBuilder
+	 */
+	private void groupToQ(final StringBuilder sb) {
+		if (this.groups.size() > 0) {
+			sb.append(" by ");
+			for (final Group g : this.groups) {
+				sb.append(g.toQ());
+				sb.append(",");
+			}
+			sb.deleteCharAt(sb.length() - 1);
+		}
+	}
+
 	@Override
 	public String toQ() {
 		final StringBuilder sb = new StringBuilder("select");
@@ -84,14 +112,10 @@ public final class SelectImpl implements Select {
 			sb.append(",");
 		}
 		sb.deleteCharAt(sb.length() - 1);
+		this.groupToQ(sb);
 		sb.append(" from ");
 		sb.append(this.table.toQ());
-		sb.append(" where ");
-		for (final Filter f : this.filters) {
-			sb.append(f.toQ());
-			sb.append(",");
-		}
-		sb.deleteCharAt(sb.length() - 1);
+		this.filterToQ(sb);
 		return sb.toString();
 	}
 

@@ -55,7 +55,7 @@ public final class TableImpl implements Table {
 	 * @author mwittig
 	 *
 	 */
-	public final class TableBuilderImpl implements TableBuilder {
+	public static final class TableBuilderImpl implements TableBuilder {
 
 		/** Table. */
 		private final TableImpl table;
