@@ -29,4 +29,9 @@ public interface AggregatingNominal<T extends Type<?>> {
 	 */
 	AggregateColumn<T> last();
 
+	/**
+	 * @return Count
+	 */
+	AggregateColumn<T> count();
+
 }

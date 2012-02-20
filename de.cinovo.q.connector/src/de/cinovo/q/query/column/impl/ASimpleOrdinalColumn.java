@@ -55,6 +55,11 @@ public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASi
 	}
 
 	@Override
+	public final AggregateColumn<T> sum() {
+		return this.createAggregation(Aggregation.sum);
+	}
+
+	@Override
 	public final Group xbar(final TypeInteger xbar) {
 		return new XbarGroupImpl<T>(xbar, this);
 	}

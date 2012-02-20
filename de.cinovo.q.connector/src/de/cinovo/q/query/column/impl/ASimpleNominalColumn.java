@@ -78,6 +78,11 @@ public abstract class ASimpleNominalColumn<T extends NominalType<?>>
 		return this.createAggregation(Aggregation.last);
 	}
 
+	@Override
+	public final AggregateColumn<T> count() {
+		return this.createAggregation(Aggregation.count);
+	}
+
 	/**
 	 * @param aggregation Aggregation
 	 * @return Filter

@@ -31,7 +31,13 @@ public enum Aggregation implements Q {
 	last("last"),
 
 	/** Avg.*/
-	avg("avg");
+	avg("avg"),
+
+	/** Sum.*/
+	sum("sum"),
+
+	/** Count. */
+	count("count");
 
 	/** Q. */
 	private final String q;

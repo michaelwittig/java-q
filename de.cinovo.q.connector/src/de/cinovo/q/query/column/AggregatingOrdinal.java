@@ -34,4 +34,9 @@ public interface AggregatingOrdinal<T extends Type<?>> extends AggregatingNomina
 	 */
 	AggregateColumn<T> avg();
 
+	/**
+	 * @return Sum
+	 */
+	AggregateColumn<T> sum();
+
 }
