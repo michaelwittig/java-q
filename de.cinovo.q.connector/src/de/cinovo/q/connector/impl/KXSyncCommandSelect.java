@@ -22,7 +22,7 @@ import de.cinovo.q.query.Select;
  * @author mwittig
  *
  */
-public final class KXSyncCommandSelect implements KXSyncCommand {
+public final class KXSyncCommandSelect extends AKXSyncCommand {
 
 	/** Select. */
 	private final Select select;
@@ -41,11 +41,7 @@ public final class KXSyncCommandSelect implements KXSyncCommand {
 
 	@Override
 	public KXTable execute(final c c) throws KXException, KException, IOException {
-		final Object res = c.k(this.select.toQ());
-		if (res instanceof c.Flip) {
-			return new KXTableImpl((c.Flip) res);
-		}
-		throw new KXException("Result is not a table");
+		return this.execute(c, this.select.toQ());
 	}
 
 }

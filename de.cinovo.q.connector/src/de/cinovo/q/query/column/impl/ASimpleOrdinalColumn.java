@@ -19,7 +19,7 @@ import de.cinovo.q.query.group.Group;
 import de.cinovo.q.query.group.XbarGrouping;
 import de.cinovo.q.query.group.impl.XbarGroupImpl;
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.type.impl.TypeInteger;
+import de.cinovo.q.query.type.impl.TypeLong;
 
 /**
  * Abstract simple ordinal column.
@@ -60,7 +60,7 @@ public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASi
 	}
 
 	@Override
-	public final Group xbar(final TypeInteger xbar) {
+	public final Group xbar(final TypeLong xbar) {
 		return new XbarGroupImpl<T>(xbar, this);
 	}
 

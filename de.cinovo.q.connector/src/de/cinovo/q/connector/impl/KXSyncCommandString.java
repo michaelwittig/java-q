@@ -21,7 +21,7 @@ import de.cinovo.q.connector.KXTable;
  * @author mwittig
  *
  */
-public final class KXSyncCommandString implements KXSyncCommand {
+public final class KXSyncCommandString extends AKXSyncCommand {
 
 	/** Command. */
 	private final String cmd;
@@ -40,11 +40,7 @@ public final class KXSyncCommandString implements KXSyncCommand {
 
 	@Override
 	public KXTable execute(final c c) throws KXException, KException, IOException {
-		final Object res = c.k(this.cmd);
-		if (res instanceof c.Flip) {
-			return new KXTableImpl((c.Flip) res);
-		}
-		throw new KXException("Result is not a table");
+		return this.execute(c, this.cmd);
 	}
 
 }

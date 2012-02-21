@@ -19,7 +19,7 @@ import de.cinovo.q.query.column.impl.SymbolColumn;
 import de.cinovo.q.query.column.impl.TimeColumn;
 import de.cinovo.q.query.impl.SelectImpl.SelectBuilderImpl;
 import de.cinovo.q.query.impl.TableImpl.TableBuilderImpl;
-import de.cinovo.q.query.type.impl.TypeInteger;
+import de.cinovo.q.query.type.impl.TypeLong;
 import de.cinovo.q.query.type.impl.TypeSymbol;
 import de.cinovo.q.query.type.impl.TypeTime;
 
@@ -128,10 +128,10 @@ public class SelectImplTest {
 		final Select select = builder
 				.column(utctime)
 				.group(sym.group())
-				.group(utctime.xbar(TypeInteger.from(1)))
+				.group(utctime.xbar(TypeLong.from(1L)))
 				.filter(sym.filterEqualTo(TypeSymbol.from("TEST")))
 				.build();
-		assertEquals("select utctime by sym,1 xbar utctime from test where sym=`TEST", select.toQ());
+		assertEquals("select utctime by sym,1j xbar utctime from test where sym=`TEST", select.toQ());
 	}
 
 	/** */

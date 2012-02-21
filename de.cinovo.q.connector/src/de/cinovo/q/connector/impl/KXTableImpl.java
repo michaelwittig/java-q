@@ -72,6 +72,27 @@ public final class KXTableImpl implements KXTable {
 	}
 
 	/**
+	 * @param keyFlip Key flip
+	 * @param dataFlip Data dlip
+	 */
+	protected KXTableImpl(final c.Flip keyFlip, final c.Flip dataFlip) {
+		this.table = null;
+		this.cols = new ArrayList<String>();
+		this.cols.addAll(Arrays.asList(keyFlip.x));
+		this.cols.addAll(Arrays.asList(dataFlip.x));
+		for (int i = 0; i < this.cols.size(); i++) {
+			this.col2index.put(this.cols.get(i), i);
+		}
+		this.data = new Object[this.cols.size()];
+		for (int i = 0; i < keyFlip.y.length; i++) {
+			this.data[i] = keyFlip.y[i];
+		}
+		for (int i = 0; i < dataFlip.y.length; i++) {
+			this.data[keyFlip.y.length + i] = dataFlip.y[i];
+		}
+	}
+
+	/**
 	 * @param name Column name
 	 * @return Column index
 	 */
@@ -160,7 +181,12 @@ public final class KXTableImpl implements KXTable {
 		sb.append(System.getProperty("line.separator"));
 		for (final KXTableRow row : this) {
 			for (int i = 0; i < this.getCols(); i++) {
-				sb.append(String.format("%10s ", row.getBy(i).toString()));
+				final Object value = row.getBy(i);
+				if (value == null) {
+					sb.append(String.format("%10s ", ""));
+				} else {
+					sb.append(String.format("%10s ", value.toString()));
+				}
 			}
 			sb.append(System.getProperty("line.separator"));
 		}
