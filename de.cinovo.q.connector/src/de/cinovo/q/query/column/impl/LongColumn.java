@@ -16,7 +16,7 @@ import de.cinovo.q.query.type.impl.TypeLong;
  * @author mwittig
  *
  */
-public class LongColumn extends ASimpleOrdinalColumn<TypeLong> {
+public class LongColumn extends ASimpleOrdinalColumn<Long, TypeLong> {
 
 	/**
 	 * @param name Name

@@ -44,4 +44,22 @@ public class TypeIntegerTest {
 		assertEquals("1", TypeInteger.from(1).toQ());
 	}
 
+	/** */
+	@Test
+	public final void testListEmpty() {
+		assertEquals("()", TypeInteger.froms(new Integer[] {}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithOneItem() {
+		assertEquals("(1)", TypeInteger.froms(new Integer[] {1}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithTwoItems() {
+		assertEquals("(1,2)", TypeInteger.froms(new Integer[] {1, 2}).toQ());
+	}
+
 }

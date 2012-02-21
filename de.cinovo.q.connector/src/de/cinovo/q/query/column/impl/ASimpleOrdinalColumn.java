@@ -26,10 +26,11 @@ import de.cinovo.q.query.type.impl.TypeLong;
  *
  * @author mwittig
  *
+ * @param <E> Type of type
  * @param <T> Type
  */
-public abstract class ASimpleOrdinalColumn<T extends OrdinalType<?>> extends ASimpleNominalColumn<T>
-	implements ComparisonFiltering<T>, XbarGrouping<T>, AggregatingOrdinal<T> {
+public abstract class ASimpleOrdinalColumn<E, T extends OrdinalType<E>> extends ASimpleNominalColumn<E, T>
+	implements ComparisonFiltering<E, T>, XbarGrouping<T>, AggregatingOrdinal<T> {
 
 	/**
 	 * @param aName Name

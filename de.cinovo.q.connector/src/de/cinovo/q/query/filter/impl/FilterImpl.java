@@ -10,6 +10,7 @@ package de.cinovo.q.query.filter.impl;
 
 import de.cinovo.q.query.column.Column;
 import de.cinovo.q.query.filter.Filter;
+import de.cinovo.q.query.type.List;
 import de.cinovo.q.query.type.Type;
 
 /**
@@ -17,9 +18,10 @@ import de.cinovo.q.query.type.Type;
  *
  * @author mwittig
  *
+ * @param <E> Type of type
  * @param <T> Type
  */
-public final class FilterImpl<T extends Type<?>> implements Filter {
+public final class FilterImpl<E, T extends Type<E>> implements Filter {
 
 	/** Column. */
 	private final Column<T> column;
@@ -43,6 +45,16 @@ public final class FilterImpl<T extends Type<?>> implements Filter {
 	 * @param right Right
 	 */
 	public FilterImpl(final Column<T> left, final FilterComparator comparator, final Column<T> right) {
+		this.column = left;
+		this.q = column.getName() + comparator.toQ() + right.toQ();
+	}
+
+	/**
+	 * @param left Left
+	 * @param comparator Comparator
+	 * @param right Right
+	 */
+	public FilterImpl(final Column<T> left, final FilterComparator comparator, final List<E, T> right) {
 		this.column = left;
 		this.q = column.getName() + comparator.toQ() + right.toQ();
 	}

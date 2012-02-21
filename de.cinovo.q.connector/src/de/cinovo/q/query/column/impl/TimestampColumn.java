@@ -8,6 +8,8 @@
 
 package de.cinovo.q.query.column.impl;
 
+import java.sql.Timestamp;
+
 import de.cinovo.q.query.type.impl.TypeTimestamp;
 
 /**
@@ -16,7 +18,7 @@ import de.cinovo.q.query.type.impl.TypeTimestamp;
  * @author mwittig
  *
  */
-public class TimestampColumn extends ASimpleOrdinalColumn<TypeTimestamp> {
+public class TimestampColumn extends ASimpleOrdinalColumn<Timestamp, TypeTimestamp> {
 
 	/**
 	 * @param name Name

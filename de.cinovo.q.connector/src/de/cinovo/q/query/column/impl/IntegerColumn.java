@@ -16,7 +16,7 @@ import de.cinovo.q.query.type.impl.TypeInteger;
  * @author mwittig
  *
  */
-public class IntegerColumn extends ASimpleOrdinalColumn<TypeInteger> {
+public class IntegerColumn extends ASimpleOrdinalColumn<Integer, TypeInteger> {
 
 	/**
 	 * @param name Name

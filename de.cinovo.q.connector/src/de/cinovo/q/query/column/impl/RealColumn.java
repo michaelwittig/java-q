@@ -8,6 +8,8 @@
 
 package de.cinovo.q.query.column.impl;
 
+import java.math.BigDecimal;
+
 import de.cinovo.q.query.type.impl.TypeReal;
 
 /**
@@ -16,7 +18,7 @@ import de.cinovo.q.query.type.impl.TypeReal;
  * @author mwittig
  *
  */
-public class RealColumn extends ASimpleOrdinalColumn<TypeReal> {
+public class RealColumn extends ASimpleOrdinalColumn<BigDecimal, TypeReal> {
 
 	/**
 	 * @param name Name

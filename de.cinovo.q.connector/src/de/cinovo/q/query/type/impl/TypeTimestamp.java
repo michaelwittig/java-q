@@ -14,7 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import de.cinovo.q.query.type.OrdinalList;
 import de.cinovo.q.query.type.OrdinalType;
+import de.cinovo.q.query.type.TypeFactory;
 
 
 /**
@@ -27,6 +29,15 @@ public final class TypeTimestamp implements OrdinalType<Timestamp> {
 
 	/** Null. */
 	public static final String NULL = "0Np";
+
+	/** Factory. */
+	private static final TypeFactory<Timestamp, TypeTimestamp> FACTORY = new TypeFactory<Timestamp, TypeTimestamp>() {
+
+		@Override
+		public TypeTimestamp create(final Timestamp aValue) {
+			return TypeTimestamp.from(aValue);
+		}
+	};
 
 	/** Micros to nanos. */
 	public static final int MICROS_TO_NANOS = 1000;
@@ -70,8 +81,23 @@ public final class TypeTimestamp implements OrdinalType<Timestamp> {
 		return new TypeTimestamp(timestamp);
 	}
 
+	/**
+	 * @param values Values
+	 * @return List of timestamps
+	 */
+	public static OrdinalList<Timestamp, TypeTimestamp> froms(final Timestamp[] values) {
+		return new OrdinalListImpl<Timestamp, TypeTimestamp>(values, FACTORY);
+	}
+
 	/** Value. */
 	private final Timestamp value;
+
+	/**
+	 * @param aValue Value
+	 */
+	private TypeTimestamp(final Timestamp aValue) {
+		this.value = aValue;
+	}
 
 	@Override
 	public String toQ() {
@@ -82,13 +108,6 @@ public final class TypeTimestamp implements OrdinalType<Timestamp> {
 		final SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
 		final DecimalFormat df = new DecimalFormat("000000000");
 		return sdf.format(this.value) + "D" + sdf2.format(this.value) + "." + df.format(this.value.getNanos());
-	}
-
-	/**
-	 * @param aValue Value
-	 */
-	private TypeTimestamp(final Timestamp aValue) {
-		this.value = aValue;
 	}
 
 }

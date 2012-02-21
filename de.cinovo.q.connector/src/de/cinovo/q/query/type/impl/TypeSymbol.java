@@ -8,7 +8,9 @@
 
 package de.cinovo.q.query.type.impl;
 
+import de.cinovo.q.query.type.NominalList;
 import de.cinovo.q.query.type.NominalType;
+import de.cinovo.q.query.type.TypeFactory;
 
 
 /**
@@ -22,6 +24,15 @@ public final class TypeSymbol implements NominalType<String> {
 	/** Null. */
 	public static final String NULL = "`";
 
+	/** Factory. */
+	private static final TypeFactory<String, TypeSymbol> FACTORY = new TypeFactory<String, TypeSymbol>() {
+
+		@Override
+		public TypeSymbol create(final String aValue) {
+			return TypeSymbol.from(aValue);
+		}
+	};
+
 	/**
 	 * @param value Value
 	 * @return Symbol
@@ -30,8 +41,23 @@ public final class TypeSymbol implements NominalType<String> {
 		return new TypeSymbol(value);
 	}
 
+	/**
+	 * @param values Values
+	 * @return List of symbols
+	 */
+	public static NominalList<String, TypeSymbol> froms(final String[] values) {
+		return new NominalListImpl<String, TypeSymbol>(values, FACTORY);
+	}
+
 	/** Value. */
 	private final String value;
+
+	/**
+	 * @param aValue Value
+	 */
+	private TypeSymbol(final String aValue) {
+		this.value = aValue;
+	}
 
 	@Override
 	public String toQ() {
@@ -39,13 +65,6 @@ public final class TypeSymbol implements NominalType<String> {
 			return NULL;
 		}
 		return "`" + this.value;
-	}
-
-	/**
-	 * @param aValue Value
-	 */
-	private TypeSymbol(final String aValue) {
-		this.value = aValue;
 	}
 
 }

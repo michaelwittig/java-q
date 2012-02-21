@@ -28,17 +28,51 @@ public class TypeTimeTest {
 		assertEquals("0Nt", TypeTime.from(null).toQ());
 	}
 
+	/**
+	 * @return Timestamp
+	 */
+	private Time create() {
+		final Time time = new Time(1000 * 60 * 60 * 12);
+		return time;
+	}
+
+	/**
+	 * @return Timestamp
+	 */
+	private Time create2() {
+		final Time time = new Time(1000 * 60 * 60 * 13);
+		return time;
+	}
+
 	/** */
 	@Test
 	public final void testQ() {
-		final Time time = new Time(1000 * 60 * 60 * 12);
-		assertEquals("12:00:00.000", TypeTime.from(time).toQ());
+		assertEquals("12:00:00.000", TypeTime.from(this.create()).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testQ2() {
 		assertEquals("12:30:00.500", TypeTime.from(12, 30, 0, 500).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListEmpty() {
+		assertEquals("()", TypeTime.froms(new Time[] {}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithOneItem() {
+		assertEquals("(12:00:00.000)", TypeTime.froms(new Time[] {this.create()}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithTwoItems() {
+		assertEquals("(12:00:00.000,13:00:00.000)",
+				TypeTime.froms(new Time[] {this.create(), this.create2()}).toQ());
 	}
 
 }

@@ -9,6 +9,7 @@
 package de.cinovo.q.query.filter;
 
 import de.cinovo.q.query.column.Column;
+import de.cinovo.q.query.type.List;
 import de.cinovo.q.query.type.NominalType;
 
 /**
@@ -16,9 +17,10 @@ import de.cinovo.q.query.type.NominalType;
  *
  * @author mwittig
  *
+ * @param <E> Type of type
  * @param <T> Type
  */
-public interface EqualityFiltering<T extends NominalType<?>> {
+public interface EqualityFiltering<E, T extends NominalType<E>> {
 
 	/**
 	 * @param value Value
@@ -43,5 +45,11 @@ public interface EqualityFiltering<T extends NominalType<?>> {
 	 * @return Filter(<> column)
 	 */
 	Filter filterNotEqualTo(final Column<T> column);
+
+	/**
+	 * @param list List
+	 * @return Filter(in list)
+	 */
+	Filter filterIn(final List<E, T> list);
 
 }

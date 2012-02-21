@@ -8,6 +8,8 @@
 
 package de.cinovo.q.query.column.impl;
 
+import java.math.BigDecimal;
+
 import de.cinovo.q.query.type.impl.TypeFloat;
 
 /**
@@ -16,7 +18,7 @@ import de.cinovo.q.query.type.impl.TypeFloat;
  * @author mwittig
  *
  */
-public class FloatColumn extends ASimpleOrdinalColumn<TypeFloat> {
+public class FloatColumn extends ASimpleOrdinalColumn<BigDecimal, TypeFloat> {
 
 	/**
 	 * @param name Name

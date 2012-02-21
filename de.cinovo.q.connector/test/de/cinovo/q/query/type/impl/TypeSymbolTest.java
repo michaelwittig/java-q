@@ -32,4 +32,22 @@ public class TypeSymbolTest {
 		assertEquals("`FGBL032012", TypeSymbol.from("FGBL032012").toQ());
 	}
 
+	/** */
+	@Test
+	public final void testListEmpty() {
+		assertEquals("()", TypeSymbol.froms(new String[] {}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithOneItem() {
+		assertEquals("(`FGBL032012)", TypeSymbol.froms(new String[] {"FGBL032012"}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithTwoItems() {
+		assertEquals("(`FGBL032012,`FGBM032012)", TypeSymbol.froms(new String[] {"FGBL032012", "FGBM032012"}).toQ());
+	}
+
 }

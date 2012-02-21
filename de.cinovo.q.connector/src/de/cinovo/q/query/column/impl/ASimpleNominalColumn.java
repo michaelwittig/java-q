@@ -20,6 +20,7 @@ import de.cinovo.q.query.filter.impl.FilterComparator;
 import de.cinovo.q.query.filter.impl.FilterImpl;
 import de.cinovo.q.query.group.Group;
 import de.cinovo.q.query.group.Grouping;
+import de.cinovo.q.query.type.List;
 import de.cinovo.q.query.type.NominalType;
 
 /**
@@ -27,10 +28,11 @@ import de.cinovo.q.query.type.NominalType;
  *
  * @author mwittig
  *
+ * @param <E> Type of type
  * @param <T> Type
  */
-public abstract class ASimpleNominalColumn<T extends NominalType<?>>
-	implements Column<T>, EqualityFiltering<T>, Virtualling<T>, AggregatingNominal<T>, Grouping {
+public abstract class ASimpleNominalColumn<E, T extends NominalType<E>>
+	implements Column<T>, EqualityFiltering<E, T>, Virtualling<T>, AggregatingNominal<T>, Grouping {
 
 	/** Name. */
 	private final String name;
@@ -127,13 +129,18 @@ public abstract class ASimpleNominalColumn<T extends NominalType<?>>
 		return this.createFilter(FilterComparator.notEqua, column);
 	}
 
+	@Override
+	public final Filter filterIn(final List<E, T> list) {
+		return this.createFilter(FilterComparator.in, list);
+	}
+
 	/**
 	 * @param comarator Comparator
 	 * @param value Value
 	 * @return Filter
 	 */
 	protected final Filter createFilter(final FilterComparator comarator, final T value) {
-		return new FilterImpl<T>(this, comarator, value);
+		return new FilterImpl<E, T>(this, comarator, value);
 	}
 
 	/**
@@ -142,7 +149,16 @@ public abstract class ASimpleNominalColumn<T extends NominalType<?>>
 	 * @return Filter
 	 */
 	protected final Filter createFilter(final FilterComparator comarator, final Column<T> column) {
-		return new FilterImpl<T>(this, comarator, column);
+		return new FilterImpl<E, T>(this, comarator, column);
+	}
+
+	/**
+	 * @param comarator Comparator
+	 * @param list List
+	 * @return Filter
+	 */
+	protected final Filter createFilter(final FilterComparator comarator, final List<E, T> list) {
+		return new FilterImpl<E, T>(this, comarator, list);
 	}
 
 }

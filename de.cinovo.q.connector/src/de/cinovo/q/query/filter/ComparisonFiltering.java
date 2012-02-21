@@ -16,9 +16,10 @@ import de.cinovo.q.query.type.OrdinalType;
  *
  * @author mwittig
  *
+ * @param <E> Type of type
  * @param <T> Type
  */
-public interface ComparisonFiltering<T extends OrdinalType<?>> {
+public interface ComparisonFiltering<E, T extends OrdinalType<E>> {
 
 	/**
 	 * @param value Value

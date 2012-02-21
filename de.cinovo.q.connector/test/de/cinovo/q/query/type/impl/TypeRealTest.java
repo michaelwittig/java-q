@@ -64,4 +64,22 @@ public class TypeRealTest {
 		assertEquals("1.5e", TypeReal.from(new BigDecimal("1.5")).toQ());
 	}
 
+	/** */
+	@Test
+	public final void testListEmpty() {
+		assertEquals("()", TypeReal.froms(new BigDecimal[] {}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithOneItem() {
+		assertEquals("(1.5e)", TypeReal.froms(new BigDecimal[] {new BigDecimal("1.5")}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithTwoItems() {
+		assertEquals("(1.5e,2.5e)", TypeReal.froms(new BigDecimal[] {new BigDecimal("1.5"), new BigDecimal("2.5")}).toQ());
+	}
+
 }

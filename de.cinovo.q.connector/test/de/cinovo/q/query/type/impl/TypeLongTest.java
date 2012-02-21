@@ -44,4 +44,22 @@ public class TypeLongTest {
 		assertEquals("1j", TypeLong.from(1L).toQ());
 	}
 
+	/** */
+	@Test
+	public final void testListEmpty() {
+		assertEquals("()", TypeLong.froms(new Long[] {}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithOneItem() {
+		assertEquals("(1j)", TypeLong.froms(new Long[] {1L}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithTwoItems() {
+		assertEquals("(1j,2j)", TypeLong.froms(new Long[] {1L, 2L}).toQ());
+	}
+
 }

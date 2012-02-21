@@ -64,4 +64,22 @@ public class TypeFloatTest {
 		assertEquals("1.5f", TypeFloat.from(new BigDecimal("1.5")).toQ());
 	}
 
+	/** */
+	@Test
+	public final void testListEmpty() {
+		assertEquals("()", TypeFloat.froms(new BigDecimal[] {}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithOneItem() {
+		assertEquals("(1.5f)", TypeFloat.froms(new BigDecimal[] {new BigDecimal("1.5")}).toQ());
+	}
+
+	/** */
+	@Test
+	public final void testListWithTwoItems() {
+		assertEquals("(1.5f,2.5f)", TypeFloat.froms(new BigDecimal[] {new BigDecimal("1.5"), new BigDecimal("2.5")}).toQ());
+	}
+
 }

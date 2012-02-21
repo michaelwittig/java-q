@@ -6,25 +6,18 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.query.column.impl;
+package de.cinovo.q.query.type;
 
-import java.sql.Time;
-
-import de.cinovo.q.query.type.impl.TypeTime;
+import de.cinovo.q.Q;
 
 /**
- * Time column.
+ * List.
  *
  * @author mwittig
  *
+ * @param <E> Class of type
+ * @param <T> Type
  */
-public class TimeColumn extends ASimpleOrdinalColumn<Time, TypeTime> {
-
-	/**
-	 * @param name Name
-	 */
-	public TimeColumn(final String name) {
-		super(name, TypeTime.class);
-	}
+public abstract interface List<E, T extends Type<E>> extends Type<E>, Q {
 
 }

@@ -16,7 +16,7 @@ import de.cinovo.q.query.type.impl.TypeSymbol;
  * @author mwittig
  *
  */
-public class SymbolColumn extends ASimpleNominalColumn<TypeSymbol> {
+public class SymbolColumn extends ASimpleNominalColumn<String, TypeSymbol> {
 
 	/**
 	 * @param name Name

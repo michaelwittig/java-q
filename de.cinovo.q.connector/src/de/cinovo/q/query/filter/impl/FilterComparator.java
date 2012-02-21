@@ -34,7 +34,10 @@ public enum FilterComparator implements Q {
 	equal("="),
 
 	/** <>. */
-	notEqua("<>");
+	notEqua("<>"),
+
+	/** in. */
+	in(" in ");
 
 	/** Q. */
 	private final String q;

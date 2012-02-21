@@ -12,7 +12,9 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import de.cinovo.q.query.type.OrdinalList;
 import de.cinovo.q.query.type.OrdinalType;
+import de.cinovo.q.query.type.TypeFactory;
 
 
 /**
@@ -25,6 +27,15 @@ public final class TypeTime implements OrdinalType<Time> {
 
 	/** Null. */
 	public static final String NULL = "0Nt";
+
+	/** Factory. */
+	private static final TypeFactory<Time, TypeTime> FACTORY = new TypeFactory<Time, TypeTime>() {
+
+		@Override
+		public TypeTime create(final Time aValue) {
+			return TypeTime.from(aValue);
+		}
+	};
 
 	/** Seconds to millis factor. */
 	public static final long SECONDS_TO_MILLIS = 1000L;
@@ -60,8 +71,23 @@ public final class TypeTime implements OrdinalType<Time> {
 		return from(new Time(hours * HOURS_TO_MILLIS + minutes * MINUTES_TO_MILLIS + seconds * SECONDS_TO_MILLIS + millis));
 	}
 
+	/**
+	 * @param values Values
+	 * @return List of times
+	 */
+	public static OrdinalList<Time, TypeTime> froms(final Time[] values) {
+		return new OrdinalListImpl<Time, TypeTime>(values, FACTORY);
+	}
+
 	/** Value. */
 	private final Time value;
+
+	/**
+	 * @param aValue Value
+	 */
+	private TypeTime(final Time aValue) {
+		this.value = aValue;
+	}
 
 	@Override
 	public String toQ() {
@@ -70,13 +96,6 @@ public final class TypeTime implements OrdinalType<Time> {
 		}
 		final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
 		return sdf.format(this.value);
-	}
-
-	/**
-	 * @param aValue Value
-	 */
-	private TypeTime(final Time aValue) {
-		this.value = aValue;
 	}
 
 }

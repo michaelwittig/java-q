@@ -10,7 +10,9 @@ package de.cinovo.q.query.type.impl;
 
 import java.math.BigDecimal;
 
+import de.cinovo.q.query.type.OrdinalList;
 import de.cinovo.q.query.type.OrdinalType;
+import de.cinovo.q.query.type.TypeFactory;
 
 
 /**
@@ -24,6 +26,15 @@ public final class TypeReal implements OrdinalType<BigDecimal> {
 	/** Null. */
 	public static final String NULL = "0Ne";
 
+	/** Factory. */
+	private static final TypeFactory<BigDecimal, TypeReal> FACTORY = new TypeFactory<BigDecimal, TypeReal>() {
+
+		@Override
+		public TypeReal create(final BigDecimal aValue) {
+			return TypeReal.from(aValue);
+		}
+	};
+
 	/**
 	 * @param value Value
 	 * @return Real
@@ -32,8 +43,23 @@ public final class TypeReal implements OrdinalType<BigDecimal> {
 		return new TypeReal(value);
 	}
 
+	/**
+	 * @param values Values
+	 * @return List of reals
+	 */
+	public static OrdinalList<BigDecimal, TypeReal> froms(final BigDecimal[] values) {
+		return new OrdinalListImpl<BigDecimal, TypeReal>(values, FACTORY);
+	}
+
 	/** Value. */
 	private final BigDecimal value;
+
+	/**
+	 * @param aValue Value
+	 */
+	private TypeReal(final BigDecimal aValue) {
+		this.value = aValue;
+	}
 
 	@Override
 	public String toQ() {
@@ -41,13 +67,6 @@ public final class TypeReal implements OrdinalType<BigDecimal> {
 			return NULL;
 		}
 		return this.value + "e";
-	}
-
-	/**
-	 * @param aValue Value
-	 */
-	private TypeReal(final BigDecimal aValue) {
-		this.value = aValue;
 	}
 
 }
