@@ -8,9 +8,6 @@
 
 package de.cinovo.q.connector.impl;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-import kx.c;
 import de.cinovo.q.connector.KXConnector;
 
 /**
@@ -29,9 +26,6 @@ abstract class KXConnectorImpl implements KXConnector {
 
 	/** Reconnect on error? */
 	private final boolean reconnectOnError;
-
-	/** Connection. */
-	private final AtomicReference<c> c = new AtomicReference<c>();
 
 	/**
 	 * @param aHost Host
@@ -58,14 +52,6 @@ abstract class KXConnectorImpl implements KXConnector {
 	@Override
 	public final boolean reconnectOnError() {
 		return this.reconnectOnError;
-	}
-
-	@Override
-	public final boolean isConnected() {
-		if (this.c.get() != null) {
-			return true;
-		}
-		return false;
-	}
+	}	
 
 }

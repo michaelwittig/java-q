@@ -311,7 +311,6 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 					}
 				}
 			}
-			System.out.println("stop" + this);
 		}
 	}
 
@@ -379,8 +378,15 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 					}
 				}
 			}
-			System.out.println("stop" + this);
 		}
+	}
+
+	@Override
+	public final boolean isConnected() {
+		if (this.c.get() != null) {
+			return true;
+		}
+		return false;
 	}
 
 }

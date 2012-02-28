@@ -14,6 +14,7 @@ import java.util.Map;
 
 import de.cinovo.q.query.Select.SelectBuilder;
 import de.cinovo.q.query.Table;
+import de.cinovo.q.query.TableResultWrapper;
 import de.cinovo.q.query.column.Column;
 
 /**
@@ -55,6 +56,12 @@ public final class TableImpl implements Table {
 	@Override
 	public SelectBuilder select() {
 		return new SelectImpl.SelectBuilderImpl(this);
+	}
+
+	@Override
+	public TableResultWrapper<Table> wrap(final Object res) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**

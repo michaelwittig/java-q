@@ -53,4 +53,11 @@ public interface Table extends Q {
 		TableBuilder column(final Column<?> column);
 
 	}
+
+	/**
+	 * @param res Result
+	 * @return Wrapped table result
+	 */
+	TableResultWrapper<Table> wrap(Object res);
+
 }

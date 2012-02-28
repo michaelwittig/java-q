@@ -89,4 +89,12 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 		}
 	}
 
+	@Override
+	public final boolean isConnected() {
+		if (this.c.get() != null) {
+			return true;
+		}
+		return false;
+	}
+
 }
