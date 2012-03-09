@@ -8,9 +8,11 @@
 
 package de.cinovo.q.query.type.impl;
 
-import de.cinovo.q.query.type.NominalList;
 import de.cinovo.q.query.type.NominalType;
-import de.cinovo.q.query.type.TypeFactory;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.ValueFactory;
+import de.cinovo.q.query.value.Value;
+import de.cinovo.q.query.value.impl.SymbolValue;
 
 
 /**
@@ -21,50 +23,38 @@ import de.cinovo.q.query.type.TypeFactory;
  */
 public final class TypeSymbol implements NominalType<String> {
 
-	/** Null. */
-	public static final String NULL = "`";
-
-	/** Factory. */
-	private static final TypeFactory<String, TypeSymbol> FACTORY = new TypeFactory<String, TypeSymbol>() {
-
-		@Override
-		public TypeSymbol create(final String aValue) {
-			return TypeSymbol.from(aValue);
-		}
-	};
+	/** Instance. */
+	private static final TypeSymbol INSTANCE = new TypeSymbol();
 
 	/**
-	 * @param value Value
-	 * @return Symbol
+	 * @return Instance
 	 */
-	public static TypeSymbol from(final String value) {
-		return new TypeSymbol(value);
-	}
-
-	/**
-	 * @param values Values
-	 * @return List of symbols
-	 */
-	public static NominalList<String, TypeSymbol> froms(final String[] values) {
-		return new NominalListImpl<String, TypeSymbol>(values, FACTORY);
-	}
-
-	/** Value. */
-	private final String value;
-
-	/**
-	 * @param aValue Value
-	 */
-	private TypeSymbol(final String aValue) {
-		this.value = aValue;
+	public static TypeSymbol get() {
+		return INSTANCE;
 	}
 
 	@Override
-	public String toQ() {
-		if (this.value == null) {
-			return NULL;
-		}
-		return "`" + this.value;
+	public ValueFactory<String, Type<String>> geValueFactory() {
+		return new ValueFactory<String, Type<String>>() {
+
+			@Override
+			public Value<String, ? extends Type<String>> create(final String value) {
+				return SymbolValue.from(value);
+			}
+
+			@Override
+			public Value<String, ? extends Type<String>> fromQ(final Object value) {
+				if (value instanceof String) {
+					return this.create((String) value);
+				} // TODO what to do woth Lists String[] ???
+				throw new IllegalArgumentException("Type is " + value.getClass().getSimpleName());
+			}
+		};
+	}
+
+	/**  */
+	private TypeSymbol() {
+		super();
 	}
 
 }

@@ -6,7 +6,7 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.query.type.impl;
+package de.cinovo.q.query.value.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,17 +15,17 @@ import java.sql.Timestamp;
 import org.junit.Test;
 
 /**
- * TypeTimestamp test.
+ * TimestampValue test.
  *
  * @author mwittig
  *
  */
-public class TypeTimestampTest {
+public class TimestampValueTest {
 
 	/** */
 	@Test
 	public final void testNullQ() {
-		assertEquals("0Np", TypeTimestamp.from(null).toQ());
+		assertEquals("0Np", TimestampValue.from(null).toQ());
 	}
 
 	/**
@@ -53,32 +53,32 @@ public class TypeTimestampTest {
 	/** */
 	@Test
 	public final void testQ() {
-		assertEquals("1970.01.01D12:00:00.000000500", TypeTimestamp.from(this.create()).toQ());
+		assertEquals("1970.01.01D12:00:00.000000500", TimestampValue.from(this.create()).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testQ2() {
-		assertEquals("2012.02.15D12:30:00.100200300", TypeTimestamp.from(2012, 2, 15, 12, 30, 0, 100, 200, 300).toQ());
+		assertEquals("2012.02.15D12:30:00.100200300", TimestampValue.from(2012, 2, 15, 12, 30, 0, 100, 200, 300).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListEmpty() {
-		assertEquals("()", TypeTimestamp.froms(new Timestamp[] {}).toQ());
+		assertEquals("()", TimestampValue.froms(new Timestamp[] {}).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListWithOneItem() {
-		assertEquals("(1970.01.01D12:00:00.000000500)", TypeTimestamp.froms(new Timestamp[] {this.create()}).toQ());
+		assertEquals("(1970.01.01D12:00:00.000000500)", TimestampValue.froms(new Timestamp[] {this.create()}).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListWithTwoItems() {
 		assertEquals("(1970.01.01D12:00:00.000000500,1970.01.01D13:00:00.000000500)",
-				TypeTimestamp.froms(new Timestamp[] {this.create(), this.create2()}).toQ());
+				TimestampValue.froms(new Timestamp[] {this.create(), this.create2()}).toQ());
 	}
 
 }

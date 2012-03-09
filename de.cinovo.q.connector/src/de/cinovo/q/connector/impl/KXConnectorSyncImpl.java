@@ -16,7 +16,7 @@ import kx.c.KException;
 import de.cinovo.q.connector.KXConnectorSync;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
-import de.cinovo.q.connector.KXTable;
+import de.cinovo.q.query.Result;
 import de.cinovo.q.query.Select;
 
 /**
@@ -72,16 +72,7 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 	}
 
 	@Override
-	public KXTable query(final String cmd) throws KXException {
-		try {
-			return new KXSyncCommandString(cmd).execute(this.c.get());
-		} catch (final Exception e) {
-			throw new KXException("Query failed", e);
-		}
-	}
-
-	@Override
-	public KXTable select(final Select select) throws KXException {
+	public Result select(final Select select) throws KXException {
 		try {
 			return new KXSyncCommandSelect(select).execute(this.c.get());
 		} catch (final Exception e) {
@@ -90,7 +81,7 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 	}
 
 	@Override
-	public final boolean isConnected() {
+	public boolean isConnected() {
 		if (this.c.get() != null) {
 			return true;
 		}

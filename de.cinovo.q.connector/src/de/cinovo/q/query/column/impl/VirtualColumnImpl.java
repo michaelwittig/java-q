@@ -47,7 +47,7 @@ public final class VirtualColumnImpl<T extends Type<?>> implements VirtualColumn
 	}
 
 	@Override
-	public Class<T> getType() {
+	public T getType() {
 		return this.column.getType();
 	}
 

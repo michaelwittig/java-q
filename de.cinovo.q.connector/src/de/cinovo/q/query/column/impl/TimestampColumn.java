@@ -24,7 +24,7 @@ public class TimestampColumn extends ASimpleOrdinalColumn<Timestamp, TypeTimesta
 	 * @param name Name
 	 */
 	public TimestampColumn(final String name) {
-		super(name, TypeTimestamp.class);
+		super(name, TypeTimestamp.get());
 	}
 
 }

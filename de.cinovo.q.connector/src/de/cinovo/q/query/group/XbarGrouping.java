@@ -9,7 +9,7 @@
 package de.cinovo.q.query.group;
 
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.type.impl.TypeLong;
+import de.cinovo.q.query.value.impl.LongValue;
 
 /**
  * Column can be grouped.
@@ -25,6 +25,6 @@ public interface XbarGrouping<T extends OrdinalType<?>> extends Grouping {
 	 * @param xbar xbar
 	 * @return Group
 	 */
-	Group xbar(TypeLong xbar);
+	Group xbar(LongValue xbar);
 
 }

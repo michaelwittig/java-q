@@ -24,7 +24,7 @@ public class FloatColumn extends ASimpleOrdinalColumn<BigDecimal, TypeFloat> {
 	 * @param name Name
 	 */
 	public FloatColumn(final String name) {
-		super(name, TypeFloat.class);
+		super(name, TypeFloat.get());
 	}
 
 }

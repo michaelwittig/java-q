@@ -12,16 +12,17 @@ import de.cinovo.q.query.column.Column;
 import de.cinovo.q.query.filter.Filter;
 import de.cinovo.q.query.type.List;
 import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.value.Value;
 
 /**
  * Filter implementation.
  *
  * @author mwittig
  *
- * @param <E> Type of type
+ * @param <J> Java type
  * @param <T> Type
  */
-public final class FilterImpl<E, T extends Type<E>> implements Filter {
+public final class FilterImpl<J, T extends Type<J>> implements Filter {
 
 	/** Column. */
 	private final Column<T> column;
@@ -34,7 +35,7 @@ public final class FilterImpl<E, T extends Type<E>> implements Filter {
 	 * @param comparator Comparator
 	 * @param right Right
 	 */
-	public FilterImpl(final Column<T> left, final FilterComparator comparator, final T right) {
+	public FilterImpl(final Column<T> left, final FilterComparator comparator, final Value<J, T> right) {
 		this.column = left;
 		this.q = column.getName() + comparator.toQ() + right.toQ();
 	}
@@ -54,7 +55,7 @@ public final class FilterImpl<E, T extends Type<E>> implements Filter {
 	 * @param comparator Comparator
 	 * @param right Right
 	 */
-	public FilterImpl(final Column<T> left, final FilterComparator comparator, final List<E, T> right) {
+	public FilterImpl(final Column<T> left, final FilterComparator comparator, final List<J, T> right) {
 		this.column = left;
 		this.q = column.getName() + comparator.toQ() + right.toQ();
 	}

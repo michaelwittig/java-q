@@ -382,7 +382,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	}
 
 	@Override
-	public final boolean isConnected() {
+	public boolean isConnected() {
 		if (this.c.get() != null) {
 			return true;
 		}

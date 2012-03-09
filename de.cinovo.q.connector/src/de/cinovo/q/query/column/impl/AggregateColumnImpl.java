@@ -44,7 +44,7 @@ public final class AggregateColumnImpl<T extends Type<?>> implements AggregateCo
 	}
 
 	@Override
-	public Class<T> getType() {
+	public T getType() {
 		return this.column.getType();
 	}
 

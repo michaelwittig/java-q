@@ -6,7 +6,7 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.query.type.impl;
+package de.cinovo.q.query.value.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,17 +15,17 @@ import java.sql.Time;
 import org.junit.Test;
 
 /**
- * TypeTime test.
+ * TimeValue test.
  *
  * @author mwittig
  *
  */
-public class TypeTimeTest {
+public class TimeValueTest {
 
 	/** */
 	@Test
 	public final void testNullQ() {
-		assertEquals("0Nt", TypeTime.from(null).toQ());
+		assertEquals("0Nt", TimeValue.from(null).toQ());
 	}
 
 	/**
@@ -47,32 +47,32 @@ public class TypeTimeTest {
 	/** */
 	@Test
 	public final void testQ() {
-		assertEquals("12:00:00.000", TypeTime.from(this.create()).toQ());
+		assertEquals("12:00:00.000", TimeValue.from(this.create()).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testQ2() {
-		assertEquals("12:30:00.500", TypeTime.from(12, 30, 0, 500).toQ());
+		assertEquals("12:30:00.500", TimeValue.from(12, 30, 0, 500).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListEmpty() {
-		assertEquals("()", TypeTime.froms(new Time[] {}).toQ());
+		assertEquals("()", TimeValue.froms(new Time[] {}).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListWithOneItem() {
-		assertEquals("(12:00:00.000)", TypeTime.froms(new Time[] {this.create()}).toQ());
+		assertEquals("(12:00:00.000)", TimeValue.froms(new Time[] {this.create()}).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListWithTwoItems() {
 		assertEquals("(12:00:00.000,13:00:00.000)",
-				TypeTime.froms(new Time[] {this.create(), this.create2()}).toQ());
+				TimeValue.froms(new Time[] {this.create(), this.create2()}).toQ());
 	}
 
 }

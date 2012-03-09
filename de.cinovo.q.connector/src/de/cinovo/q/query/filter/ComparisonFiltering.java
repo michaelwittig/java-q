@@ -10,40 +10,41 @@ package de.cinovo.q.query.filter;
 
 import de.cinovo.q.query.column.Column;
 import de.cinovo.q.query.type.OrdinalType;
+import de.cinovo.q.query.value.Value;
 
 /**
  * Filter for comparison.
  *
  * @author mwittig
  *
- * @param <E> Type of type
+ * @param <J> Java type
  * @param <T> Type
  */
-public interface ComparisonFiltering<E, T extends OrdinalType<E>> {
+public interface ComparisonFiltering<J, T extends OrdinalType<J>> {
 
 	/**
 	 * @param value Value
 	 * @return Filter(> value)
 	 */
-	Filter filterGreaterThan(final T value);
+	Filter filterGreaterThan(final Value<J, T> value);
 
 	/**
 	 * @param value Value
 	 * @return Filter(>= value)
 	 */
-	Filter filterGreaterOrEqualThan(final T value);
+	Filter filterGreaterOrEqualThan(final Value<J, T> value);
 
 	/**
 	 * @param value Value
 	 * @return Filter(< value)
 	 */
-	Filter filterSmallerThan(final T value);
+	Filter filterSmallerThan(final Value<J, T> value);
 
 	/**
 	 * @param value Value
 	 * @return Filter(<= value)
 	 */
-	Filter filterSmallerOrEqualThan(final T value);
+	Filter filterSmallerOrEqualThan(final Value<J, T> value);
 
 	/**
 	 * @param column Column

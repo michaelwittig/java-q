@@ -13,7 +13,7 @@ import java.io.IOException;
 import kx.c;
 import kx.c.KException;
 import de.cinovo.q.connector.KXException;
-import de.cinovo.q.connector.KXTable;
+import de.cinovo.q.query.Result;
 
 /**
  * KX string command with result.
@@ -39,7 +39,7 @@ public final class KXSyncCommandString extends AKXSyncCommand {
 	}
 
 	@Override
-	public KXTable execute(final c c) throws KXException, KException, IOException {
+	public Result execute(final c c) throws KXException, KException, IOException {
 		return this.execute(c, this.cmd);
 	}
 

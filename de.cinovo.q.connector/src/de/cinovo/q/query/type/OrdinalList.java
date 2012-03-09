@@ -14,9 +14,9 @@ package de.cinovo.q.query.type;
  *
  * @author mwittig
  *
- * @param <E> Class of type
+ * @param <J> Java type
  * @param <T> Type
  */
-public interface OrdinalList<E, T extends OrdinalType<E>> extends NominalList<E, T>, OrdinalType<E> {
+public interface OrdinalList<J, T extends OrdinalType<J>> extends NominalList<J, T>, OrdinalType<J> {
 
 }

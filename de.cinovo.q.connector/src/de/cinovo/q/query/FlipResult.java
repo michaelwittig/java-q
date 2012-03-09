@@ -1,0 +1,77 @@
+package de.cinovo.q.query;
+
+import java.lang.reflect.Array;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import kx.c;
+import kx.c.Flip;
+import de.cinovo.q.query.column.Column;
+
+/**
+ * Flip result.
+ *
+ * @author mwittig
+ *
+ */
+public final class FlipResult extends ATableResult {
+
+	/** Flip. */
+	private final c.Flip flip;
+
+	/** Column name 2 index. */
+	private final Map<String, Integer> colName2Index;
+
+	/**
+	 * @param aFlip Flip
+	 */
+	public FlipResult(final Flip aFlip) {
+		this.flip = aFlip;
+		final HashMap<String, Integer> tmp = new HashMap<String, Integer>();
+		for (int i = 0; i < this.flip.x.length; i++) {
+			tmp.put(this.flip.x[i], i);
+		}
+		this.colName2Index = Collections.unmodifiableMap(tmp);
+	}
+
+	public int getRows() {
+		return Array.getLength(this.flip.y[0]);
+	}
+
+	public int getCols() {
+		return this.flip.x.length;
+	}
+
+	/**
+	 * @param col Column
+	 * @param row Row index
+	 * @return Object or null
+	 */
+	public Object getAt(final Column<?> col, final int row) {
+		return this.getAt(col.getName(), row);
+	}
+
+	@Override
+	Object getAt(final String col, final int row) {
+		if (this.colName2Index.containsKey(col)) {
+			return getAt(this.colName2Index.get(col), row);
+		}
+		throw new IllegalArgumentException("Column not found in table");
+	}
+
+	@Override
+	String[] getColNames() {
+		return this.flip.x;
+	}
+
+	/**
+	 * @param col Column index
+	 * @param row Row index
+	 * @return Object or null
+	 */
+	private Object getAt(final int col, final int row) {
+		return c.at(this.flip.y[col], row);
+	}
+
+}

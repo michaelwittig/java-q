@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import de.cinovo.q.query.column.impl.IntegerColumn;
 import de.cinovo.q.query.type.impl.TypeInteger;
+import de.cinovo.q.query.value.impl.IntegerValue;
 
 /**
  * FilterImpl test.
@@ -36,7 +37,7 @@ public class FilterImplTest {
 	@Test
 	public final void testColumnEqualsValue() {
 		final IntegerColumn c1 = new IntegerColumn("left");
-		final FilterImpl<Integer, TypeInteger> filter = new FilterImpl<Integer, TypeInteger>(c1, FilterComparator.equal, TypeInteger.from(10));
+		final FilterImpl<Integer, TypeInteger> filter = new FilterImpl<Integer, TypeInteger>(c1, FilterComparator.equal, IntegerValue.from(10));
 		assertEquals("left=10", filter.toQ());
 	}
 

@@ -22,7 +22,7 @@ public class LongColumn extends ASimpleOrdinalColumn<Long, TypeLong> {
 	 * @param name Name
 	 */
 	public LongColumn(final String name) {
-		super(name, TypeLong.class);
+		super(name, TypeLong.get());
 	}
 
 }

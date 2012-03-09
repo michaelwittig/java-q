@@ -8,9 +8,11 @@
 
 package de.cinovo.q.query.type.impl;
 
-import de.cinovo.q.query.type.OrdinalList;
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.type.TypeFactory;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.ValueFactory;
+import de.cinovo.q.query.value.Value;
+import de.cinovo.q.query.value.impl.IntegerValue;
 
 
 /**
@@ -21,50 +23,38 @@ import de.cinovo.q.query.type.TypeFactory;
  */
 public final class TypeInteger implements OrdinalType<Integer> {
 
-	/** Null. */
-	public static final String NULL = "0N";
-
-	/** Factory. */
-	private static final TypeFactory<Integer, TypeInteger> FACTORY = new TypeFactory<Integer, TypeInteger>() {
-
-		@Override
-		public TypeInteger create(final Integer aValue) {
-			return TypeInteger.from(aValue);
-		}
-	};
+	/** Instance. */
+	private static final TypeInteger INSTANCE = new TypeInteger();
 
 	/**
-	 * @param value Value
-	 * @return Integer
+	 * @return Instance
 	 */
-	public static TypeInteger from(final Integer value) {
-		return new TypeInteger(value);
-	}
-
-	/**
-	 * @param values Values
-	 * @return List of integers
-	 */
-	public static OrdinalList<Integer, TypeInteger> froms(final Integer[] values) {
-		return new OrdinalListImpl<Integer, TypeInteger>(values, FACTORY);
-	}
-
-	/** Value. */
-	private final Integer value;
-
-	/**
-	 * @param aValue Value
-	 */
-	private TypeInteger(final Integer aValue) {
-		this.value = aValue;
+	public static TypeInteger get() {
+		return INSTANCE;
 	}
 
 	@Override
-	public String toQ() {
-		if (this.value == null) {
-			return NULL;
-		}
-		return String.valueOf(this.value);
+	public ValueFactory<Integer, Type<Integer>> geValueFactory() {
+		return new ValueFactory<Integer, Type<Integer>>() {
+
+			@Override
+			public Value<Integer, ? extends Type<Integer>> create(final Integer value) {
+				return IntegerValue.from(value);
+			}
+
+			@Override
+			public Value<Integer, ? extends Type<Integer>> fromQ(final Object value) {
+				if (value instanceof Integer) {
+					return this.create((Integer) value);
+				}
+				throw new IllegalArgumentException("Type is " + value.getClass().getSimpleName());
+			}
+		};
+	}
+
+	/** */
+	private TypeInteger() {
+		super();
 	}
 
 }

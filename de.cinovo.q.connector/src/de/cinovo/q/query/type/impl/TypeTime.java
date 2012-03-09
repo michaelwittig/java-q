@@ -9,12 +9,12 @@
 package de.cinovo.q.query.type.impl;
 
 import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
-import de.cinovo.q.query.type.OrdinalList;
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.type.TypeFactory;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.ValueFactory;
+import de.cinovo.q.query.value.Value;
+import de.cinovo.q.query.value.impl.TimeValue;
 
 
 /**
@@ -25,77 +25,39 @@ import de.cinovo.q.query.type.TypeFactory;
  */
 public final class TypeTime implements OrdinalType<Time> {
 
-	/** Null. */
-	public static final String NULL = "0Nt";
-
-	/** Factory. */
-	private static final TypeFactory<Time, TypeTime> FACTORY = new TypeFactory<Time, TypeTime>() {
-
-		@Override
-		public TypeTime create(final Time aValue) {
-			return TypeTime.from(aValue);
-		}
-	};
-
-	/** Seconds to millis factor. */
-	public static final long SECONDS_TO_MILLIS = 1000L;
-
-	/** Minutes to millis factor. */
-	public static final long MINUTES_TO_MILLIS = 60L * SECONDS_TO_MILLIS;
-
-	/** Hours to millis factor. */
-	public static final long HOURS_TO_MILLIS = 60L * MINUTES_TO_MILLIS;
+	/** Instance. */
+	private static final TypeTime INSTANCE = new TypeTime();
 
 	/**
-	 * @param value Value
-	 * @return Time
+	 * @return Instance
 	 */
-	public static TypeTime from(final Time value) {
-		if (value == null) {
-			return new TypeTime(value);
-		} else {
-			// java makes wired things with timezones (so we must correct this here)
-			final long offset = TimeZone.getDefault().getOffset(value.getTime());
-			return new TypeTime(new Time(value.getTime() - offset));
-		}
-	}
-
-	/**
-	 * @param hours [0-23]
-	 * @param minutes [0-59]
-	 * @param seconds [0-59]
-	 * @param millis [0-99]
-	 * @return Time
-	 */
-	public static TypeTime from(final int hours, final int minutes, final int seconds, final int millis) {
-		return from(new Time(hours * HOURS_TO_MILLIS + minutes * MINUTES_TO_MILLIS + seconds * SECONDS_TO_MILLIS + millis));
-	}
-
-	/**
-	 * @param values Values
-	 * @return List of times
-	 */
-	public static OrdinalList<Time, TypeTime> froms(final Time[] values) {
-		return new OrdinalListImpl<Time, TypeTime>(values, FACTORY);
-	}
-
-	/** Value. */
-	private final Time value;
-
-	/**
-	 * @param aValue Value
-	 */
-	private TypeTime(final Time aValue) {
-		this.value = aValue;
+	public static TypeTime get() {
+		return INSTANCE;
 	}
 
 	@Override
-	public String toQ() {
-		if (this.value == null) {
-			return NULL;
-		}
-		final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
-		return sdf.format(this.value);
+	public ValueFactory<Time, Type<Time>> geValueFactory() {
+		return new ValueFactory<Time, Type<Time>>() {
+
+			@Override
+			public Value<Time, ? extends Type<Time>> create(final Time value) {
+				return TimeValue.from(value);
+			}
+
+			@Override
+			public Value<Time, ? extends Type<Time>> fromQ(final Object aValue) {
+				if (aValue instanceof Time) {
+					return this.create((Time) aValue);
+				}
+				throw new IllegalArgumentException("Type is " + aValue.getClass().getSimpleName());
+			}
+
+		};
+	}
+
+	/**  */
+	private TypeTime() {
+		super();
 	}
 
 }

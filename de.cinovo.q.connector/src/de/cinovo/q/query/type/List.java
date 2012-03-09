@@ -10,14 +10,15 @@ package de.cinovo.q.query.type;
 
 import de.cinovo.q.Q;
 
+
 /**
  * List.
  *
  * @author mwittig
  *
- * @param <E> Class of type
+ * @param <J> Java type
  * @param <T> Type
  */
-public abstract interface List<E, T extends Type<E>> extends Type<E>, Q {
+public abstract interface List<J, T extends Type<J>> extends Type<J>, Q { // TODO List is a value not a type in thios case!!!
 
 }

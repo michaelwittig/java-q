@@ -22,7 +22,7 @@ public class IntegerColumn extends ASimpleOrdinalColumn<Integer, TypeInteger> {
 	 * @param name Name
 	 */
 	public IntegerColumn(final String name) {
-		super(name, TypeInteger.class);
+		super(name, TypeInteger.get());
 	}
 
 }

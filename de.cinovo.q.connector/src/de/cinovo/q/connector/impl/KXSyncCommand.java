@@ -13,7 +13,7 @@ import java.io.IOException;
 import kx.c;
 import kx.c.KException;
 import de.cinovo.q.connector.KXException;
-import de.cinovo.q.connector.KXTable;
+import de.cinovo.q.query.Result;
 
 /**
  * KX command with result.
@@ -27,11 +27,11 @@ interface KXSyncCommand {
 	 * Execute the command via c.
 	 *
 	 * @param c C
-	 * @return KXTable
+	 * @return Result
 	 * @throws KXException If something went wrong
 	 * @throws KException If something went wrong in q
 	 * @throws IOException If something went wrong on the transport layer
 	 */
-	KXTable execute(final c c) throws KXException, KException, IOException;
+	Result execute(final c c) throws KXException, KException, IOException;
 
 }

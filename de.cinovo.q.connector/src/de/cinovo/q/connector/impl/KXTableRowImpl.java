@@ -19,6 +19,7 @@ import de.cinovo.q.connector.KXTableRow;
  * @author mwittig
  *
  */
+@Deprecated
 public final class KXTableRowImpl implements KXTableRow {
 
 	/** Data. */

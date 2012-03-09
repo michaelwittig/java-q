@@ -19,24 +19,25 @@ import de.cinovo.q.query.group.Group;
 import de.cinovo.q.query.group.XbarGrouping;
 import de.cinovo.q.query.group.impl.XbarGroupImpl;
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.type.impl.TypeLong;
+import de.cinovo.q.query.value.Value;
+import de.cinovo.q.query.value.impl.LongValue;
 
 /**
  * Abstract simple ordinal column.
  *
  * @author mwittig
  *
- * @param <E> Type of type
+ * @param <J> Java type
  * @param <T> Type
  */
-public abstract class ASimpleOrdinalColumn<E, T extends OrdinalType<E>> extends ASimpleNominalColumn<E, T>
-	implements ComparisonFiltering<E, T>, XbarGrouping<T>, AggregatingOrdinal<T> {
+public abstract class ASimpleOrdinalColumn<J, T extends OrdinalType<J>> extends ASimpleNominalColumn<J, T>
+	implements ComparisonFiltering<J, T>, XbarGrouping<T>, AggregatingOrdinal<T> {
 
 	/**
 	 * @param aName Name
 	 * @param aType Type
 	 */
-	public ASimpleOrdinalColumn(final String aName, final Class<T> aType) {
+	public ASimpleOrdinalColumn(final String aName, final T aType) {
 		super(aName, aType);
 	}
 
@@ -61,27 +62,27 @@ public abstract class ASimpleOrdinalColumn<E, T extends OrdinalType<E>> extends 
 	}
 
 	@Override
-	public final Group xbar(final TypeLong xbar) {
+	public final Group xbar(final LongValue xbar) {
 		return new XbarGroupImpl<T>(xbar, this);
 	}
 
 	@Override
-	public final Filter filterGreaterThan(final T value) {
+	public final Filter filterGreaterThan(final Value<J, T> value) {
 		return this.createFilter(FilterComparator.greater, value);
 	}
 
 	@Override
-	public final Filter filterGreaterOrEqualThan(final T value) {
+	public final Filter filterGreaterOrEqualThan(final Value<J, T> value) {
 		return this.createFilter(FilterComparator.greaterOrEqual, value);
 	}
 
 	@Override
-	public final Filter filterSmallerThan(final T value) {
+	public final Filter filterSmallerThan(final Value<J, T> value) {
 		return this.createFilter(FilterComparator.smaller, value);
 	}
 
 	@Override
-	public final Filter filterSmallerOrEqualThan(final T value) {
+	public final Filter filterSmallerOrEqualThan(final Value<J, T> value) {
 		return this.createFilter(FilterComparator.smallerOrEqual, value);
 	}
 

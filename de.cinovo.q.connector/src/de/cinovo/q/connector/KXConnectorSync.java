@@ -8,6 +8,7 @@
 
 package de.cinovo.q.connector;
 
+import de.cinovo.q.query.Result;
 import de.cinovo.q.query.Select;
 
 
@@ -22,21 +23,12 @@ import de.cinovo.q.query.Select;
 public interface KXConnectorSync extends KXConnector {
 
 	/**
-	 * Synchronous query.
-	 *
-	 * @param cmd Command
-	 * @return KX table
-	 * @throws KXException If something went wrong
-	 */
-	KXTable query(String cmd) throws KXException;
-
-	/**
 	 * Synchronous select.
 	 *
 	 * @param select Select
-	 * @return KX table
+	 * @return Result
 	 * @throws KXException If something went wrong
 	 */
-	KXTable select(Select select) throws KXException;
+	Result select(Select select) throws KXException;
 
 }

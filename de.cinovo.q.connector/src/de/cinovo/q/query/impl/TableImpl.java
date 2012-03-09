@@ -8,13 +8,7 @@
 
 package de.cinovo.q.query.impl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import de.cinovo.q.query.Select.SelectBuilder;
 import de.cinovo.q.query.Table;
-import de.cinovo.q.query.TableResultWrapper;
 import de.cinovo.q.query.column.Column;
 
 /**
@@ -23,45 +17,13 @@ import de.cinovo.q.query.column.Column;
  * @author mwittig
  *
  */
-public final class TableImpl implements Table {
-
-	/** Name. */
-	private final String name;
-
-	/** Columns. */
-	private final Map<String, Column<?>> columns = new HashMap<String, Column<?>>();
+public final class TableImpl extends ATable {
 
 	/**
 	 * @param aName Name
 	 */
 	private TableImpl(final String aName) {
-		this.name = aName;
-	}
-
-	@Override
-	public String getName() {
-		return this.name;
-	}
-
-	@Override
-	public Collection<Column<?>> getColumns() {
-		return this.columns.values();
-	}
-
-	@Override
-	public String toQ() {
-		return this.name;
-	}
-
-	@Override
-	public SelectBuilder select() {
-		return new SelectImpl.SelectBuilderImpl(this);
-	}
-
-	@Override
-	public TableResultWrapper<Table> wrap(final Object res) {
-		// TODO Auto-generated method stub
-		return null;
+		super(aName);
 	}
 
 	/**
@@ -84,7 +46,7 @@ public final class TableImpl implements Table {
 
 		@Override
 		public TableBuilderImpl column(final Column<?> column) {
-			this.table.columns.put(column.getName(), column);
+			this.table.addColumn(column);
 			return this;
 		}
 

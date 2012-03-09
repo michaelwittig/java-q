@@ -22,29 +22,30 @@ import de.cinovo.q.query.group.Group;
 import de.cinovo.q.query.group.Grouping;
 import de.cinovo.q.query.type.List;
 import de.cinovo.q.query.type.NominalType;
+import de.cinovo.q.query.value.Value;
 
 /**
  * Abstract simple nominal column.
  *
  * @author mwittig
  *
- * @param <E> Type of type
+ * @param <J> Java type
  * @param <T> Type
  */
-public abstract class ASimpleNominalColumn<E, T extends NominalType<E>>
-	implements Column<T>, EqualityFiltering<E, T>, Virtualling<T>, AggregatingNominal<T>, Grouping {
+public abstract class ASimpleNominalColumn<J, T extends NominalType<J>>
+	implements Column<T>, EqualityFiltering<J, T>, Virtualling<T>, AggregatingNominal<T>, Grouping {
 
 	/** Name. */
 	private final String name;
 
 	/** Type. */
-	private final Class<T> type;
+	private final T type;
 
 	/**
 	 * @param aName Name
 	 * @param aType Type
 	 */
-	protected ASimpleNominalColumn(final String aName, final Class<T> aType) {
+	protected ASimpleNominalColumn(final String aName, final T aType) {
 		super();
 		this.name = aName;
 		this.type = aType;
@@ -61,7 +62,7 @@ public abstract class ASimpleNominalColumn<E, T extends NominalType<E>>
 	}
 
 	@Override
-	public final Class<T> getType() {
+	public final T getType() {
 		return this.type;
 	}
 
@@ -110,12 +111,12 @@ public abstract class ASimpleNominalColumn<E, T extends NominalType<E>>
 	}
 
 	@Override
-	public final Filter filterEqualTo(final T value) {
+	public final Filter filterEqualTo(final Value<J, T> value) {
 		return this.createFilter(FilterComparator.equal, value);
 	}
 
 	@Override
-	public final Filter filterNotEqualTo(final T value) {
+	public final Filter filterNotEqualTo(final Value<J, T> value) {
 		return this.createFilter(FilterComparator.notEqua, value);
 	}
 
@@ -130,7 +131,7 @@ public abstract class ASimpleNominalColumn<E, T extends NominalType<E>>
 	}
 
 	@Override
-	public final Filter filterIn(final List<E, T> list) {
+	public final Filter filterIn(final List<J, T> list) {
 		return this.createFilter(FilterComparator.in, list);
 	}
 
@@ -139,8 +140,8 @@ public abstract class ASimpleNominalColumn<E, T extends NominalType<E>>
 	 * @param value Value
 	 * @return Filter
 	 */
-	protected final Filter createFilter(final FilterComparator comarator, final T value) {
-		return new FilterImpl<E, T>(this, comarator, value);
+	protected final Filter createFilter(final FilterComparator comarator, final Value<J, T> value) {
+		return new FilterImpl<J, T>(this, comarator, value);
 	}
 
 	/**
@@ -149,7 +150,7 @@ public abstract class ASimpleNominalColumn<E, T extends NominalType<E>>
 	 * @return Filter
 	 */
 	protected final Filter createFilter(final FilterComparator comarator, final Column<T> column) {
-		return new FilterImpl<E, T>(this, comarator, column);
+		return new FilterImpl<J, T>(this, comarator, column);
 	}
 
 	/**
@@ -157,8 +158,8 @@ public abstract class ASimpleNominalColumn<E, T extends NominalType<E>>
 	 * @param list List
 	 * @return Filter
 	 */
-	protected final Filter createFilter(final FilterComparator comarator, final List<E, T> list) {
-		return new FilterImpl<E, T>(this, comarator, list);
+	protected final Filter createFilter(final FilterComparator comarator, final List<J, T> list) {
+		return new FilterImpl<J, T>(this, comarator, list);
 	}
 
 }

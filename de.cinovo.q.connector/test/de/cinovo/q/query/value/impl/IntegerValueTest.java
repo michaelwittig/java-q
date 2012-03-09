@@ -6,60 +6,60 @@
 // http://www.eclipse.org/legal/epl-v10.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.query.type.impl;
+package de.cinovo.q.query.value.impl;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 /**
- * TypeLong test.
+ * IntegerValue test.
  *
  * @author mwittig
  *
  */
-public class TypeLongTest {
+public class IntegerValueTest {
 
 	/** */
 	@Test
 	public final void testNullQ() {
-		assertEquals("0Nj", TypeLong.from(null).toQ());
+		assertEquals("0N", IntegerValue.from(null).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testNeg1Q() {
-		assertEquals("-1j", TypeLong.from(-1L).toQ());
+		assertEquals("-1", IntegerValue.from(-1).toQ());
 	}
 
 	/** */
 	@Test
 	public final void test0Q() {
-		assertEquals("0j", TypeLong.from(0L).toQ());
+		assertEquals("0", IntegerValue.from(0).toQ());
 	}
 
 	/** */
 	@Test
 	public final void test1Q() {
-		assertEquals("1j", TypeLong.from(1L).toQ());
+		assertEquals("1", IntegerValue.from(1).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListEmpty() {
-		assertEquals("()", TypeLong.froms(new Long[] {}).toQ());
+		assertEquals("()", IntegerValue.froms(new Integer[] {}).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListWithOneItem() {
-		assertEquals("(1j)", TypeLong.froms(new Long[] {1L}).toQ());
+		assertEquals("(1)", IntegerValue.froms(new Integer[] {1}).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListWithTwoItems() {
-		assertEquals("(1j,2j)", TypeLong.froms(new Long[] {1L, 2L}).toQ());
+		assertEquals("(1,2)", IntegerValue.froms(new Integer[] {1, 2}).toQ());
 	}
 
 }

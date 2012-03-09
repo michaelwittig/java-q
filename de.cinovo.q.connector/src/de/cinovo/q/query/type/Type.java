@@ -8,15 +8,22 @@
 
 package de.cinovo.q.query.type;
 
-import de.cinovo.q.Q;
+
+
+
 
 /**
  * Type.
  *
  * @author mwittig
  *
- * @param <T>
+ * @param <J> Java type
  */
-public abstract interface Type<T> extends Q {
+public abstract interface Type<J> {
+
+	/**
+	 * @return Value factory
+	 */
+	ValueFactory<J, Type<J>> geValueFactory();
 
 }

@@ -11,28 +11,29 @@ package de.cinovo.q.query.filter;
 import de.cinovo.q.query.column.Column;
 import de.cinovo.q.query.type.List;
 import de.cinovo.q.query.type.NominalType;
+import de.cinovo.q.query.value.Value;
 
 /**
  * Filter for equality.
  *
  * @author mwittig
  *
- * @param <E> Type of type
+ * @param <J> Java type
  * @param <T> Type
  */
-public interface EqualityFiltering<E, T extends NominalType<E>> {
+public interface EqualityFiltering<J, T extends NominalType<J>> {
 
 	/**
 	 * @param value Value
 	 * @return Filter(= value)
 	 */
-	Filter filterEqualTo(final T value);
+	Filter filterEqualTo(final Value<J, T> value);
 
 	/**
 	 * @param value Value
 	 * @return Filter(<> value)
 	 */
-	Filter filterNotEqualTo(final T value);
+	Filter filterNotEqualTo(final Value<J, T> value);
 
 	/**
 	 * @param column Column
@@ -50,6 +51,6 @@ public interface EqualityFiltering<E, T extends NominalType<E>> {
 	 * @param list List
 	 * @return Filter(in list)
 	 */
-	Filter filterIn(final List<E, T> list);
+	Filter filterIn(final List<J, T> list);
 
 }

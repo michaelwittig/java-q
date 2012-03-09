@@ -24,7 +24,7 @@ public class RealColumn extends ASimpleOrdinalColumn<BigDecimal, TypeReal> {
 	 * @param name Name
 	 */
 	public RealColumn(final String name) {
-		super(name, TypeReal.class);
+		super(name, TypeReal.get());
 	}
 
 }

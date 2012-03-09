@@ -13,8 +13,8 @@ package de.cinovo.q.query.type;
  *
  * @author mwittig
  *
- * @param <T>
+ * @param <J> Java type
  */
-public interface NominalType<T> extends Type<T> {
+public interface NominalType<J> extends Type<J> {
 
 }

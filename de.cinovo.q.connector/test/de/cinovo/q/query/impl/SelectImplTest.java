@@ -19,9 +19,10 @@ import de.cinovo.q.query.column.impl.SymbolColumn;
 import de.cinovo.q.query.column.impl.TimeColumn;
 import de.cinovo.q.query.impl.SelectImpl.SelectBuilderImpl;
 import de.cinovo.q.query.impl.TableImpl.TableBuilderImpl;
-import de.cinovo.q.query.type.impl.TypeLong;
 import de.cinovo.q.query.type.impl.TypeSymbol;
 import de.cinovo.q.query.type.impl.TypeTime;
+import de.cinovo.q.query.value.impl.LongValue;
+import de.cinovo.q.query.value.impl.SymbolValue;
 
 /**
  * SelectImpl test.
@@ -74,7 +75,7 @@ public class SelectImplTest {
 			.build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder
-				.filter(sym.filterEqualTo(TypeSymbol.from("TEST")))
+				.filter(sym.filterEqualTo(SymbolValue.from("TEST")))
 				.build();
 		assertEquals("select from test where sym=`TEST", select.toQ());
 	}
@@ -92,7 +93,7 @@ public class SelectImplTest {
 		final Select select = builder
 				.column(utctime)
 				.column(sym)
-				.filter(sym.filterEqualTo(TypeSymbol.from("TEST")))
+				.filter(sym.filterEqualTo(SymbolValue.from("TEST")))
 				.build();
 		assertEquals("select utctime,sym from test where sym=`TEST", select.toQ());
 	}
@@ -110,7 +111,7 @@ public class SelectImplTest {
 		final Select select = builder
 				.column(utctime)
 				.group(sym.group())
-				.filter(sym.filterEqualTo(TypeSymbol.from("TEST")))
+				.filter(sym.filterEqualTo(SymbolValue.from("TEST")))
 				.build();
 		assertEquals("select utctime by sym from test where sym=`TEST", select.toQ());
 	}
@@ -128,8 +129,8 @@ public class SelectImplTest {
 		final Select select = builder
 				.column(utctime)
 				.group(sym.group())
-				.group(utctime.xbar(TypeLong.from(1L)))
-				.filter(sym.filterEqualTo(TypeSymbol.from("TEST")))
+				.group(utctime.xbar(LongValue.from(1L)))
+				.filter(sym.filterEqualTo(SymbolValue.from("TEST")))
 				.build();
 		assertEquals("select utctime by sym,1j xbar utctime from test where sym=`TEST", select.toQ());
 	}

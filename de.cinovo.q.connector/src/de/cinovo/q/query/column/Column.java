@@ -28,6 +28,6 @@ public interface Column<T extends Type<?>> extends Q {
 	/**
 	 * @return Type
 	 */
-	Class<T> getType();
+	T getType();
 
 }

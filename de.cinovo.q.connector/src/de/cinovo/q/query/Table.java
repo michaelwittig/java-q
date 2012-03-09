@@ -39,6 +39,12 @@ public interface Table extends Q {
 	SelectBuilder select();
 
 	/**
+	 * @param result Result
+	 * @return Readable result
+	 */
+	Iterable<TableRow> read(Result result);
+
+	/**
 	 * Table builder.
 	 *
 	 * @author mwittig
@@ -53,11 +59,5 @@ public interface Table extends Q {
 		TableBuilder column(final Column<?> column);
 
 	}
-
-	/**
-	 * @param res Result
-	 * @return Wrapped table result
-	 */
-	TableResultWrapper<Table> wrap(Object res);
 
 }

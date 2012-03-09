@@ -14,9 +14,9 @@ package de.cinovo.q.query.type;
  *
  * @author mwittig
  *
- * @param <E> Class of type
+ * @param <J> Java type
  * @param <T> Type
  */
-public interface NominalList<E, T extends NominalType<E>> extends List<E, T>, NominalType<E> {
+public interface NominalList<J, T extends NominalType<J>> extends List<J, T>, NominalType<J> {
 
 }

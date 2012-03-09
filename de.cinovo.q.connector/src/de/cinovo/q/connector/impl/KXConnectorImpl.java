@@ -52,6 +52,6 @@ abstract class KXConnectorImpl implements KXConnector {
 	@Override
 	public final boolean reconnectOnError() {
 		return this.reconnectOnError;
-	}	
+	}
 
 }

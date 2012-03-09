@@ -10,9 +10,11 @@ package de.cinovo.q.query.type.impl;
 
 import java.math.BigDecimal;
 
-import de.cinovo.q.query.type.OrdinalList;
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.type.TypeFactory;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.ValueFactory;
+import de.cinovo.q.query.value.Value;
+import de.cinovo.q.query.value.impl.RealValue;
 
 
 /**
@@ -23,50 +25,38 @@ import de.cinovo.q.query.type.TypeFactory;
  */
 public final class TypeReal implements OrdinalType<BigDecimal> {
 
-	/** Null. */
-	public static final String NULL = "0Ne";
-
-	/** Factory. */
-	private static final TypeFactory<BigDecimal, TypeReal> FACTORY = new TypeFactory<BigDecimal, TypeReal>() {
-
-		@Override
-		public TypeReal create(final BigDecimal aValue) {
-			return TypeReal.from(aValue);
-		}
-	};
+	/** Instance. */
+	private static final TypeReal INSTANCE = new TypeReal();
 
 	/**
-	 * @param value Value
-	 * @return Real
+	 * @return Instance
 	 */
-	public static TypeReal from(final BigDecimal value) {
-		return new TypeReal(value);
-	}
-
-	/**
-	 * @param values Values
-	 * @return List of reals
-	 */
-	public static OrdinalList<BigDecimal, TypeReal> froms(final BigDecimal[] values) {
-		return new OrdinalListImpl<BigDecimal, TypeReal>(values, FACTORY);
-	}
-
-	/** Value. */
-	private final BigDecimal value;
-
-	/**
-	 * @param aValue Value
-	 */
-	private TypeReal(final BigDecimal aValue) {
-		this.value = aValue;
+	public static TypeReal get() {
+		return INSTANCE;
 	}
 
 	@Override
-	public String toQ() {
-		if (this.value == null) {
-			return NULL;
-		}
-		return this.value + "e";
+	public ValueFactory<BigDecimal, Type<BigDecimal>> geValueFactory() {
+		return new ValueFactory<BigDecimal, Type<BigDecimal>>() {
+
+			@Override
+			public Value<BigDecimal, ? extends Type<BigDecimal>> create(final BigDecimal aValue) {
+				return  new RealValue(aValue, TypeReal.this);
+			}
+
+			@Override
+			public Value<BigDecimal, ? extends Type<BigDecimal>> fromQ(final Object aValue) {
+				if (aValue instanceof Double) {
+					return this.create(new BigDecimal((Double) aValue));
+				}
+				throw new IllegalArgumentException("Type is " + aValue.getClass().getSimpleName());
+			}
+		};
+	}
+
+	/**  */
+	private TypeReal() {
+		super();
 	}
 
 }

@@ -24,7 +24,7 @@ public class TimeColumn extends ASimpleOrdinalColumn<Time, TypeTime> {
 	 * @param name Name
 	 */
 	public TimeColumn(final String name) {
-		super(name, TypeTime.class);
+		super(name, TypeTime.get());
 	}
 
 }

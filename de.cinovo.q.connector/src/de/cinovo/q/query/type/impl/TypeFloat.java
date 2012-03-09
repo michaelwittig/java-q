@@ -10,9 +10,11 @@ package de.cinovo.q.query.type.impl;
 
 import java.math.BigDecimal;
 
-import de.cinovo.q.query.type.OrdinalList;
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.type.TypeFactory;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.ValueFactory;
+import de.cinovo.q.query.value.Value;
+import de.cinovo.q.query.value.impl.FloatValue;
 
 
 /**
@@ -23,49 +25,38 @@ import de.cinovo.q.query.type.TypeFactory;
  */
 public final class TypeFloat implements OrdinalType<BigDecimal> {
 
-	/** Null. */
-	public static final String NULL = "0n";
-
-	/** Factory. */
-	private static final TypeFactory<BigDecimal, TypeFloat> FACTORY = new TypeFactory<BigDecimal, TypeFloat>() {
-
-		@Override
-		public TypeFloat create(final BigDecimal aValue) {
-			return TypeFloat.from(aValue);
-		}
-	};
+	/** Instance. */
+	private static final TypeFloat INSTANCE = new TypeFloat();
 
 	/**
-	 * @param value Value
-	 * @return Float
+	 * @return Instance
 	 */
-	public static TypeFloat from(final BigDecimal value) {
-		return new TypeFloat(value);
-	}
-
-	/**
-	 * @param values Values
-	 * @return List of floats
-	 */
-	public static OrdinalList<BigDecimal, TypeFloat> froms(final BigDecimal[] values) {
-		return new OrdinalListImpl<BigDecimal, TypeFloat>(values, FACTORY);
-	}
-
-	/** Value. */
-	private final BigDecimal value;
-	/**
-	 * @param aValue Value
-	 */
-	private TypeFloat(final BigDecimal aValue) {
-		this.value = aValue;
+	public static TypeFloat get() {
+		return INSTANCE;
 	}
 
 	@Override
-	public String toQ() {
-		if (this.value == null) {
-			return NULL;
-		}
-		return this.value + "f";
+	public ValueFactory<BigDecimal, Type<BigDecimal>> geValueFactory() {
+		return new ValueFactory<BigDecimal, Type<BigDecimal>>() {
+
+			@Override
+			public Value<BigDecimal, ? extends Type<BigDecimal>> create(final BigDecimal value) {
+				return FloatValue.from(value);
+			}
+
+			@Override
+			public Value<BigDecimal, ? extends Type<BigDecimal>> fromQ(final Object value) {
+				if (value instanceof Float) {
+					return this.create(new BigDecimal((Float) value));
+				}
+				throw new IllegalArgumentException("Type is " + value.getClass().getSimpleName());
+			}
+		};
+	}
+
+	/** */
+	private TypeFloat() {
+		super();
 	}
 
 }
