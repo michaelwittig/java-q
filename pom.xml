@@ -120,7 +120,7 @@
 		<snapshotRepository>
 			<id>cinovo-public-snapshot</id>
 			<name>Cinovo Public Repository</name>
-			<url>http://repo.cinovo.de/maven/</url>
+			<url>http://repo.cinovo.de/maven-snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
