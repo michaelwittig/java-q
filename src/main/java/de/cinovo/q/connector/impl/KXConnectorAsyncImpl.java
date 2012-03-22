@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.connector.impl;
@@ -32,9 +32,9 @@ import de.cinovo.q.connector.KXTable;
 
 /**
  * KX Connector implementation.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorAsync {
 
@@ -60,10 +60,14 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	private final AtomicInteger reconnectCounter = new AtomicInteger(0);
 
 	/**
-	 * @param aListener Listener
-	 * @param aHost Host
-	 * @param aPort Port
-	 * @param aReconnectOnError Reconnect on error?
+	 * @param aListener
+	 *            Listener
+	 * @param aHost
+	 *            Host
+	 * @param aPort
+	 *            Port
+	 * @param aReconnectOnError
+	 *            Reconnect on error?
 	 */
 	protected KXConnectorAsyncImpl(final KXListener aListener, final String aHost, final int aPort, final boolean aReconnectOnError) {
 		super(aHost, aPort, aReconnectOnError);
@@ -165,8 +169,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 
 	/**
 	 * Write to kx.
-	 *
-	 * @param cmd Command
+	 * 
+	 * @param cmd
+	 *            Command
 	 */
 	private void execute(final KXAsyncCommand cmd) {
 		this.commands.offer(cmd);
@@ -185,13 +190,14 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 
 		final int count = KXConnectorAsyncImpl.this.reconnectCounter.incrementAndGet();
 		final long time = System.currentTimeMillis();
-		this.timer.schedule(new ReconnectTask(count), new Date(time + count * RECONNECT_OFFSET_PER_TRY));
+		this.timer.schedule(new ReconnectTask(count), new Date(time + (count * RECONNECT_OFFSET_PER_TRY)));
 	}
 
 	/**
 	 * Throw an exception if something happened, that the system can not fix.
-	 *
-	 * @param e Exception
+	 * 
+	 * @param e
+	 *            Exception
 	 */
 	private void throwKXException(final KXException e) {
 		this.executor.execute(new Runnable() {
@@ -204,8 +210,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 
 	/**
 	 * Throw an error if something happened, that the system can fix on his own, but is might important to know.
-	 *
-	 * @param e Error
+	 * 
+	 * @param e
+	 *            Error
 	 */
 	private void throwKXError(final KXError e) {
 		this.executor.execute(new Runnable() {
@@ -218,8 +225,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 
 	/**
 	 * Throw data.
-	 *
-	 * @param t table
+	 * 
+	 * @param t
+	 *            table
 	 */
 	private void throwData(final KXTable t) {
 		this.executor.execute(new Runnable() {
@@ -232,9 +240,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 
 	/**
 	 * Reconnect task.
-	 *
+	 * 
 	 * @author mwittig
-	 *
+	 * 
 	 */
 	private final class ReconnectTask extends TimerTask {
 
@@ -242,7 +250,8 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		private final int count;
 
 		/**
-		 * @param aCount Count
+		 * @param aCount
+		 *            Count
 		 */
 		public ReconnectTask(final int aCount) {
 			super();
@@ -264,9 +273,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 
 	/**
 	 * Executor.
-	 *
+	 * 
 	 * @author mwittig
-	 *
+	 * 
 	 */
 	private final class Executor implements Runnable {
 
@@ -274,7 +283,8 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		private final c c;
 
 		/**
-		 * @param aC C
+		 * @param aC
+		 *            C
 		 */
 		public Executor(final c aC) {
 			this.c = aC;
@@ -301,13 +311,12 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 				} catch (final IOException e) {
 					if (KXConnectorAsyncImpl.this.reconnectOnError()) {
 						KXConnectorAsyncImpl.this.commands.offer(cmd);
-						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not talk to " + KXConnectorAsyncImpl.this.getHost()
-								+ ":" + KXConnectorAsyncImpl.this.getPort()));
+						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
 						KXConnectorAsyncImpl.this.reconnect();
 						break;
 					} else {
-						KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost()
-								+ ":" + KXConnectorAsyncImpl.this.getPort(), e));
+						KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":"
+								+ KXConnectorAsyncImpl.this.getPort(), e));
 					}
 				}
 			}
@@ -316,9 +325,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 
 	/**
 	 * Reader.
-	 *
+	 * 
 	 * @author mwittig
-	 *
+	 * 
 	 */
 	private final class Reader implements Runnable {
 
@@ -368,8 +377,8 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 					e.printStackTrace();
 				} catch (final IOException e) {
 					if (KXConnectorAsyncImpl.this.reconnectOnError()) {
-						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not read from " + KXConnectorAsyncImpl.this.getHost()
-								+ ":" + KXConnectorAsyncImpl.this.getPort()));
+						KXConnectorAsyncImpl.this
+								.throwKXError(new KXError("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
 						KXConnectorAsyncImpl.this.reconnect();
 						break;
 					} else {

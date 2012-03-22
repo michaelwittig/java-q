@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query.value.impl;
@@ -14,9 +14,9 @@ import org.junit.Test;
 
 /**
  * SymbolValue test.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public class SymbolValueTest {
 
@@ -41,13 +41,13 @@ public class SymbolValueTest {
 	/** */
 	@Test
 	public final void testListWithOneItem() {
-		assertEquals("(`FGBL032012)", SymbolValue.froms(new String[] {"FGBL032012"}).toQ());
+		assertEquals("(`FGBL032012)", SymbolValue.froms(new String[] { "FGBL032012" }).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListWithTwoItems() {
-		assertEquals("(`FGBL032012,`FGBM032012)", SymbolValue.froms(new String[] {"FGBL032012", "FGBM032012"}).toQ());
+		assertEquals("(`FGBL032012,`FGBM032012)", SymbolValue.froms(new String[] { "FGBL032012", "FGBM032012" }).toQ());
 	}
 
 }

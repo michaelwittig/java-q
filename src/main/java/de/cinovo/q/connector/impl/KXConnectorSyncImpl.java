@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.connector.impl;
@@ -21,9 +21,9 @@ import de.cinovo.q.query.Select;
 
 /**
  * KX Connector implementation.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSync {
 
@@ -31,8 +31,10 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 	private final AtomicReference<c> c = new AtomicReference<c>();
 
 	/**
-	 * @param aHost Host
-	 * @param aPort Port
+	 * @param aHost
+	 *            Host
+	 * @param aPort
+	 *            Port
 	 */
 	protected KXConnectorSyncImpl(final String aHost, final int aPort) {
 		super(aHost, aPort, false);

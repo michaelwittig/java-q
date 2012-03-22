@@ -1,3 +1,11 @@
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Apache License, Version 2.0
+// which accompanies this distribution, and is available at
+// http://www.apache.org/licenses/LICENSE-2.0.html
+// -------------------------------------------------------------------------------
+
 package de.cinovo.q.query.impl;
 
 import java.util.Iterator;
@@ -7,9 +15,9 @@ import de.cinovo.q.query.TableRow;
 
 /**
  * Table reader.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class TableIterator implements Iterator<TableRow> {
 
@@ -20,7 +28,8 @@ public final class TableIterator implements Iterator<TableRow> {
 	private int currentI = -1;
 
 	/**
-	 * @param aTable Table
+	 * @param aTable
+	 *            Table
 	 */
 	public TableIterator(final TableResult aTable) {
 		this.table = aTable;

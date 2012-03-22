@@ -1,3 +1,11 @@
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Apache License, Version 2.0
+// which accompanies this distribution, and is available at
+// http://www.apache.org/licenses/LICENSE-2.0.html
+// -------------------------------------------------------------------------------
+
 package de.cinovo.q.connector.demo;
 
 import de.cinovo.q.connector.KXConnectorSync;
@@ -17,15 +25,17 @@ import de.cinovo.q.query.value.impl.SymbolValue;
 
 /**
  * Select query example.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class SelectQueryExample {
 
 	/**
-	 * @param args Arguments
-	 * @throws Exception Of something went wrong
+	 * @param args
+	 *            Arguments
+	 * @throws Exception
+	 *             Of something went wrong
 	 */
 	public static void main(final String[] args) throws Exception {
 		// dynamic table definition
@@ -33,22 +43,11 @@ public final class SelectQueryExample {
 		final SymbolColumn sym = new SymbolColumn("sym");
 		final FloatColumn price = new FloatColumn("price");
 		final IntegerColumn size = new IntegerColumn("size");
-		final Table trade = new TableBuilderImpl("trade")
-				.column(time)
-				.column(sym)
-				.column(price)
-				.column(size)
-				.build();
+		final Table trade = new TableBuilderImpl("trade").column(time).column(sym).column(price).column(size).build();
 
 		// create select
-		final Select select = trade.select()
-			.column(size.sum())
-			.column(price.avg())
-			.group(sym.group())
-			.group(time.xbar(LongValue.from(60000L)))
-			.filter(sym.filterIn(SymbolValue.froms(new String[] {"AAA", "BBB"})))
-			.order(Direction.descending, time)
-			.build();
+		final Select select = trade.select().column(size.sum()).column(price.avg()).group(sym.group()).group(time.xbar(LongValue.from(60000L)))
+				.filter(sym.filterIn(SymbolValue.froms(new String[] { "AAA", "BBB" }))).order(Direction.descending, time).build();
 		System.out.println("Q: " + select.toQ());
 
 		// connect to kdb+

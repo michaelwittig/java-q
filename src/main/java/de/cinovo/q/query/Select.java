@@ -1,9 +1,10 @@
 // -------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query;
@@ -19,9 +20,9 @@ import de.cinovo.q.query.group.Group;
 
 /**
  * Select.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public interface Select extends Q {
 
@@ -62,17 +63,17 @@ public interface Select extends Q {
 
 	/**
 	 * Select sort.
-	 *
+	 * 
 	 * @author mwittig
-	 *
+	 * 
 	 */
 	public interface Sort extends Q {
 
 		/**
 		 * Directions.
-		 *
+		 * 
 		 * @author mwittig
-		 *
+		 * 
 		 */
 		public enum Direction implements Q {
 			/** Descending. */
@@ -85,7 +86,8 @@ public interface Select extends Q {
 			private final String q;
 
 			/**
-			 * @param aQ Q
+			 * @param aQ
+			 *            Q
 			 */
 			private Direction(final String aQ) {
 				this.q = aQ;
@@ -111,45 +113,52 @@ public interface Select extends Q {
 
 	/**
 	 * Select builder.
-	 *
+	 * 
 	 * @author mwittig
-	 *
+	 * 
 	 */
 	public interface SelectBuilder extends Builder<Select> {
 
 		/**
-		 * @param column Column
+		 * @param column
+		 *            Column
 		 * @return SelectBuilder
 		 */
 		SelectBuilder column(Column<?> column);
 
 		/**
-		 * @param group Group
+		 * @param group
+		 *            Group
 		 * @return SelectBuilder
 		 */
 		SelectBuilder group(Group group);
 
 		/**
-		 * @param filter Filter
+		 * @param filter
+		 *            Filter
 		 * @return SelectBuilder
 		 */
 		SelectBuilder filter(Filter filter);
 
 		/**
-		 * @param numberOfRows Number of rows
+		 * @param numberOfRows
+		 *            Number of rows
 		 * @return SelectBuilder
 		 */
 		SelectBuilder limit(int numberOfRows);
 
 		/**
-		 * @param rowNumber Row number
+		 * @param rowNumber
+		 *            Row number
 		 * @return SelectBuilder
 		 */
 		SelectBuilder start(int rowNumber);
 
 		/**
-		 * @param direction Direction
-		 * @param column Column
+		 * @param direction
+		 *            Direction
+		 * @param column
+		 *            Column
 		 * @return SelectBuilder
 		 */
 		SelectBuilder order(Direction direction, Column<?> column);

@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query.impl;
@@ -22,9 +22,9 @@ import de.cinovo.q.query.column.Column;
 
 /**
  * Abstract table.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public abstract class ATable implements Table {
 
@@ -35,7 +35,8 @@ public abstract class ATable implements Table {
 	private final Map<String, Column<?>> columns = new HashMap<String, Column<?>>();
 
 	/**
-	 * @param aName Name
+	 * @param aName
+	 *            Name
 	 */
 	public ATable(final String aName) {
 		this.name = aName;
@@ -47,7 +48,8 @@ public abstract class ATable implements Table {
 	}
 
 	/**
-	 * @param column Column to add
+	 * @param column
+	 *            Column to add
 	 */
 	protected final void addColumn(final Column<?> column) {
 		this.columns.put(column.getName(), column);

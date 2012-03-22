@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.connector.demo;
@@ -21,9 +21,9 @@ import de.cinovo.q.connector.impl.KXConnectorFactory;
 
 /**
  * Console subscriber.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class ConsoleSubscriber implements KXListener {
 
@@ -31,7 +31,8 @@ public final class ConsoleSubscriber implements KXListener {
 	private final KXConnectorAsync c = KXConnectorFactory.create(this, "localhost", 5010, true);
 
 	/**
-	 * @param args Arguments not needed
+	 * @param args
+	 *            Arguments not needed
 	 */
 	public static void main(final String[] args) {
 		try {
@@ -94,13 +95,15 @@ public final class ConsoleSubscriber implements KXListener {
 
 	/**
 	 * Subscribe.
-	 *
-	 * @param table Table
-	 * @param symbol Symbol
+	 * 
+	 * @param table
+	 *            Table
+	 * @param symbol
+	 *            Symbol
 	 */
 	public void subscribe(final String table, final String symbol) {
 		try {
-			this.c.subscribe("", new String[] {table}, new String[] {symbol});
+			this.c.subscribe("", new String[] { table }, new String[] { symbol });
 		} catch (final KXException e) {
 			System.err.println("KXException: " + e);
 			e.printStackTrace();

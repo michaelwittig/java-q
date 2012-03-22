@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.connector.impl;
@@ -17,9 +17,9 @@ import de.cinovo.q.query.Result;
 
 /**
  * KX string command with result.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class KXSyncCommandString extends AKXSyncCommand {
 
@@ -27,7 +27,8 @@ public final class KXSyncCommandString extends AKXSyncCommand {
 	private final String cmd;
 
 	/**
-	 * @param aCmd Command
+	 * @param aCmd
+	 *            Command
 	 */
 	public KXSyncCommandString(final String aCmd) {
 		super();
@@ -35,7 +36,7 @@ public final class KXSyncCommandString extends AKXSyncCommand {
 	}
 
 	public String getCmd() {
-		return cmd;
+		return this.cmd;
 	}
 
 	@Override

@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query.impl;
@@ -13,14 +13,15 @@ import de.cinovo.q.query.column.Column;
 
 /**
  * Table implementation.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class TableImpl extends ATable {
 
 	/**
-	 * @param aName Name
+	 * @param aName
+	 *            Name
 	 */
 	private TableImpl(final String aName) {
 		super(aName);
@@ -28,9 +29,9 @@ public final class TableImpl extends ATable {
 
 	/**
 	 * Table builder implementation.
-	 *
+	 * 
 	 * @author mwittig
-	 *
+	 * 
 	 */
 	public static final class TableBuilderImpl implements TableBuilder {
 
@@ -38,7 +39,8 @@ public final class TableImpl extends ATable {
 		private final TableImpl table;
 
 		/**
-		 * @param aName Name
+		 * @param aName
+		 *            Name
 		 */
 		public TableBuilderImpl(final String aName) {
 			this.table = new TableImpl(aName);

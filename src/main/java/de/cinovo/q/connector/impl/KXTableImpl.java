@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.connector.impl;
@@ -23,9 +23,9 @@ import de.cinovo.q.connector.KXTableRow;
 
 /**
  * KXTable.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 @Deprecated
 public final class KXTableImpl implements KXTable {
@@ -43,9 +43,12 @@ public final class KXTableImpl implements KXTable {
 	private final Object[] data;
 
 	/**
-	 * @param aTable table
-	 * @param aColumns Column names
-	 * @param aData Data
+	 * @param aTable
+	 *            table
+	 * @param aColumns
+	 *            Column names
+	 * @param aData
+	 *            Data
 	 */
 	protected KXTableImpl(final String aTable, final String[] aColumns, final Object[] aData) {
 		super();
@@ -58,23 +61,28 @@ public final class KXTableImpl implements KXTable {
 	}
 
 	/**
-	 * @param aTable table
-	 * @param flip Flip
+	 * @param aTable
+	 *            table
+	 * @param flip
+	 *            Flip
 	 */
 	protected KXTableImpl(final String aTable, final c.Flip flip) {
 		this(aTable, flip.x, flip.y);
 	}
 
 	/**
-	 * @param flip Flip
+	 * @param flip
+	 *            Flip
 	 */
 	protected KXTableImpl(final c.Flip flip) {
 		this(null, flip.x, flip.y);
 	}
 
 	/**
-	 * @param keyFlip Key flip
-	 * @param dataFlip Data dlip
+	 * @param keyFlip
+	 *            Key flip
+	 * @param dataFlip
+	 *            Data dlip
 	 */
 	protected KXTableImpl(final c.Flip keyFlip, final c.Flip dataFlip) {
 		this.table = null;
@@ -94,7 +102,8 @@ public final class KXTableImpl implements KXTable {
 	}
 
 	/**
-	 * @param name Column name
+	 * @param name
+	 *            Column name
 	 * @return Column index
 	 */
 	private int colName2Index(final String name) {
@@ -122,7 +131,7 @@ public final class KXTableImpl implements KXTable {
 
 	@Override
 	public Object getAt(final String col, final int row) {
-		return getAt(this.colName2Index(col), row);
+		return this.getAt(this.colName2Index(col), row);
 	}
 
 	@Override
@@ -196,9 +205,9 @@ public final class KXTableImpl implements KXTable {
 
 	/**
 	 * KXTable iterator.
-	 *
+	 * 
 	 * @author mwittig
-	 *
+	 * 
 	 */
 	private static final class KXTableIterator implements Iterator<KXTableRow> {
 
@@ -209,7 +218,8 @@ public final class KXTableImpl implements KXTable {
 		private int currentI = -1;
 
 		/**
-		 * @param aTable Table
+		 * @param aTable
+		 *            Table
 		 */
 		private KXTableIterator(final KXTable aTable) {
 			this.table = aTable;

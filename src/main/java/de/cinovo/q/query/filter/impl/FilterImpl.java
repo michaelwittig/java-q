@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query.filter.impl;
@@ -16,11 +16,13 @@ import de.cinovo.q.query.value.Value;
 
 /**
  * Filter implementation.
- *
+ * 
  * @author mwittig
- *
- * @param <J> Java type
- * @param <T> Type
+ * 
+ * @param <J>
+ *            Java type
+ * @param <T>
+ *            Type
  */
 public final class FilterImpl<J, T extends Type<J>> implements Filter {
 
@@ -31,33 +33,42 @@ public final class FilterImpl<J, T extends Type<J>> implements Filter {
 	private final String q;
 
 	/**
-	 * @param left Left
-	 * @param comparator Comparator
-	 * @param right Right
+	 * @param left
+	 *            Left
+	 * @param comparator
+	 *            Comparator
+	 * @param right
+	 *            Right
 	 */
 	public FilterImpl(final Column<T> left, final FilterComparator comparator, final Value<J, T> right) {
 		this.column = left;
-		this.q = column.getName() + comparator.toQ() + right.toQ();
+		this.q = this.column.getName() + comparator.toQ() + right.toQ();
 	}
 
 	/**
-	 * @param left Left
-	 * @param comparator Comparator
-	 * @param right Right
+	 * @param left
+	 *            Left
+	 * @param comparator
+	 *            Comparator
+	 * @param right
+	 *            Right
 	 */
 	public FilterImpl(final Column<T> left, final FilterComparator comparator, final Column<T> right) {
 		this.column = left;
-		this.q = column.getName() + comparator.toQ() + right.toQ();
+		this.q = this.column.getName() + comparator.toQ() + right.toQ();
 	}
 
 	/**
-	 * @param left Left
-	 * @param comparator Comparator
-	 * @param right Right
+	 * @param left
+	 *            Left
+	 * @param comparator
+	 *            Comparator
+	 * @param right
+	 *            Right
 	 */
 	public FilterImpl(final Column<T> left, final FilterComparator comparator, final List<J, T> right) {
 		this.column = left;
-		this.q = column.getName() + comparator.toQ() + right.toQ();
+		this.q = this.column.getName() + comparator.toQ() + right.toQ();
 	}
 
 	@Override

@@ -1,3 +1,11 @@
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Apache License, Version 2.0
+// which accompanies this distribution, and is available at
+// http://www.apache.org/licenses/LICENSE-2.0.html
+// -------------------------------------------------------------------------------
+
 package de.cinovo.q.query;
 
 import java.lang.reflect.Array;
@@ -11,9 +19,9 @@ import de.cinovo.q.query.column.Column;
 
 /**
  * Flip flip result. (Keyed tables)
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class FlipFlipResult extends ATableResult {
 
@@ -33,8 +41,10 @@ public final class FlipFlipResult extends ATableResult {
 	private final String[] cols;
 
 	/**
-	 * @param aKey Key flip
-	 * @param aData Data flip
+	 * @param aKey
+	 *            Key flip
+	 * @param aData
+	 *            Data flip
 	 */
 	public FlipFlipResult(final Flip aKey, final Flip aData) {
 		this.key = aKey;
@@ -77,9 +87,9 @@ public final class FlipFlipResult extends ATableResult {
 	@Override
 	Object getAt(final String col, final int row) {
 		if (this.keyColName2Index.containsKey(col)) {
-			return getAt(this.key, this.keyColName2Index.get(col), row);
+			return this.getAt(this.key, this.keyColName2Index.get(col), row);
 		} else if (this.dataColName2Index.containsKey(col)) {
-			return getAt(this.data, this.dataColName2Index.get(col), row);
+			return this.getAt(this.data, this.dataColName2Index.get(col), row);
 		}
 		throw new IllegalArgumentException("Column not found in table");
 	}
@@ -90,9 +100,12 @@ public final class FlipFlipResult extends ATableResult {
 	}
 
 	/**
-	 * @param flip Flip
-	 * @param col Column index
-	 * @param row Row index
+	 * @param flip
+	 *            Flip
+	 * @param col
+	 *            Column index
+	 * @param row
+	 *            Row index
 	 * @return Object or null
 	 */
 	private Object getAt(final Flip flip, final int col, final int row) {

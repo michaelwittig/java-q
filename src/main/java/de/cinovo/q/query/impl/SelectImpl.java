@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query.impl;
@@ -20,9 +20,9 @@ import de.cinovo.q.query.group.Group;
 
 /**
  * Select implementation.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class SelectImpl implements Select {
 
@@ -48,7 +48,8 @@ public final class SelectImpl implements Select {
 	private Sort sort;
 
 	/**
-	 * @param aTable Table
+	 * @param aTable
+	 *            Table
 	 */
 	private SelectImpl(final Table aTable) {
 		super();
@@ -56,13 +57,14 @@ public final class SelectImpl implements Select {
 	}
 
 	/**
-	 * @param sb StringBuilder
+	 * @param sb
+	 *            StringBuilder
 	 */
 	private void sortToQ(final StringBuilder sb) {
 		final String sorting;
-		if (this.numberOfRows != null && this.sort != null) {
+		if ((this.numberOfRows != null) && (this.sort != null)) {
 			sorting = this.numberOfRows + ";" + this.sort.toQ();
-		} else if (this.numberOfRows != null && this.rowNumber != null) {
+		} else if ((this.numberOfRows != null) && (this.rowNumber != null)) {
 			sorting = this.rowNumber + " " + this.numberOfRows;
 		} else if (this.numberOfRows != null) {
 			sorting = String.valueOf(this.numberOfRows);
@@ -79,7 +81,8 @@ public final class SelectImpl implements Select {
 	}
 
 	/**
-	 * @param sb StringBuilder
+	 * @param sb
+	 *            StringBuilder
 	 */
 	private void filterToQ(final StringBuilder sb) {
 		if (this.filters.size() > 0) {
@@ -93,7 +96,8 @@ public final class SelectImpl implements Select {
 	}
 
 	/**
-	 * @param sb StringBuilder
+	 * @param sb
+	 *            StringBuilder
 	 */
 	private void groupToQ(final StringBuilder sb) {
 		if (this.groups.size() > 0) {
@@ -158,12 +162,11 @@ public final class SelectImpl implements Select {
 		return this.sort;
 	}
 
-
 	/**
 	 * Select builder implementation.
-	 *
+	 * 
 	 * @author mwittig
-	 *
+	 * 
 	 */
 	public static final class SelectBuilderImpl implements SelectBuilder {
 
@@ -171,7 +174,8 @@ public final class SelectImpl implements Select {
 		private final SelectImpl select;
 
 		/**
-		 * @param table Table
+		 * @param table
+		 *            Table
 		 */
 		public SelectBuilderImpl(final Table table) {
 			this.select = new SelectImpl(table);

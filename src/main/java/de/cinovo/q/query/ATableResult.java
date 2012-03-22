@@ -1,11 +1,20 @@
-package de.cinovo.q.query;
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Apache License, Version 2.0
+// which accompanies this distribution, and is available at
+// http://www.apache.org/licenses/LICENSE-2.0.html
+// -------------------------------------------------------------------------------
 
+package de.cinovo.q.query;
 
 public abstract class ATableResult implements TableResult {
 
 	/**
-	 * @param col Column name
-	 * @param row Row
+	 * @param col
+	 *            Column name
+	 * @param row
+	 *            Row
 	 * @return Value
 	 */
 	abstract Object getAt(final String col, final int row);

@@ -1,3 +1,11 @@
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Apache License, Version 2.0
+// which accompanies this distribution, and is available at
+// http://www.apache.org/licenses/LICENSE-2.0.html
+// -------------------------------------------------------------------------------
+
 package de.cinovo.q.query.value.impl;
 
 import java.util.ArrayList;
@@ -9,11 +17,13 @@ import de.cinovo.q.query.value.Value;
 
 /**
  * Abstract list implementation.
- *
+ * 
  * @author mwittig
- *
- * @param <J> Java type
- * @param <T> Type
+ * 
+ * @param <J>
+ *            Java type
+ * @param <T>
+ *            Type
  */
 public abstract class AListImpl<J, T extends Type<J>> implements List<J, T> {
 
@@ -21,8 +31,10 @@ public abstract class AListImpl<J, T extends Type<J>> implements List<J, T> {
 	private final ArrayList<Value<J, ? extends Type<J>>> values = new ArrayList<Value<J, ? extends Type<J>>>();
 
 	/**
-	 * @param aValues Values
-	 * @param aType Type
+	 * @param aValues
+	 *            Values
+	 * @param aType
+	 *            Type
 	 */
 	protected AListImpl(final J[] aValues, final T aType) {
 		for (final J value : aValues) {

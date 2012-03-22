@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query.value.impl;
@@ -14,9 +14,9 @@ import org.junit.Test;
 
 /**
  * IntegerValue test.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public class IntegerValueTest {
 
@@ -53,13 +53,13 @@ public class IntegerValueTest {
 	/** */
 	@Test
 	public final void testListWithOneItem() {
-		assertEquals("(1)", IntegerValue.froms(new Integer[] {1}).toQ());
+		assertEquals("(1)", IntegerValue.froms(new Integer[] { 1 }).toQ());
 	}
 
 	/** */
 	@Test
 	public final void testListWithTwoItems() {
-		assertEquals("(1,2)", IntegerValue.froms(new Integer[] {1, 2}).toQ());
+		assertEquals("(1,2)", IntegerValue.froms(new Integer[] { 1, 2 }).toQ());
 	}
 
 }

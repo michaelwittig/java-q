@@ -1,3 +1,11 @@
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Apache License, Version 2.0
+// which accompanies this distribution, and is available at
+// http://www.apache.org/licenses/LICENSE-2.0.html
+// -------------------------------------------------------------------------------
+
 package de.cinovo.q.query.value.impl;
 
 import java.math.BigDecimal;
@@ -7,9 +15,9 @@ import de.cinovo.q.query.type.impl.TypeReal;
 
 /**
  * Real value.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class RealValue extends AValue<BigDecimal, TypeReal> {
 
@@ -17,7 +25,8 @@ public final class RealValue extends AValue<BigDecimal, TypeReal> {
 	public static final String NULL = "0Ne";
 
 	/**
-	 * @param value Value
+	 * @param value
+	 *            Value
 	 * @return Real
 	 */
 	public static RealValue from(final BigDecimal value) {
@@ -25,7 +34,8 @@ public final class RealValue extends AValue<BigDecimal, TypeReal> {
 	}
 
 	/**
-	 * @param values Values
+	 * @param values
+	 *            Values
 	 * @return List of reals
 	 */
 	public static OrdinalList<BigDecimal, TypeReal> froms(final BigDecimal[] values) {
@@ -33,8 +43,10 @@ public final class RealValue extends AValue<BigDecimal, TypeReal> {
 	}
 
 	/**
-	 * @param value Value
-	 * @param type Type
+	 * @param value
+	 *            Value
+	 * @param type
+	 *            Type
 	 */
 	public RealValue(final BigDecimal value, final TypeReal type) {
 		super(value, type);

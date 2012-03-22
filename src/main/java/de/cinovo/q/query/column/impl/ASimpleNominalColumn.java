@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query.column.impl;
@@ -26,14 +26,15 @@ import de.cinovo.q.query.value.Value;
 
 /**
  * Abstract simple nominal column.
- *
+ * 
  * @author mwittig
- *
- * @param <J> Java type
- * @param <T> Type
+ * 
+ * @param <J>
+ *            Java type
+ * @param <T>
+ *            Type
  */
-public abstract class ASimpleNominalColumn<J, T extends NominalType<J>>
-	implements Column<T>, EqualityFiltering<J, T>, Virtualling<T>, AggregatingNominal<T>, Grouping {
+public abstract class ASimpleNominalColumn<J, T extends NominalType<J>> implements Column<T>, EqualityFiltering<J, T>, Virtualling<T>, AggregatingNominal<T>, Grouping {
 
 	/** Name. */
 	private final String name;
@@ -42,8 +43,10 @@ public abstract class ASimpleNominalColumn<J, T extends NominalType<J>>
 	private final T type;
 
 	/**
-	 * @param aName Name
-	 * @param aType Type
+	 * @param aName
+	 *            Name
+	 * @param aType
+	 *            Type
 	 */
 	protected ASimpleNominalColumn(final String aName, final T aType) {
 		super();
@@ -87,7 +90,8 @@ public abstract class ASimpleNominalColumn<J, T extends NominalType<J>>
 	}
 
 	/**
-	 * @param aggregation Aggregation
+	 * @param aggregation
+	 *            Aggregation
 	 * @return Filter
 	 */
 	protected final AggregateColumn<T> createAggregation(final Aggregation aggregation) {
@@ -136,8 +140,10 @@ public abstract class ASimpleNominalColumn<J, T extends NominalType<J>>
 	}
 
 	/**
-	 * @param comarator Comparator
-	 * @param value Value
+	 * @param comarator
+	 *            Comparator
+	 * @param value
+	 *            Value
 	 * @return Filter
 	 */
 	protected final Filter createFilter(final FilterComparator comarator, final Value<J, T> value) {
@@ -145,8 +151,10 @@ public abstract class ASimpleNominalColumn<J, T extends NominalType<J>>
 	}
 
 	/**
-	 * @param comarator Comparator
-	 * @param column Column
+	 * @param comarator
+	 *            Comparator
+	 * @param column
+	 *            Column
 	 * @return Filter
 	 */
 	protected final Filter createFilter(final FilterComparator comarator, final Column<T> column) {
@@ -154,8 +162,10 @@ public abstract class ASimpleNominalColumn<J, T extends NominalType<J>>
 	}
 
 	/**
-	 * @param comarator Comparator
-	 * @param list List
+	 * @param comarator
+	 *            Comparator
+	 * @param list
+	 *            List
 	 * @return Filter
 	 */
 	protected final Filter createFilter(final FilterComparator comarator, final List<J, T> list) {

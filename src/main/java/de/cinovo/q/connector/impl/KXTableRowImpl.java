@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.connector.impl;
@@ -15,9 +15,9 @@ import de.cinovo.q.connector.KXTableRow;
 
 /**
  * KXTableRow.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 @Deprecated
 public final class KXTableRowImpl implements KXTableRow {
@@ -29,8 +29,10 @@ public final class KXTableRowImpl implements KXTableRow {
 	private final int row;
 
 	/**
-	 * @param aTable Table
-	 * @param aRow Row
+	 * @param aTable
+	 *            Table
+	 * @param aRow
+	 *            Row
 	 */
 	protected KXTableRowImpl(final KXTable aTable, final int aRow) {
 		super();

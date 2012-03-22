@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.connector.demo.tabledefinition;
@@ -16,9 +16,9 @@ import de.cinovo.q.query.impl.ATable;
 
 /**
  * MyTable definition.
- *
+ * 
  * @author mwittig
- *
+ * 
  */
 public final class MyTable extends ATable {
 
@@ -57,28 +57,28 @@ public final class MyTable extends ATable {
 	 * @return Time column
 	 */
 	public TimeColumn time() {
-		return time;
+		return this.time;
 	}
 
 	/**
 	 * @return Symbol column
 	 */
 	public SymbolColumn sym() {
-		return sym;
+		return this.sym;
 	}
 
 	/**
 	 * @return Price column
 	 */
 	public FloatColumn price() {
-		return price;
+		return this.price;
 	}
 
 	/**
 	 * @return Size column
 	 */
 	public IntegerColumn size() {
-		return size;
+		return this.size;
 	}
 
 }

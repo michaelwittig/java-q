@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
+// are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
-// http://www.eclipse.org/legal/epl-v10.html
+// http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
 package de.cinovo.q.query.column.impl;
@@ -24,18 +24,22 @@ import de.cinovo.q.query.value.impl.LongValue;
 
 /**
  * Abstract simple ordinal column.
- *
+ * 
  * @author mwittig
- *
- * @param <J> Java type
- * @param <T> Type
+ * 
+ * @param <J>
+ *            Java type
+ * @param <T>
+ *            Type
  */
-public abstract class ASimpleOrdinalColumn<J, T extends OrdinalType<J>> extends ASimpleNominalColumn<J, T>
-	implements ComparisonFiltering<J, T>, XbarGrouping<T>, AggregatingOrdinal<T> {
+public abstract class ASimpleOrdinalColumn<J, T extends OrdinalType<J>> extends ASimpleNominalColumn<J, T> implements ComparisonFiltering<J, T>, XbarGrouping<T>,
+		AggregatingOrdinal<T> {
 
 	/**
-	 * @param aName Name
-	 * @param aType Type
+	 * @param aName
+	 *            Name
+	 * @param aType
+	 *            Type
 	 */
 	public ASimpleOrdinalColumn(final String aName, final T aType) {
 		super(aName, aType);
