@@ -18,4 +18,6 @@ package de.cinovo.q.query.type;
  */
 public interface NominalType<J> extends Type<J> {
 
+	// interface body intentionally left blank
+
 }

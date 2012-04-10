@@ -51,9 +51,8 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 		} catch (final IOException e) {
 			if (this.reconnectOnError()) {
 				throw new KXError("Could not connect to " + this.getHost() + ":" + this.getPort());
-			} else {
-				throw new KXException("Could not connect to " + this.getHost() + ":" + this.getPort(), e);
 			}
+			throw new KXException("Could not connect to " + this.getHost() + ":" + this.getPort(), e);
 		}
 	}
 

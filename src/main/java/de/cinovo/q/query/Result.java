@@ -16,4 +16,6 @@ package de.cinovo.q.query;
  */
 public interface Result {
 
+	// interface body intentionally left blank
+
 }

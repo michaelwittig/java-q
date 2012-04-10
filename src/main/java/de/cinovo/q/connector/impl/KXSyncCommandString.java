@@ -35,6 +35,9 @@ public final class KXSyncCommandString extends AKXSyncCommand {
 		this.cmd = aCmd;
 	}
 
+	/**
+	 * @return the command
+	 */
 	public String getCmd() {
 		return this.cmd;
 	}

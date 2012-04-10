@@ -79,9 +79,8 @@ public abstract class ATable implements Table {
 					return new TableIterator((TableResult) result);
 				}
 			};
-		} else {
-			throw new IllegalArgumentException("Your result is not a table, its of type: " + result.getClass().getSimpleName());
 		}
+		throw new IllegalArgumentException("Your result is not a table, its of type: " + result.getClass().getSimpleName());
 	}
 
 }

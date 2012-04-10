@@ -36,6 +36,9 @@ public final class KXSyncCommandSelect extends AKXSyncCommand {
 		this.select = aSelect;
 	}
 
+	/**
+	 * @return the select
+	 */
 	public Select getSelect() {
 		return this.select;
 	}

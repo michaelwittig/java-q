@@ -40,6 +40,7 @@ public final class TableRowImpl implements TableRow {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <J, T extends Type<J>> Value<J, T> get(final Column<T> column) {
 		return (Value<J, T>) column.getType().geValueFactory().fromQ(this.table.getAt(column, this.i));
 	}

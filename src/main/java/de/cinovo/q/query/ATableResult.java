@@ -8,6 +8,10 @@
 
 package de.cinovo.q.query;
 
+/**
+ * @author thoeger
+ * 
+ */
 public abstract class ATableResult implements TableResult {
 
 	/**

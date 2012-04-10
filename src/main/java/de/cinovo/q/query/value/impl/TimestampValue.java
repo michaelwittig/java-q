@@ -42,13 +42,13 @@ public final class TimestampValue extends AValue<Timestamp, TypeTimestamp> {
 	public static TimestampValue from(final Timestamp value) {
 		if (value == null) {
 			return new TimestampValue(value, TypeTimestamp.get());
-		} else {
-			// java makes wired things with timezones (so we must correct this here)
-			final long offset = TimeZone.getDefault().getOffset(value.getTime());
-			final Timestamp timestamp = new Timestamp(value.getTime() - offset);
-			timestamp.setNanos(value.getNanos());
-			return new TimestampValue(timestamp, TypeTimestamp.get());
 		}
+
+		// java does wired things with time zones (so we must correct this here)
+		final long offset = TimeZone.getDefault().getOffset(value.getTime());
+		final Timestamp timestamp = new Timestamp(value.getTime() - offset);
+		timestamp.setNanos(value.getNanos());
+		return new TimestampValue(timestamp, TypeTimestamp.get());
 	}
 
 	/**

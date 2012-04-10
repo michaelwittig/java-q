@@ -20,4 +20,6 @@ package de.cinovo.q.query.type;
  */
 public interface OrdinalList<J, T extends OrdinalType<J>> extends NominalList<J, T>, OrdinalType<J> {
 
+	// interface body intentionally left blank
+
 }

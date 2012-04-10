@@ -29,6 +29,12 @@
 			<name>Michael Wittig</name>
 			<organization>Cinovo AG</organization>
 		</developer>
+		<developer>
+			<id>thoeger</id>
+			<email>thorsten.hoeger@cinovo.de</email>
+			<name>Thorsten Hoeger</name>
+			<organization>Cinovo AG</organization>
+		</developer>
 	</developers>
 	<issueManagement>
 		<system>github</system>

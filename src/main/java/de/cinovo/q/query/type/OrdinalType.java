@@ -18,4 +18,6 @@ package de.cinovo.q.query.type;
  */
 public interface OrdinalType<J> extends NominalType<J> {
 
+	// interface body intentionally left blank
+
 }

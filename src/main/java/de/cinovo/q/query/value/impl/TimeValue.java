@@ -43,11 +43,11 @@ public final class TimeValue extends AValue<Time, TypeTime> {
 	public static TimeValue from(final Time value) {
 		if (value == null) {
 			return new TimeValue(value, TypeTime.get());
-		} else {
-			// java makes wired things with timezones (so we must correct this here)
-			final long offset = TimeZone.getDefault().getOffset(value.getTime());
-			return new TimeValue(new Time(value.getTime() - offset), TypeTime.get());
 		}
+
+		// java does wired things with time zones (so we must correct this here)
+		final long offset = TimeZone.getDefault().getOffset(value.getTime());
+		return new TimeValue(new Time(value.getTime() - offset), TypeTime.get());
 	}
 
 	/**
