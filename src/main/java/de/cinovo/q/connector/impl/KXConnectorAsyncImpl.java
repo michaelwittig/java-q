@@ -103,7 +103,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		if (!this.c.compareAndSet(old, null)) {
 			throw new KXError("Already disconnected");
 		}
-		this.commands.offer(STOP_COMMAND);
+		this.commands.offer(KXConnectorAsyncImpl.STOP_COMMAND);
 		try {
 			old.close();
 		} catch (final IOException e) {
@@ -190,7 +190,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 
 		final int count = KXConnectorAsyncImpl.this.reconnectCounter.incrementAndGet();
 		final long time = System.currentTimeMillis();
-		this.timer.schedule(new ReconnectTask(count), new Date(time + (count * RECONNECT_OFFSET_PER_TRY)));
+		this.timer.schedule(new ReconnectTask(count), new Date(time + (count * KXConnectorAsyncImpl.RECONNECT_OFFSET_PER_TRY)));
 	}
 
 	/**
@@ -201,6 +201,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 */
 	private void throwKXException(final KXException e) {
 		this.executor.execute(new Runnable() {
+
 			@Override
 			public void run() {
 				KXConnectorAsyncImpl.this.listener.exception(e);
@@ -216,6 +217,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 */
 	private void throwKXError(final KXError e) {
 		this.executor.execute(new Runnable() {
+
 			@Override
 			public void run() {
 				KXConnectorAsyncImpl.this.listener.error(e);
@@ -231,6 +233,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 */
 	private void throwData(final KXTable t) {
 		this.executor.execute(new Runnable() {
+
 			@Override
 			public void run() {
 				KXConnectorAsyncImpl.this.listener.dataReceived("", t);
@@ -299,7 +302,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 				} catch (final InterruptedException e) {
 					continue;
 				}
-				if (cmd == STOP_COMMAND) {
+				if (cmd == KXConnectorAsyncImpl.STOP_COMMAND) {
 					break;
 				}
 				try {
@@ -314,10 +317,8 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
 						KXConnectorAsyncImpl.this.reconnect();
 						break;
-					} else {
-						KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":"
-								+ KXConnectorAsyncImpl.this.getPort(), e));
 					}
+					KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
 				}
 			}
 		}
@@ -346,20 +347,20 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 						// nothing to do here
 						continue;
 					} else if (res instanceof c.Flip) {
-						final c.Flip flip = (c.Flip) res;
+						final c.Flip flip = (c.Flip)res;
 						final KXTable t = new KXTableImpl("", flip.x, flip.y);
 						KXConnectorAsyncImpl.this.throwData(t);
 					} else if (res instanceof Object[]) {
-						final Object[] tres = (Object[]) res;
+						final Object[] tres = (Object[])res;
 						if (tres[1] instanceof c.Flip) {
-							final String table = (String) tres[0];
-							final c.Flip flip = (c.Flip) tres[1];
+							final String table = (String)tres[0];
+							final c.Flip flip = (c.Flip)tres[1];
 							final KXTable t = new KXTableImpl(table, flip.x, flip.y);
 							KXConnectorAsyncImpl.this.throwData(t);
 						} else if (tres[2] instanceof c.Flip) {
 							// final String cmd = (String) tres[0];
-							final String table = (String) tres[1];
-							final c.Flip flip = (c.Flip) tres[2];
+							final String table = (String)tres[1];
+							final c.Flip flip = (c.Flip)tres[2];
 							final KXTable t = new KXTableImpl(table, flip.x, flip.y);
 							KXConnectorAsyncImpl.this.throwData(t);
 						} else {
@@ -377,14 +378,11 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 					e.printStackTrace();
 				} catch (final IOException e) {
 					if (KXConnectorAsyncImpl.this.reconnectOnError()) {
-						KXConnectorAsyncImpl.this
-								.throwKXError(new KXError("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
+						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
 						KXConnectorAsyncImpl.this.reconnect();
 						break;
-					} else {
-						KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":"
-								+ KXConnectorAsyncImpl.this.getPort(), e));
 					}
+					KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
 				}
 			}
 		}
