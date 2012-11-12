@@ -17,7 +17,7 @@ import de.cinovo.q.query.Function;
 import de.cinovo.q.query.Result;
 
 /**
- * KX string command with result.
+ * KX function command with result.
  * 
  * @author mwittig
  * 

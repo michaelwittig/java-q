@@ -73,20 +73,29 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 	}
 	
 	@Override
-	public Result select(final Select select) throws KXException {
+	public Result execute(final String q) throws KXException {
 		try {
-			return new KXSyncCommandSelect(select).execute(this.c.get());
+			return new KXSyncCommandQ(q).execute(this.c.get());
 		} catch (final Exception e) {
-			throw new KXException("Query failed", e);
+			throw new KXException("Execute failed", e);
 		}
 	}
 	
 	@Override
-	public Result execute(final Function function) throws KXException {
+	public Result select(final Select select) throws KXException {
+		try {
+			return new KXSyncCommandSelect(select).execute(this.c.get());
+		} catch (final Exception e) {
+			throw new KXException("Select failed", e);
+		}
+	}
+	
+	@Override
+	public Result call(final Function function) throws KXException {
 		try {
 			return new KXSyncCommandFunction(function).execute(this.c.get());
 		} catch (final Exception e) {
-			throw new KXException("Execute failed", e);
+			throw new KXException("Call failed", e);
 		}
 	}
 	

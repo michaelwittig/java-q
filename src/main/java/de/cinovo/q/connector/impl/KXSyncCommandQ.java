@@ -16,35 +16,35 @@ import de.cinovo.q.connector.KXException;
 import de.cinovo.q.query.Result;
 
 /**
- * KX string command with result.
+ * KX Q command with result.
  * 
  * @author mwittig
  * 
  */
-public final class KXSyncCommandString extends AKXSyncCommand {
+public final class KXSyncCommandQ extends AKXSyncCommand {
 	
-	/** Command. */
-	private final String cmd;
+	/** Q. */
+	private final String q;
 	
 	
 	/**
-	 * @param aCmd Command
+	 * @param aQ Q
 	 */
-	public KXSyncCommandString(final String aCmd) {
+	public KXSyncCommandQ(final String aQ) {
 		super();
-		this.cmd = aCmd;
+		this.q = aQ;
 	}
 	
 	/**
-	 * @return the command
+	 * @return Q
 	 */
-	public String getCmd() {
-		return this.cmd;
+	public String getQ() {
+		return this.q;
 	}
 	
 	@Override
 	public Result execute(final c c) throws KXException, KException, IOException {
-		return this.execute(c, this.cmd);
+		return this.execute(c, this.q);
 	}
 	
 }
