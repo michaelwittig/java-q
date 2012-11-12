@@ -15,10 +15,8 @@ import de.cinovo.q.Q;
  * 
  * @author mwittig
  * 
- * @param <J>
- *            Java type
- * @param <T>
- *            Type
+ * @param <J> Java type
+ * @param <T> Type
  */
 public abstract interface List<J, T extends Type<J>> extends Type<J>, Q { // TODO List is a value not a type in thios case!!!
 

@@ -23,29 +23,29 @@ import de.cinovo.q.query.Select;
  * 
  */
 public final class KXSyncCommandSelect extends AKXSyncCommand {
-
+	
 	/** Select. */
 	private final Select select;
-
+	
+	
 	/**
-	 * @param aSelect
-	 *            Select
+	 * @param aSelect Select
 	 */
 	public KXSyncCommandSelect(final Select aSelect) {
 		super();
 		this.select = aSelect;
 	}
-
+	
 	/**
 	 * @return the select
 	 */
 	public Select getSelect() {
 		return this.select;
 	}
-
+	
 	@Override
 	public Result execute(final c c) throws KXException, KException, IOException {
 		return this.execute(c, this.select.toQ());
 	}
-
+	
 }

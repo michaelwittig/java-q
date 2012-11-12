@@ -23,26 +23,27 @@ import de.cinovo.q.query.value.impl.TimestampValue;
  * 
  */
 public final class TypeTimestamp implements OrdinalType<Timestamp> {
-
+	
 	/** Instance. */
 	private static final TypeTimestamp INSTANCE = new TypeTimestamp();
-
+	
+	
 	/**
 	 * @return Instance
 	 */
 	public static TypeTimestamp get() {
-		return INSTANCE;
+		return TypeTimestamp.INSTANCE;
 	}
-
+	
 	@Override
 	public ValueFactory<Timestamp, Type<Timestamp>> geValueFactory() {
 		return new ValueFactory<Timestamp, Type<Timestamp>>() {
-
+			
 			@Override
 			public Value<Timestamp, ? extends Type<Timestamp>> create(final Timestamp value) {
 				return TimestampValue.from(value);
 			}
-
+			
 			@Override
 			public Value<Timestamp, ? extends Type<Timestamp>> fromQ(final Object value) {
 				if (value instanceof Timestamp) {
@@ -52,10 +53,10 @@ public final class TypeTimestamp implements OrdinalType<Timestamp> {
 			}
 		};
 	}
-
+	
 	/** */
 	private TypeTimestamp() {
 		super();
 	}
-
+	
 }

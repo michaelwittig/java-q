@@ -15,10 +15,10 @@ package de.cinovo.q.query.group;
  * 
  */
 public interface Grouping {
-
+	
 	/**
 	 * @return Group
 	 */
 	Group group();
-
+	
 }

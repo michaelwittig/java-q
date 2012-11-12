@@ -17,42 +17,42 @@ import de.cinovo.q.Q;
  * 
  */
 public enum Aggregation implements Q {
-
+	
 	/** Minimum. */
 	min("min"),
-
+	
 	/** maximum. */
 	max("max"),
-
+	
 	/** First element. */
 	first("first"),
-
+	
 	/** Last element. */
 	last("last"),
-
+	
 	/** Avg. */
 	avg("avg"),
-
+	
 	/** Sum. */
 	sum("sum"),
-
+	
 	/** Count. */
 	count("count");
-
+	
 	/** Q. */
 	private final String q;
-
+	
+	
 	/**
-	 * @param aQ
-	 *            Q
+	 * @param aQ Q
 	 */
 	private Aggregation(final String aQ) {
 		this.q = aQ;
 	}
-
+	
 	@Override
 	public String toQ() {
 		return this.q;
 	}
-
+	
 }

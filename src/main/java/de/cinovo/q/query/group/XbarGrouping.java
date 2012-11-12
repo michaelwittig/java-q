@@ -16,17 +16,15 @@ import de.cinovo.q.query.value.impl.LongValue;
  * 
  * @author mwittig
  * 
- * @param <T>
- *            Tape
+ * @param <T> Tape
  * 
  */
 public interface XbarGrouping<T extends OrdinalType<?>> extends Grouping {
-
+	
 	/**
-	 * @param xbar
-	 *            xbar
+	 * @param xbar xbar
 	 * @return Group
 	 */
 	Group xbar(LongValue xbar);
-
+	
 }

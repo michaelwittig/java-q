@@ -18,15 +18,15 @@ import de.cinovo.q.query.column.Column;
  * 
  */
 public final class TableImpl extends ATable {
-
+	
 	/**
-	 * @param aName
-	 *            Name
+	 * @param aName Name
 	 */
 	private TableImpl(final String aName) {
 		super(aName);
 	}
-
+	
+	
 	/**
 	 * Table builder implementation.
 	 * 
@@ -34,28 +34,28 @@ public final class TableImpl extends ATable {
 	 * 
 	 */
 	public static final class TableBuilderImpl implements TableBuilder {
-
+		
 		/** Table. */
 		private final TableImpl table;
-
+		
+		
 		/**
-		 * @param aName
-		 *            Name
+		 * @param aName Name
 		 */
 		public TableBuilderImpl(final String aName) {
 			this.table = new TableImpl(aName);
 		}
-
+		
 		@Override
 		public TableBuilderImpl column(final Column<?> column) {
 			this.table.addColumn(column);
 			return this;
 		}
-
+		
 		@Override
 		public Table build() {
 			return this.table;
 		}
 	}
-
+	
 }

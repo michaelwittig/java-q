@@ -18,46 +18,39 @@ import de.cinovo.q.query.value.Value;
  * 
  * @author mwittig
  * 
- * @param <J>
- *            Java type
- * @param <T>
- *            Type
+ * @param <J> Java type
+ * @param <T> Type
  */
 public interface EqualityFiltering<J, T extends NominalType<J>> {
-
+	
 	/**
-	 * @param value
-	 *            Value
+	 * @param value Value
 	 * @return Filter(= value)
 	 */
 	Filter filterEqualTo(final Value<J, T> value);
-
+	
 	/**
-	 * @param value
-	 *            Value
+	 * @param value Value
 	 * @return Filter(<> value)
 	 */
 	Filter filterNotEqualTo(final Value<J, T> value);
-
+	
 	/**
-	 * @param column
-	 *            Column
+	 * @param column Column
 	 * @return Filter(= column)
 	 */
 	Filter filterEqualTo(final Column<T> column);
-
+	
 	/**
-	 * @param column
-	 *            Column
+	 * @param column Column
 	 * @return Filter(<> column)
 	 */
 	Filter filterNotEqualTo(final Column<T> column);
-
+	
 	/**
-	 * @param list
-	 *            List
+	 * @param list List
 	 * @return Filter(in list)
 	 */
 	Filter filterIn(final List<J, T> list);
-
+	
 }

@@ -29,26 +29,24 @@ import de.cinovo.q.connector.KXTableRow;
  */
 @Deprecated
 public final class KXTableImpl implements KXTable {
-
+	
 	/** Table. */
 	private final String table;
-
+	
 	/** Columns. */
 	private final List<String> cols;
-
+	
 	/** Column name to index. */
 	private final Map<String, Integer> col2index = new HashMap<String, Integer>();
-
+	
 	/** Data. */
 	private final Object[] data;
-
+	
+	
 	/**
-	 * @param aTable
-	 *            table
-	 * @param aColumns
-	 *            Column names
-	 * @param aData
-	 *            Data
+	 * @param aTable table
+	 * @param aColumns Column names
+	 * @param aData Data
 	 */
 	protected KXTableImpl(final String aTable, final String[] aColumns, final Object[] aData) {
 		super();
@@ -59,30 +57,25 @@ public final class KXTableImpl implements KXTable {
 		}
 		this.data = aData;
 	}
-
+	
 	/**
-	 * @param aTable
-	 *            table
-	 * @param flip
-	 *            Flip
+	 * @param aTable table
+	 * @param flip Flip
 	 */
 	protected KXTableImpl(final String aTable, final c.Flip flip) {
 		this(aTable, flip.x, flip.y);
 	}
-
+	
 	/**
-	 * @param flip
-	 *            Flip
+	 * @param flip Flip
 	 */
 	protected KXTableImpl(final c.Flip flip) {
 		this(null, flip.x, flip.y);
 	}
-
+	
 	/**
-	 * @param keyFlip
-	 *            Key flip
-	 * @param dataFlip
-	 *            Data dlip
+	 * @param keyFlip Key flip
+	 * @param dataFlip Data dlip
 	 */
 	protected KXTableImpl(final c.Flip keyFlip, final c.Flip dataFlip) {
 		this.table = null;
@@ -100,10 +93,9 @@ public final class KXTableImpl implements KXTable {
 			this.data[keyFlip.y.length + i] = dataFlip.y[i];
 		}
 	}
-
+	
 	/**
-	 * @param name
-	 *            Column name
+	 * @param name Column name
 	 * @return Column index
 	 */
 	private int colName2Index(final String name) {
@@ -113,62 +105,62 @@ public final class KXTableImpl implements KXTable {
 		}
 		return i;
 	}
-
+	
 	@Override
 	public Iterator<KXTableRow> iterator() {
 		return new KXTableIterator(this);
 	}
-
+	
 	@Override
 	public KXTableRow getRow(final int row) {
 		return new KXTableRowImpl(this, row);
 	}
-
+	
 	@Override
 	public Object getAt(final int col, final int row) {
 		return c.at(this.data[col], row);
 	}
-
+	
 	@Override
 	public Object getAt(final String col, final int row) {
 		return this.getAt(this.colName2Index(col), row);
 	}
-
+	
 	@Override
 	public String getStringAt(final String col, final int row) {
 		return (String) this.getAt(col, row);
 	}
-
+	
 	@Override
 	public float getFloatAt(final String col, final int row) {
 		return (Float) this.getAt(col, row);
 	}
-
+	
 	@Override
 	public Timestamp getTimestampAt(final String col, final int row) {
 		return (Timestamp) this.getAt(col, row);
 	}
-
+	
 	@Override
 	public int getCols() {
 		return this.data.length;
 	}
-
+	
 	@Override
 	public List<String> getColNames() {
 		return this.cols;
 	}
-
+	
 	@Override
 	public int getRows() {
 		return Array.getLength(this.data[0]);
 	}
-
+	
 	@Override
 	public String getTable() {
 		return this.table;
 	}
-
+	
 	@Override
 	public List<KXTableRow> toList() {
 		final List<KXTableRow> rows = new ArrayList<KXTableRow>(this.getRows());
@@ -177,7 +169,7 @@ public final class KXTableImpl implements KXTable {
 		}
 		return rows;
 	}
-
+	
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
@@ -202,7 +194,8 @@ public final class KXTableImpl implements KXTable {
 		}
 		return sb.toString();
 	}
-
+	
+	
 	/**
 	 * KXTable iterator.
 	 * 
@@ -210,21 +203,21 @@ public final class KXTableImpl implements KXTable {
 	 * 
 	 */
 	private static final class KXTableIterator implements Iterator<KXTableRow> {
-
+		
 		/** Table. */
 		private final KXTable table;
-
+		
 		/** Current index. (-1 := not yet started) */
 		private int currentI = -1;
-
+		
+		
 		/**
-		 * @param aTable
-		 *            Table
+		 * @param aTable Table
 		 */
 		private KXTableIterator(final KXTable aTable) {
 			this.table = aTable;
 		}
-
+		
 		@Override
 		public boolean hasNext() {
 			if ((this.currentI + 1) < this.table.getRows()) {
@@ -232,17 +225,17 @@ public final class KXTableImpl implements KXTable {
 			}
 			return false;
 		}
-
+		
 		@Override
 		public KXTableRow next() {
 			this.currentI++;
 			return this.table.getRow(this.currentI);
 		}
-
+		
 		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
-
+		
 	}
 }

@@ -15,12 +15,11 @@ package de.cinovo.q.connector;
  * 
  */
 public interface KXDataListener {
-
+	
 	/**
 	 * Data received.
 	 * 
-	 * @param data
-	 *            KX table
+	 * @param data KX table
 	 */
 	void dataReceived(KXTable data);
 }

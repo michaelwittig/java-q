@@ -15,10 +15,10 @@ package de.cinovo.q;
  * 
  */
 public interface Q {
-
+	
 	/**
 	 * @return Q
 	 */
 	String toQ();
-
+	
 }

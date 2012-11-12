@@ -27,53 +27,53 @@ import de.cinovo.q.query.column.Column;
  * 
  */
 public abstract class ATable implements Table {
-
+	
 	/** Name. */
 	private final String name;
-
+	
 	/** Columns. */
 	private final Map<String, Column<?>> columns = new HashMap<String, Column<?>>();
-
+	
+	
 	/**
-	 * @param aName
-	 *            Name
+	 * @param aName Name
 	 */
 	public ATable(final String aName) {
 		this.name = aName;
 	}
-
+	
 	@Override
 	public final String getName() {
 		return this.name;
 	}
-
+	
 	/**
-	 * @param column
-	 *            Column to add
+	 * @param column Column to add
 	 */
 	protected final void addColumn(final Column<?> column) {
 		this.columns.put(column.getName(), column);
 	}
-
+	
 	@Override
 	public final Collection<Column<?>> getColumns() {
 		return this.columns.values();
 	}
-
+	
 	@Override
 	public final String toQ() {
 		return this.name;
 	}
-
+	
 	@Override
 	public final SelectBuilder select() {
 		return new SelectImpl.SelectBuilderImpl(this);
 	}
-
+	
 	@Override
 	public final Iterable<TableRow> read(final Result result) {
 		if (result instanceof TableResult) {
 			return new Iterable<TableRow>() {
+				
 				@Override
 				public Iterator<TableRow> iterator() {
 					return new TableIterator((TableResult) result);
@@ -82,5 +82,5 @@ public abstract class ATable implements Table {
 		}
 		throw new IllegalArgumentException("Your result is not a table, its of type: " + result.getClass().getSimpleName());
 	}
-
+	
 }
