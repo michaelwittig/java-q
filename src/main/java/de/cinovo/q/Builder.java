@@ -13,14 +13,13 @@ package de.cinovo.q;
  * 
  * @author mwittig
  * 
- * @param <C>
- *            Class
+ * @param <C> Class
  */
 public interface Builder<C> {
-
+	
 	/**
 	 * @return Class
 	 */
 	C build();
-
+	
 }

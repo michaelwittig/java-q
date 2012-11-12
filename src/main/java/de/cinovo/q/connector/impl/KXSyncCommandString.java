@@ -22,29 +22,29 @@ import de.cinovo.q.query.Result;
  * 
  */
 public final class KXSyncCommandString extends AKXSyncCommand {
-
+	
 	/** Command. */
 	private final String cmd;
-
+	
+	
 	/**
-	 * @param aCmd
-	 *            Command
+	 * @param aCmd Command
 	 */
 	public KXSyncCommandString(final String aCmd) {
 		super();
 		this.cmd = aCmd;
 	}
-
+	
 	/**
 	 * @return the command
 	 */
 	public String getCmd() {
 		return this.cmd;
 	}
-
+	
 	@Override
 	public Result execute(final c c) throws KXException, KException, IOException {
 		return this.execute(c, this.cmd);
 	}
-
+	
 }

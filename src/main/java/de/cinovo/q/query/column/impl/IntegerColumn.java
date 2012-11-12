@@ -17,13 +17,12 @@ import de.cinovo.q.query.type.impl.TypeInteger;
  * 
  */
 public class IntegerColumn extends ASimpleOrdinalColumn<Integer, TypeInteger> {
-
+	
 	/**
-	 * @param name
-	 *            Name
+	 * @param name Name
 	 */
 	public IntegerColumn(final String name) {
 		super(name, TypeInteger.get());
 	}
-
+	
 }

@@ -17,13 +17,12 @@ import de.cinovo.q.query.type.impl.TypeSymbol;
  * 
  */
 public class SymbolColumn extends ASimpleNominalColumn<String, TypeSymbol> {
-
+	
 	/**
-	 * @param name
-	 *            Name
+	 * @param name Name
 	 */
 	public SymbolColumn(final String name) {
 		super(name, TypeSymbol.get());
 	}
-
+	
 }

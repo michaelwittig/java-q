@@ -15,15 +15,14 @@ import de.cinovo.q.query.type.Type;
  * 
  * @author mwittig
  * 
- * @param <T>
+ * @param <T> Type
  */
 public interface Virtualling<T extends Type<?>> {
-
+	
 	/**
-	 * @param virtual
-	 *            Virtual
+	 * @param virtual Virtual
 	 * @return Virtual column
 	 */
 	VirtualColumn<T> virtual(String virtual);
-
+	
 }

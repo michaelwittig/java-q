@@ -23,26 +23,27 @@ import de.cinovo.q.query.value.impl.FloatValue;
  * 
  */
 public final class TypeFloat implements OrdinalType<BigDecimal> {
-
+	
 	/** Instance. */
 	private static final TypeFloat INSTANCE = new TypeFloat();
-
+	
+	
 	/**
 	 * @return Instance
 	 */
 	public static TypeFloat get() {
-		return INSTANCE;
+		return TypeFloat.INSTANCE;
 	}
-
+	
 	@Override
 	public ValueFactory<BigDecimal, Type<BigDecimal>> geValueFactory() {
 		return new ValueFactory<BigDecimal, Type<BigDecimal>>() {
-
+			
 			@Override
 			public Value<BigDecimal, ? extends Type<BigDecimal>> create(final BigDecimal value) {
 				return FloatValue.from(value);
 			}
-
+			
 			@Override
 			public Value<BigDecimal, ? extends Type<BigDecimal>> fromQ(final Object value) {
 				if (value instanceof Float) {
@@ -52,10 +53,10 @@ public final class TypeFloat implements OrdinalType<BigDecimal> {
 			}
 		};
 	}
-
+	
 	/** */
 	private TypeFloat() {
 		super();
 	}
-
+	
 }

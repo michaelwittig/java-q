@@ -21,26 +21,27 @@ import de.cinovo.q.query.value.impl.LongValue;
  * 
  */
 public final class TypeLong implements OrdinalType<Long> {
-
+	
 	/** Instance. */
 	private static final TypeLong INSTANCE = new TypeLong();
-
+	
+	
 	/**
 	 * @return Instance
 	 */
 	public static TypeLong get() {
-		return INSTANCE;
+		return TypeLong.INSTANCE;
 	}
-
+	
 	@Override
 	public ValueFactory<Long, Type<Long>> geValueFactory() {
 		return new ValueFactory<Long, Type<Long>>() {
-
+			
 			@Override
 			public Value<Long, ? extends Type<Long>> create(final Long value) {
 				return LongValue.from(value);
 			}
-
+			
 			@Override
 			public Value<Long, ? extends Type<Long>> fromQ(final Object value) {
 				if (value instanceof Long) {
@@ -48,13 +49,13 @@ public final class TypeLong implements OrdinalType<Long> {
 				}
 				throw new IllegalArgumentException("Type is " + value.getClass().getSimpleName());
 			}
-
+			
 		};
 	}
-
+	
 	/** */
 	private TypeLong() {
 		super();
 	}
-
+	
 }

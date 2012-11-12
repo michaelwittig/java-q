@@ -23,26 +23,27 @@ import de.cinovo.q.query.value.impl.TimeValue;
  * 
  */
 public final class TypeTime implements OrdinalType<Time> {
-
+	
 	/** Instance. */
 	private static final TypeTime INSTANCE = new TypeTime();
-
+	
+	
 	/**
 	 * @return Instance
 	 */
 	public static TypeTime get() {
-		return INSTANCE;
+		return TypeTime.INSTANCE;
 	}
-
+	
 	@Override
 	public ValueFactory<Time, Type<Time>> geValueFactory() {
 		return new ValueFactory<Time, Type<Time>>() {
-
+			
 			@Override
 			public Value<Time, ? extends Type<Time>> create(final Time value) {
 				return TimeValue.from(value);
 			}
-
+			
 			@Override
 			public Value<Time, ? extends Type<Time>> fromQ(final Object aValue) {
 				if (aValue instanceof Time) {
@@ -50,13 +51,13 @@ public final class TypeTime implements OrdinalType<Time> {
 				}
 				throw new IllegalArgumentException("Type is " + aValue.getClass().getSimpleName());
 			}
-
+			
 		};
 	}
-
+	
 	/**  */
 	private TypeTime() {
 		super();
 	}
-
+	
 }

@@ -17,40 +17,35 @@ import java.sql.Timestamp;
  * 
  */
 public interface KXTableRow {
-
+	
 	/**
-	 * @param col
-	 *            Column
+	 * @param col Column
 	 * @return Cell data
 	 */
 	Object getBy(int col);
-
+	
 	/**
-	 * @param col
-	 *            Column
+	 * @param col Column
 	 * @return Cell data
 	 */
 	Object get(String col);
-
+	
 	/**
-	 * @param col
-	 *            Column
+	 * @param col Column
 	 * @return Cell data
 	 */
 	String getString(String col);
-
+	
 	/**
-	 * @param col
-	 *            Column
+	 * @param col Column
 	 * @return Cell data
 	 */
 	float getFloat(String col);
-
+	
 	/**
-	 * @param col
-	 *            Column
+	 * @param col Column
 	 * @return Cell data
 	 */
 	Timestamp getTimestamp(String col);
-
+	
 }

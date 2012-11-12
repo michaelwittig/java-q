@@ -18,10 +18,10 @@ import de.cinovo.q.query.column.Column;
  * 
  */
 public interface Group extends Q {
-
+	
 	/**
 	 * @return Column
 	 */
 	Column<?> getColumn();
-
+	
 }

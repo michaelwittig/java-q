@@ -16,21 +16,17 @@ import de.cinovo.q.query.type.NominalType;
  * 
  * @author mwittig
  * 
- * @param <J>
- *            Java type
- * @param <T>
- *            Type
+ * @param <J> Java type
+ * @param <T> Type
  */
 public final class NominalListImpl<J, T extends NominalType<J>> extends AListImpl<J, T> implements NominalList<J, T> {
-
+	
 	/**
-	 * @param aValues
-	 *            Values
-	 * @param aType
-	 *            Type
+	 * @param aValues Values
+	 * @param aType Type
 	 */
 	NominalListImpl(final J[] aValues, final T aType) {
 		super(aValues, aType);
 	}
-
+	
 }

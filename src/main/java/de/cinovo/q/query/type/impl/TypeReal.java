@@ -23,39 +23,43 @@ import de.cinovo.q.query.value.impl.RealValue;
  * 
  */
 public final class TypeReal implements OrdinalType<BigDecimal> {
-
+	
 	/** Instance. */
 	private static final TypeReal INSTANCE = new TypeReal();
-
+	
+	
 	/**
 	 * @return Instance
 	 */
 	public static TypeReal get() {
-		return INSTANCE;
+		return TypeReal.INSTANCE;
 	}
-
+	
 	@Override
 	public ValueFactory<BigDecimal, Type<BigDecimal>> geValueFactory() {
 		return new ValueFactory<BigDecimal, Type<BigDecimal>>() {
-
+			
 			@Override
 			public Value<BigDecimal, ? extends Type<BigDecimal>> create(final BigDecimal aValue) {
 				return new RealValue(aValue, TypeReal.this);
 			}
-
+			
 			@Override
 			public Value<BigDecimal, ? extends Type<BigDecimal>> fromQ(final Object aValue) {
 				if (aValue instanceof Double) {
 					return this.create(new BigDecimal((Double) aValue));
 				}
+				if (aValue instanceof Float) {
+					return this.create(new BigDecimal((Float) aValue));
+				}
 				throw new IllegalArgumentException("Type is " + aValue.getClass().getSimpleName());
 			}
 		};
 	}
-
+	
 	/**  */
 	private TypeReal() {
 		super();
 	}
-
+	
 }

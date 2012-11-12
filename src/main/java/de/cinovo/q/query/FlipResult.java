@@ -24,16 +24,16 @@ import de.cinovo.q.query.column.Column;
  * 
  */
 public final class FlipResult extends ATableResult {
-
+	
 	/** Flip. */
 	private final c.Flip flip;
-
+	
 	/** Column name 2 index. */
 	private final Map<String, Integer> colName2Index;
-
+	
+	
 	/**
-	 * @param aFlip
-	 *            Flip
+	 * @param aFlip Flip
 	 */
 	public FlipResult(final Flip aFlip) {
 		this.flip = aFlip;
@@ -43,29 +43,27 @@ public final class FlipResult extends ATableResult {
 		}
 		this.colName2Index = Collections.unmodifiableMap(tmp);
 	}
-
+	
 	@Override
 	public int getRows() {
 		return Array.getLength(this.flip.y[0]);
 	}
-
+	
 	@Override
 	public int getCols() {
 		return this.flip.x.length;
 	}
-
+	
 	/**
-	 * @param col
-	 *            Column
-	 * @param row
-	 *            Row index
+	 * @param col Column
+	 * @param row Row index
 	 * @return Object or null
 	 */
 	@Override
 	public Object getAt(final Column<?> col, final int row) {
 		return this.getAt(col.getName(), row);
 	}
-
+	
 	@Override
 	Object getAt(final String col, final int row) {
 		if (this.colName2Index.containsKey(col)) {
@@ -73,21 +71,19 @@ public final class FlipResult extends ATableResult {
 		}
 		throw new IllegalArgumentException("Column not found in table");
 	}
-
+	
 	@Override
 	String[] getColNames() {
 		return this.flip.x;
 	}
-
+	
 	/**
-	 * @param col
-	 *            Column index
-	 * @param row
-	 *            Row index
+	 * @param col Column index
+	 * @param row Row index
 	 * @return Object or null
 	 */
 	private Object getAt(final int col, final int row) {
 		return c.at(this.flip.y[col], row);
 	}
-
+	
 }

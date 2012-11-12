@@ -18,37 +18,35 @@ import de.cinovo.q.query.value.impl.LongValue;
  * 
  * @author mwittig
  * 
- * @param <T>
- *            Type
+ * @param <T> Type
  */
 public final class XbarGroupImpl<T extends OrdinalType<?>> implements Group {
-
+	
 	/** Xbar. */
 	private final LongValue xbar;
-
+	
 	/** Column. */
 	private final Column<T> column;
-
+	
+	
 	/**
-	 * @param aXbar
-	 *            Xbar
-	 * @param aColumn
-	 *            Column
+	 * @param aXbar Xbar
+	 * @param aColumn Column
 	 */
 	public XbarGroupImpl(final LongValue aXbar, final Column<T> aColumn) { // TODO not always LONG value, derive from type!
 		super();
 		this.column = aColumn;
 		this.xbar = aXbar;
 	}
-
+	
 	@Override
 	public String toQ() {
 		return this.xbar.toQ() + " xbar " + this.column.toQ();
 	}
-
+	
 	@Override
 	public Column<?> getColumn() {
 		return this.column;
 	}
-
+	
 }

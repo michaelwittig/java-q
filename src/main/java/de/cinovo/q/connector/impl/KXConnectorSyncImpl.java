@@ -16,6 +16,7 @@ import kx.c.KException;
 import de.cinovo.q.connector.KXConnectorSync;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
+import de.cinovo.q.query.Function;
 import de.cinovo.q.query.Result;
 import de.cinovo.q.query.Select;
 
@@ -26,20 +27,19 @@ import de.cinovo.q.query.Select;
  * 
  */
 final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSync {
-
+	
 	/** Connection. */
 	private final AtomicReference<c> c = new AtomicReference<c>();
-
+	
+	
 	/**
-	 * @param aHost
-	 *            Host
-	 * @param aPort
-	 *            Port
+	 * @param aHost Host
+	 * @param aPort Port
 	 */
 	protected KXConnectorSyncImpl(final String aHost, final int aPort) {
 		super(aHost, aPort, false);
 	}
-
+	
 	@Override
 	public void connect() throws KXException, KXError {
 		try {
@@ -55,7 +55,7 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 			throw new KXException("Could not connect to " + this.getHost() + ":" + this.getPort(), e);
 		}
 	}
-
+	
 	@Override
 	public void disconnect() throws KXError {
 		final c old = this.c.get();
@@ -71,7 +71,7 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 			return;
 		}
 	}
-
+	
 	@Override
 	public Result select(final Select select) throws KXException {
 		try {
@@ -80,7 +80,16 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 			throw new KXException("Query failed", e);
 		}
 	}
-
+	
+	@Override
+	public Result execute(final Function function) throws KXException {
+		try {
+			return new KXSyncCommandFunction(function).execute(this.c.get());
+		} catch (final Exception e) {
+			throw new KXException("Execute failed", e);
+		}
+	}
+	
 	@Override
 	public boolean isConnected() {
 		if (this.c.get() != null) {
@@ -88,5 +97,5 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 		}
 		return false;
 	}
-
+	
 }

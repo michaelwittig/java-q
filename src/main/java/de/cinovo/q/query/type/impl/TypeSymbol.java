@@ -21,26 +21,27 @@ import de.cinovo.q.query.value.impl.SymbolValue;
  * 
  */
 public final class TypeSymbol implements NominalType<String> {
-
+	
 	/** Instance. */
 	private static final TypeSymbol INSTANCE = new TypeSymbol();
-
+	
+	
 	/**
 	 * @return Instance
 	 */
 	public static TypeSymbol get() {
-		return INSTANCE;
+		return TypeSymbol.INSTANCE;
 	}
-
+	
 	@Override
 	public ValueFactory<String, Type<String>> geValueFactory() {
 		return new ValueFactory<String, Type<String>>() {
-
+			
 			@Override
 			public Value<String, ? extends Type<String>> create(final String value) {
 				return SymbolValue.from(value);
 			}
-
+			
 			@Override
 			public Value<String, ? extends Type<String>> fromQ(final Object value) {
 				if (value instanceof String) {
@@ -50,10 +51,10 @@ public final class TypeSymbol implements NominalType<String> {
 			}
 		};
 	}
-
+	
 	/**  */
 	private TypeSymbol() {
 		super();
 	}
-
+	
 }

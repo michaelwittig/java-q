@@ -19,13 +19,12 @@ import de.cinovo.q.query.type.impl.TypeReal;
  * 
  */
 public class RealColumn extends ASimpleOrdinalColumn<BigDecimal, TypeReal> {
-
+	
 	/**
-	 * @param name
-	 *            Name
+	 * @param name Name
 	 */
 	public RealColumn(final String name) {
 		super(name, TypeReal.get());
 	}
-
+	
 }

@@ -13,13 +13,11 @@ package de.cinovo.q.query.type;
  * 
  * @author mwittig
  * 
- * @param <J>
- *            Java type
- * @param <T>
- *            Type
+ * @param <J> Java type
+ * @param <T> Type
  */
 public interface OrdinalList<J, T extends OrdinalType<J>> extends NominalList<J, T>, OrdinalType<J> {
-
+	
 	// interface body intentionally left blank
-
+	
 }
