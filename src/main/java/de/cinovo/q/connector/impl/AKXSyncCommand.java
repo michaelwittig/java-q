@@ -24,19 +24,14 @@ import de.cinovo.q.query.Result;
  * 
  */
 public abstract class AKXSyncCommand implements KXSyncCommand {
-
+	
 	/**
-	 * @param c
-	 *            C
-	 * @param q
-	 *            Q
+	 * @param c C
+	 * @param q Q
 	 * @return Result
-	 * @throws KXException
-	 *             If result is not a table
-	 * @throws KException
-	 *             If something went wrong
-	 * @throws IOException
-	 *             If something went wrong
+	 * @throws KXException If result is not a table
+	 * @throws KException If something went wrong
+	 * @throws IOException If something went wrong
 	 */
 	protected final Result execute(final c c, final String q) throws KXException, KException, IOException {
 		final Object res = c.k(q);

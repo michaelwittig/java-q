@@ -19,13 +19,12 @@ import de.cinovo.q.query.type.impl.TypeTimestamp;
  * 
  */
 public class TimestampColumn extends ASimpleOrdinalColumn<Timestamp, TypeTimestamp> {
-
+	
 	/**
-	 * @param name
-	 *            Name
+	 * @param name Name
 	 */
 	public TimestampColumn(final String name) {
 		super(name, TypeTimestamp.get());
 	}
-
+	
 }

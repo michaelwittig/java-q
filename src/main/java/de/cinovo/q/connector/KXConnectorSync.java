@@ -8,6 +8,7 @@
 
 package de.cinovo.q.connector;
 
+import de.cinovo.q.query.Function;
 import de.cinovo.q.query.Result;
 import de.cinovo.q.query.Select;
 
@@ -20,16 +21,23 @@ import de.cinovo.q.query.Select;
  * 
  */
 public interface KXConnectorSync extends KXConnector {
-
+	
 	/**
 	 * Synchronous select.
 	 * 
-	 * @param select
-	 *            Select
+	 * @param select Select
 	 * @return Result
-	 * @throws KXException
-	 *             If something went wrong
+	 * @throws KXException If something went wrong
 	 */
 	Result select(Select select) throws KXException;
-
+	
+	/**
+	 * Synchronous execute.
+	 * 
+	 * @param function Function
+	 * @return Result
+	 * @throws KXException If something went wrong
+	 */
+	Result execute(Function function) throws KXException;
+	
 }

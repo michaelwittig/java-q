@@ -16,19 +16,18 @@ import de.cinovo.q.query.type.Type;
  * 
  * @author mwittig
  * 
- * @param <T>
- *            Type
+ * @param <T> Type
  */
 public interface Column<T extends Type<?>> extends Q {
-
+	
 	/**
 	 * @return Name
 	 */
 	String getName();
-
+	
 	/**
 	 * @return Type
 	 */
 	T getType();
-
+	
 }

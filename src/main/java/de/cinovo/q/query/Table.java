@@ -22,29 +22,29 @@ import de.cinovo.q.query.column.Column;
  * 
  */
 public interface Table extends Q {
-
+	
 	/**
 	 * @return Name
 	 */
 	String getName();
-
+	
 	/**
 	 * @return Columns
 	 */
 	Collection<Column<?>> getColumns();
-
+	
 	/**
 	 * @return SelectBuilder
 	 */
 	SelectBuilder select();
-
+	
 	/**
-	 * @param result
-	 *            Result
+	 * @param result Result
 	 * @return Readable result
 	 */
 	Iterable<TableRow> read(Result result);
-
+	
+	
 	/**
 	 * Table builder.
 	 * 
@@ -52,14 +52,13 @@ public interface Table extends Q {
 	 * 
 	 */
 	public interface TableBuilder extends Builder<Table> {
-
+		
 		/**
-		 * @param column
-		 *            Column
+		 * @param column Column
 		 * @return TableBuilder
 		 */
 		TableBuilder column(final Column<?> column);
-
+		
 	}
-
+	
 }

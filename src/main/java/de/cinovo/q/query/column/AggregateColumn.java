@@ -15,14 +15,13 @@ import de.cinovo.q.query.type.Type;
  * 
  * @author mwittig
  * 
- * @param <T>
- *            Type
+ * @param <T> Type
  */
 public interface AggregateColumn<T extends Type<?>> extends Column<T>, Virtualling<T> {
-
+	
 	/**
 	 * @return Aggregation
 	 */
 	Aggregation getAggregation();
-
+	
 }

@@ -21,19 +21,15 @@ import de.cinovo.q.connector.KXException;
  * 
  */
 interface KXAsyncCommand {
-
+	
 	/**
 	 * Execute the command via c.
 	 * 
-	 * @param c
-	 *            C
-	 * @throws KXException
-	 *             If something went wrong
-	 * @throws KException
-	 *             If something went wrong in q
-	 * @throws IOException
-	 *             If something went wrong on the transport layer
+	 * @param c C
+	 * @throws KXException If something went wrong
+	 * @throws KException If something went wrong in q
+	 * @throws IOException If something went wrong on the transport layer
 	 */
 	void execute(final c c) throws KXException, KException, IOException;
-
+	
 }

@@ -24,27 +24,26 @@ import de.cinovo.q.query.column.Column;
  * 
  */
 public final class FlipFlipResult extends ATableResult {
-
+	
 	/** Key flip. */
 	private final c.Flip key;
-
+	
 	/** Data flip. */
 	private final c.Flip data;
-
+	
 	/** Key column name 2 index. */
 	private final Map<String, Integer> keyColName2Index;
-
+	
 	/** Data column name 2 index. */
 	private final Map<String, Integer> dataColName2Index;
-
+	
 	/** Column names. */
 	private final String[] cols;
-
+	
+	
 	/**
-	 * @param aKey
-	 *            Key flip
-	 * @param aData
-	 *            Data flip
+	 * @param aKey Key flip
+	 * @param aData Data flip
 	 */
 	public FlipFlipResult(final Flip aKey, final Flip aData) {
 		this.key = aKey;
@@ -59,7 +58,7 @@ public final class FlipFlipResult extends ATableResult {
 			dataTmp.put(this.data.x[i], i);
 		}
 		this.dataColName2Index = Collections.unmodifiableMap(dataTmp);
-
+		
 		this.cols = new String[this.getCols()];
 		for (int i = 0; i < this.key.x.length; i++) {
 			this.cols[i] = this.key.x[i];
@@ -68,22 +67,22 @@ public final class FlipFlipResult extends ATableResult {
 			this.cols[i + this.key.x.length] = this.data.x[i];
 		}
 	}
-
+	
 	@Override
 	public int getRows() {
 		return Array.getLength(this.key.y[0]);
 	}
-
+	
 	@Override
 	public int getCols() {
 		return this.key.x.length + this.data.x.length;
 	}
-
+	
 	@Override
 	public Object getAt(final Column<?> col, final int row) {
 		return this.getAt(col.getName(), row);
 	}
-
+	
 	@Override
 	Object getAt(final String col, final int row) {
 		if (this.keyColName2Index.containsKey(col)) {
@@ -93,19 +92,16 @@ public final class FlipFlipResult extends ATableResult {
 		}
 		throw new IllegalArgumentException("Column not found in table");
 	}
-
+	
 	@Override
 	String[] getColNames() {
 		return this.cols;
 	}
-
+	
 	/**
-	 * @param flip
-	 *            Flip
-	 * @param col
-	 *            Column index
-	 * @param row
-	 *            Row index
+	 * @param flip Flip
+	 * @param col Column index
+	 * @param row Row index
 	 * @return Object or null
 	 */
 	private Object getAt(final Flip flip, final int col, final int row) {

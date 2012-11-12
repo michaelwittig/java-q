@@ -19,13 +19,12 @@ import de.cinovo.q.query.type.impl.TypeFloat;
  * 
  */
 public class FloatColumn extends ASimpleOrdinalColumn<BigDecimal, TypeFloat> {
-
+	
 	/**
-	 * @param name
-	 *            Name
+	 * @param name Name
 	 */
 	public FloatColumn(final String name) {
 		super(name, TypeFloat.get());
 	}
-
+	
 }

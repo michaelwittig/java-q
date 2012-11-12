@@ -22,20 +22,16 @@ import de.cinovo.q.query.Result;
  * 
  */
 interface KXSyncCommand {
-
+	
 	/**
 	 * Execute the command via c.
 	 * 
-	 * @param c
-	 *            C
+	 * @param c C
 	 * @return Result
-	 * @throws KXException
-	 *             If something went wrong
-	 * @throws KException
-	 *             If something went wrong in q
-	 * @throws IOException
-	 *             If something went wrong on the transport layer
+	 * @throws KXException If something went wrong
+	 * @throws KException If something went wrong in q
+	 * @throws IOException If something went wrong on the transport layer
 	 */
 	Result execute(final c c) throws KXException, KException, IOException;
-
+	
 }

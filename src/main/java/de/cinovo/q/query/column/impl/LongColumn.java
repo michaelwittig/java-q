@@ -17,13 +17,12 @@ import de.cinovo.q.query.type.impl.TypeLong;
  * 
  */
 public class LongColumn extends ASimpleOrdinalColumn<Long, TypeLong> {
-
+	
 	/**
-	 * @param name
-	 *            Name
+	 * @param name Name
 	 */
 	public LongColumn(final String name) {
 		super(name, TypeLong.get());
 	}
-
+	
 }

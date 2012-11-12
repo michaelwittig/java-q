@@ -25,40 +25,39 @@ import de.cinovo.q.query.group.Group;
  * 
  */
 public final class SelectImpl implements Select {
-
+	
 	/** Table. */
 	private final Table table;
-
+	
 	/** Columns. */
 	private final List<Column<?>> columns = new ArrayList<Column<?>>();
-
+	
 	/** Groups. */
 	private final List<Group> groups = new ArrayList<Group>();
-
+	
 	/** Filters. */
 	private final List<Filter> filters = new ArrayList<Filter>();
-
+	
 	/** Limit. */
 	private Integer numberOfRows;
-
+	
 	/** Start. */
 	private Integer rowNumber;
-
+	
 	/** Order. */
 	private Sort sort;
-
+	
+	
 	/**
-	 * @param aTable
-	 *            Table
+	 * @param aTable Table
 	 */
 	private SelectImpl(final Table aTable) {
 		super();
 		this.table = aTable;
 	}
-
+	
 	/**
-	 * @param sb
-	 *            StringBuilder
+	 * @param sb StringBuilder
 	 */
 	private void sortToQ(final StringBuilder sb) {
 		final String sorting;
@@ -79,10 +78,9 @@ public final class SelectImpl implements Select {
 			sb.append("]");
 		}
 	}
-
+	
 	/**
-	 * @param sb
-	 *            StringBuilder
+	 * @param sb StringBuilder
 	 */
 	private void filterToQ(final StringBuilder sb) {
 		if (this.filters.size() > 0) {
@@ -94,10 +92,9 @@ public final class SelectImpl implements Select {
 			sb.deleteCharAt(sb.length() - 1);
 		}
 	}
-
+	
 	/**
-	 * @param sb
-	 *            StringBuilder
+	 * @param sb StringBuilder
 	 */
 	private void groupToQ(final StringBuilder sb) {
 		if (this.groups.size() > 0) {
@@ -109,7 +106,7 @@ public final class SelectImpl implements Select {
 			sb.deleteCharAt(sb.length() - 1);
 		}
 	}
-
+	
 	@Override
 	public String toQ() {
 		final StringBuilder sb = new StringBuilder("select");
@@ -126,42 +123,43 @@ public final class SelectImpl implements Select {
 		this.filterToQ(sb);
 		return sb.toString();
 	}
-
+	
 	@Override
 	public List<Column<?>> getColumns() {
 		return this.columns;
 	}
-
+	
 	@Override
 	public List<Group> getGroups() {
 		return this.groups;
 	}
-
+	
 	@Override
 	public Table getTable() {
 		return this.table;
 	}
-
+	
 	@Override
 	public List<Filter> getFilters() {
 		return this.filters;
 	}
-
+	
 	@Override
 	public Integer getNumberOfRows() {
 		return this.numberOfRows;
 	}
-
+	
 	@Override
 	public Integer getRowNumber() {
 		return this.rowNumber;
 	}
-
+	
 	@Override
 	public Sort getSortColmn() {
 		return this.sort;
 	}
-
+	
+	
 	/**
 	 * Select builder implementation.
 	 * 
@@ -169,62 +167,62 @@ public final class SelectImpl implements Select {
 	 * 
 	 */
 	public static final class SelectBuilderImpl implements SelectBuilder {
-
+		
 		/** Select. */
 		private final SelectImpl select;
-
+		
+		
 		/**
-		 * @param table
-		 *            Table
+		 * @param table Table
 		 */
 		public SelectBuilderImpl(final Table table) {
 			this.select = new SelectImpl(table);
 		}
-
+		
 		@Override
 		public SelectBuilder column(final Column<?> column) {
 			this.select.columns.add(column);
 			return this;
 		}
-
+		
 		@Override
 		public SelectBuilder group(final Group group) {
 			this.select.groups.add(group);
 			return this;
 		}
-
+		
 		@Override
 		public SelectBuilder filter(final Filter filter) {
 			this.select.filters.add(filter);
 			return this;
 		}
-
+		
 		@Override
 		public SelectBuilder limit(final int numberOfRows) {
 			this.select.numberOfRows = numberOfRows;
 			return this;
 		}
-
+		
 		@Override
 		public SelectBuilder start(final int rowNumber) {
 			this.select.rowNumber = rowNumber;
 			return this;
 		}
-
+		
 		@Override
 		public SelectBuilder order(final Direction direction, final Column<?> column) {
 			this.select.sort = new Sort() {
-
+				
 				@Override
 				public String toQ() {
 					return direction.toQ() + column.toQ();
 				}
-
+				
 				@Override
 				public Column<?> getColumn() {
 					return column;
 				}
-
+				
 				@Override
 				public Direction getDirection() {
 					return direction;
@@ -232,12 +230,12 @@ public final class SelectImpl implements Select {
 			};
 			return this;
 		}
-
+		
 		@Override
 		public Select build() {
 			return this.select;
 		}
-
+		
 	}
-
+	
 }

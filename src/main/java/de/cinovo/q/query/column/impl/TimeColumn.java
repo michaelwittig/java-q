@@ -19,13 +19,12 @@ import de.cinovo.q.query.type.impl.TypeTime;
  * 
  */
 public class TimeColumn extends ASimpleOrdinalColumn<Time, TypeTime> {
-
+	
 	/**
-	 * @param name
-	 *            Name
+	 * @param name Name
 	 */
 	public TimeColumn(final String name) {
 		super(name, TypeTime.get());
 	}
-
+	
 }

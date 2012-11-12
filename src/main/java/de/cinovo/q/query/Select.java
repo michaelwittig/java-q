@@ -25,42 +25,43 @@ import de.cinovo.q.query.group.Group;
  * 
  */
 public interface Select extends Q {
-
+	
 	/**
 	 * @return Columns
 	 */
 	List<Column<?>> getColumns();
-
+	
 	/**
 	 * @return Groups
 	 */
 	List<Group> getGroups();
-
+	
 	/**
 	 * @return Table
 	 */
 	Table getTable();
-
+	
 	/**
 	 * @return Filters
 	 */
 	List<Filter> getFilters();
-
+	
 	/**
 	 * @return Number of rows you wish to return or null (if negative, than the table is reversed!)
 	 */
 	Integer getNumberOfRows();
-
+	
 	/**
 	 * @return Row number you wish to start with
 	 */
 	Integer getRowNumber();
-
+	
 	/**
 	 * @return SelectSort or null
 	 */
 	Sort getSortColmn();
-
+	
+	
 	/**
 	 * Select sort.
 	 * 
@@ -68,7 +69,7 @@ public interface Select extends Q {
 	 * 
 	 */
 	public interface Sort extends Q {
-
+		
 		/**
 		 * Directions.
 		 * 
@@ -78,39 +79,40 @@ public interface Select extends Q {
 		public enum Direction implements Q {
 			/** Descending. */
 			descending(">"),
-
+			
 			/** Ascending. */
 			ascending("<");
-
+			
 			/** Q. */
 			private final String q;
-
+			
+			
 			/**
-			 * @param aQ
-			 *            Q
+			 * @param aQ Q
 			 */
 			private Direction(final String aQ) {
 				this.q = aQ;
 			}
-
+			
 			@Override
 			public String toQ() {
 				return this.q;
 			}
 		}
-
+		
+		
 		/**
 		 * @return Column
 		 */
 		Column<?> getColumn();
-
+		
 		/**
 		 * @return Direction
 		 */
 		Direction getDirection();
-
+		
 	}
-
+	
 	/**
 	 * Select builder.
 	 * 
@@ -118,51 +120,44 @@ public interface Select extends Q {
 	 * 
 	 */
 	public interface SelectBuilder extends Builder<Select> {
-
+		
 		/**
-		 * @param column
-		 *            Column
+		 * @param column Column
 		 * @return SelectBuilder
 		 */
 		SelectBuilder column(Column<?> column);
-
+		
 		/**
-		 * @param group
-		 *            Group
+		 * @param group Group
 		 * @return SelectBuilder
 		 */
 		SelectBuilder group(Group group);
-
+		
 		/**
-		 * @param filter
-		 *            Filter
+		 * @param filter Filter
 		 * @return SelectBuilder
 		 */
 		SelectBuilder filter(Filter filter);
-
+		
 		/**
-		 * @param numberOfRows
-		 *            Number of rows
+		 * @param numberOfRows Number of rows
 		 * @return SelectBuilder
 		 */
 		SelectBuilder limit(int numberOfRows);
-
+		
 		/**
-		 * @param rowNumber
-		 *            Row number
+		 * @param rowNumber Row number
 		 * @return SelectBuilder
 		 */
 		SelectBuilder start(int rowNumber);
-
+		
 		/**
-		 * @param direction
-		 *            Direction
-		 * @param column
-		 *            Column
+		 * @param direction Direction
+		 * @param column Column
 		 * @return SelectBuilder
 		 */
 		SelectBuilder order(Direction direction, Column<?> column);
-
+		
 	}
-
+	
 }

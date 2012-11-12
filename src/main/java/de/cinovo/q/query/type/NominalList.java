@@ -13,13 +13,11 @@ package de.cinovo.q.query.type;
  * 
  * @author mwittig
  * 
- * @param <J>
- *            Java type
- * @param <T>
- *            Type
+ * @param <J> Java type
+ * @param <T> Type
  */
 public interface NominalList<J, T extends NominalType<J>> extends List<J, T>, NominalType<J> {
-
+	
 	// interface body intentionally left blank
-
+	
 }

@@ -15,14 +15,13 @@ import de.cinovo.q.query.type.Type;
  * 
  * @author mwittig
  * 
- * @param <T>
- *            Type
+ * @param <T> Type
  */
 public interface VirtualColumn<T extends Type<?>> extends Column<T> {
-
+	
 	/**
 	 * @return Virtual
 	 */
 	String getVirtual();
-
+	
 }

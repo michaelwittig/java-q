@@ -15,24 +15,23 @@ import de.cinovo.q.query.type.Type;
  * 
  * @author mwittig
  * 
- * @param <T>
- *            Type
+ * @param <T> Type
  */
 public interface AggregatingNominal<T extends Type<?>> {
-
+	
 	/**
 	 * @return First
 	 */
 	AggregateColumn<T> first();
-
+	
 	/**
 	 * @return Last
 	 */
 	AggregateColumn<T> last();
-
+	
 	/**
 	 * @return Count
 	 */
 	AggregateColumn<T> count();
-
+	
 }

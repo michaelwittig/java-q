@@ -20,26 +20,26 @@ import kx.c.KException;
  * 
  */
 final class KXAsyncCommandString implements KXAsyncCommand {
-
+	
 	/** Command. */
 	private final String cmd;
-
+	
+	
 	/**
-	 * @param aCmd
-	 *            Command
+	 * @param aCmd Command
 	 */
 	public KXAsyncCommandString(final String aCmd) {
 		super();
 		this.cmd = aCmd;
 	}
-
+	
 	public String getCmd() {
 		return this.cmd;
 	}
-
+	
 	@Override
 	public void execute(final c c) throws KException, IOException {
 		c.ks(this.cmd);
 	}
-
+	
 }
