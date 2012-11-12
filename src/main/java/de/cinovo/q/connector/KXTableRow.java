@@ -15,7 +15,9 @@ import java.sql.Timestamp;
  * 
  * @author mwittig
  * 
+ * @deprecated Because we have the even better Result
  */
+@Deprecated
 public interface KXTableRow {
 	
 	/**

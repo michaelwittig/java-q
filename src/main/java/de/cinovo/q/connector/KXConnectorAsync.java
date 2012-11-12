@@ -8,6 +8,9 @@
 
 package de.cinovo.q.connector;
 
+import de.cinovo.q.query.Function;
+import de.cinovo.q.query.Select;
+
 /**
  * KXConnector asynchronous.
  * 
@@ -53,22 +56,58 @@ public interface KXConnectorAsync extends KXConnector {
 	void unsubscribe(KXDataListener listener);
 	
 	/**
-	 * Asynchronous query. Data is received via global KXConnectorListener.
+	 * Asynchronous execute. Data is received via global KXConnectorListener.
 	 * 
 	 * @param handle Unique handle to identify received data
-	 * @param cmd Command
+	 * @param q Q code
 	 * @throws KXException If something went wrong
 	 */
-	void query(String handle, String cmd) throws KXException;
+	void execute(String handle, String q) throws KXException;
 	
 	/**
-	 * Asynchronous query. Data is received via local KXDataListener.
+	 * Asynchronous execute. Data is received via local KXDataListener.
 	 * 
 	 * @param listener Listener
-	 * @param cmd Command
+	 * @param q Q code
 	 * @throws KXException If something went wrong
 	 */
-	void query(KXDataListener listener, String cmd) throws KXException;
+	void execute(KXDataListener listener, String q) throws KXException;
+	
+	/**
+	 * Asynchronous select.
+	 * 
+	 * @param handle Unique handle to identify received data
+	 * @param select Select
+	 * @throws KXException If something went wrong
+	 */
+	void select(String handle, Select select) throws KXException;
+	
+	/**
+	 * Asynchronous select.
+	 * 
+	 * @param listener Listener
+	 * @param select Select
+	 * @throws KXException If something went wrong
+	 */
+	void select(KXDataListener listener, Select select) throws KXException;
+	
+	/**
+	 * Asynchronous call.
+	 * 
+	 * @param handle Unique handle to identify received data
+	 * @param function Function
+	 * @throws KXException If something went wrong
+	 */
+	void call(String handle, Function function) throws KXException;
+	
+	/**
+	 * Asynchronous call.
+	 * 
+	 * @param listener Listener
+	 * @param function Function
+	 * @throws KXException If something went wrong
+	 */
+	void call(KXDataListener listener, Function function) throws KXException;
 	
 	/**
 	 * @return KXConnectorListener

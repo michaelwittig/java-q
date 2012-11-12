@@ -23,7 +23,7 @@ import de.cinovo.q.query.Select;
 public interface KXConnectorSync extends KXConnector {
 	
 	/**
-	 * Synchronous cmd.
+	 * Synchronous execute.
 	 * 
 	 * @param q Q code
 	 * @return Result
@@ -41,7 +41,7 @@ public interface KXConnectorSync extends KXConnector {
 	Result select(Select select) throws KXException;
 	
 	/**
-	 * Synchronous execute.
+	 * Synchronous call.
 	 * 
 	 * @param function Function
 	 * @return Result

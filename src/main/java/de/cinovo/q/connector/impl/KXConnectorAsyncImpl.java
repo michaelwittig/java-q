@@ -29,6 +29,11 @@ import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
 import de.cinovo.q.connector.KXListener;
 import de.cinovo.q.connector.KXTable;
+import de.cinovo.q.query.FlipFlipResult;
+import de.cinovo.q.query.FlipResult;
+import de.cinovo.q.query.Function;
+import de.cinovo.q.query.Result;
+import de.cinovo.q.query.Select;
 
 /**
  * KX Connector implementation.
@@ -147,12 +152,32 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	}
 	
 	@Override
-	public void query(final String handle, final String cmd) {
+	public void execute(final String handle, final String q) {
 		throw new UnsupportedOperationException();
 	}
 	
 	@Override
-	public void query(final KXDataListener listener, final String cmd) {
+	public void execute(final KXDataListener aListener, final String q) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void select(String handle, Select select) throws KXException {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void select(KXDataListener aListener, Select select) throws KXException {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void call(String handle, Function function) throws KXException {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void call(KXDataListener aListener, Function function) throws KXException {
 		throw new UnsupportedOperationException();
 	}
 	
@@ -226,12 +251,28 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 * 
 	 * @param t table
 	 */
+	@Deprecated
 	private void throwData(final KXTable t) {
 		this.executor.execute(new Runnable() {
 			
 			@Override
 			public void run() {
 				KXConnectorAsyncImpl.this.listener.dataReceived("", t);
+			}
+		});
+	}
+	
+	/**
+	 * Throw result.
+	 * 
+	 * @param result Result
+	 */
+	private void throwResult(final Result result) {
+		this.executor.execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				KXConnectorAsyncImpl.this.listener.resultReceived("", result);
 			}
 		});
 	}
@@ -339,14 +380,32 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 			while (KXConnectorAsyncImpl.this.c.get() != null) {
 				try {
 					final Object res = KXConnectorAsyncImpl.this.c.get().k();
+					
 					if (res == null) {
 						// nothing to do here
 						continue;
-					} else if (res instanceof c.Flip) {
+					}
+					
+					// TODO this is exactly the same code as in AKXSyncCommand
+					if (res instanceof c.Flip) {
+						final Result result = new FlipResult((c.Flip) res);
+						KXConnectorAsyncImpl.this.throwResult(result);
+						
 						final c.Flip flip = (c.Flip) res;
 						final KXTable t = new KXTableImpl("", flip.x, flip.y);
 						KXConnectorAsyncImpl.this.throwData(t);
+					} else if (res instanceof c.Dict) {
+						final c.Dict dict = (c.Dict) res;
+						if ((dict.x instanceof c.Flip) && (dict.y instanceof c.Flip)) {
+							final c.Flip key = (c.Flip) dict.x;
+							final c.Flip data = (c.Flip) dict.y;
+							final Result result = new FlipFlipResult(key, data);
+							KXConnectorAsyncImpl.this.throwResult(result);
+						} else {
+							KXConnectorAsyncImpl.this.throwKXError(new KXError("Unsupported async resulted type: " + res.getClass().getSimpleName()));
+						}
 					} else if (res instanceof Object[]) {
+						// TODO implement with Result
 						final Object[] tres = (Object[]) res;
 						if (tres[1] instanceof c.Flip) {
 							final String table = (String) tres[0];

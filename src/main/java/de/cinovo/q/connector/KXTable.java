@@ -16,7 +16,9 @@ import java.util.List;
  * 
  * @author mwittig
  * 
+ * @deprecated Because we have the even better Result
  */
+@Deprecated
 public interface KXTable extends Iterable<KXTableRow> {
 	
 	/**
