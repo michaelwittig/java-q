@@ -49,6 +49,9 @@ public final class TypeFloat implements OrdinalType<BigDecimal> {
 				if (value instanceof Float) {
 					return this.create(new BigDecimal((Float) value));
 				}
+				if (value instanceof Double) {
+					return this.create(new BigDecimal((Double) value));
+				}
 				throw new IllegalArgumentException("Type is " + value.getClass().getSimpleName());
 			}
 		};

@@ -33,15 +33,6 @@ public interface KXListener {
 	void exception(KXException e);
 	
 	/**
-	 * Data received.
-	 * 
-	 * @param handle Unique handle to identify received data
-	 * @param data KX table
-	 */
-	@Deprecated
-	void dataReceived(final String handle, KXTable data);
-	
-	/**
 	 * Result received.
 	 * 
 	 * @param handle Unique handle to identify received data

@@ -6,7 +6,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.connector.impl;
+package de.cinovo.q.connector.impl.cmd;
 
 import java.io.IOException;
 
@@ -34,13 +34,6 @@ public final class KXSyncCommandSelect extends AKXSyncCommand {
 	public KXSyncCommandSelect(final Select aSelect) {
 		super();
 		this.select = aSelect;
-	}
-	
-	/**
-	 * @return the select
-	 */
-	public Select getSelect() {
-		return this.select;
 	}
 	
 	@Override

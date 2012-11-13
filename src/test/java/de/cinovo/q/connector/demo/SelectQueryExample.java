@@ -48,7 +48,7 @@ public final class SelectQueryExample {
 		System.out.println("Q: " + select.toQ());
 		
 		// connect to kdb+
-		final KXConnectorSync kx = KXConnectorFactory.create("localhost", 5011);
+		final KXConnectorSync kx = KXConnectorFactory.create("localhost", 5011, true, false);
 		kx.connect();
 		
 		// execute select and print the result

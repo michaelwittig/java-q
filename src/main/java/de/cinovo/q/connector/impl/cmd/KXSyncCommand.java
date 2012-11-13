@@ -6,7 +6,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.connector.impl;
+package de.cinovo.q.connector.impl.cmd;
 
 import java.io.IOException;
 
@@ -16,35 +16,22 @@ import de.cinovo.q.connector.KXException;
 import de.cinovo.q.query.Result;
 
 /**
- * KX Q command with result.
+ * KX command with result.
  * 
  * @author mwittig
  * 
  */
-public final class KXSyncCommandQ extends AKXSyncCommand {
-	
-	/** Q. */
-	private final String q;
-	
+public interface KXSyncCommand {
 	
 	/**
-	 * @param aQ Q
+	 * Execute the command via c.
+	 * 
+	 * @param c C
+	 * @return Result
+	 * @throws KXException If something went wrong
+	 * @throws KException If something went wrong in q
+	 * @throws IOException If something went wrong on the transport layer
 	 */
-	public KXSyncCommandQ(final String aQ) {
-		super();
-		this.q = aQ;
-	}
-	
-	/**
-	 * @return Q
-	 */
-	public String getQ() {
-		return this.q;
-	}
-	
-	@Override
-	public Result execute(final c c) throws KXException, KException, IOException {
-		return this.execute(c, this.q);
-	}
+	Result execute(final c c) throws KXException, KException, IOException;
 	
 }

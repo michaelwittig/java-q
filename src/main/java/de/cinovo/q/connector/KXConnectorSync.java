@@ -15,7 +15,7 @@ import de.cinovo.q.query.Select;
 /**
  * KXConnector synchronous.
  * 
- * Thread-safe? no
+ * Thread-safe? depends on implementation
  * 
  * @author mwittig
  * 

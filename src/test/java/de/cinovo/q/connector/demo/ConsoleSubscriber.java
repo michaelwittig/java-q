@@ -16,7 +16,6 @@ import de.cinovo.q.connector.KXConnectorAsync;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
 import de.cinovo.q.connector.KXListener;
-import de.cinovo.q.connector.KXTable;
 import de.cinovo.q.connector.impl.KXConnectorFactory;
 import de.cinovo.q.query.Result;
 
@@ -118,11 +117,6 @@ public final class ConsoleSubscriber implements KXListener {
 	public void exception(final KXException e) {
 		System.out.println(e);
 		e.printStackTrace();
-	}
-	
-	@Override
-	public void dataReceived(final String handle, final KXTable data) {
-		System.out.println(data);
 	}
 	
 	@Override

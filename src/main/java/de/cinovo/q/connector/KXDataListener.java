@@ -19,12 +19,11 @@ import de.cinovo.q.query.Result;
 public interface KXDataListener {
 	
 	/**
-	 * Data received.
+	 * KXException occurred. Must be handled by yourself!
 	 * 
-	 * @param data KX table
+	 * @param e Exception
 	 */
-	@Deprecated
-	void dataReceived(KXTable data);
+	void exception(KXException e);
 	
 	/**
 	 * Result received.

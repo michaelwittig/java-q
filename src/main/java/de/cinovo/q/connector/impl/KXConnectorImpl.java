@@ -18,6 +18,9 @@ import de.cinovo.q.connector.KXConnector;
  */
 abstract class KXConnectorImpl implements KXConnector {
 	
+	/** Reconnect timeout offset per try. */
+	protected static final int RECONNECT_OFFSET_PER_TRY = 1000;
+	
 	/** Host. */
 	private final String host;
 	
