@@ -8,8 +8,7 @@
 
 package de.cinovo.q.query.impl;
 
-import static org.junit.Assert.assertEquals;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import de.cinovo.q.query.Select;
@@ -21,8 +20,8 @@ import de.cinovo.q.query.impl.SelectImpl.SelectBuilderImpl;
 import de.cinovo.q.query.impl.TableImpl.TableBuilderImpl;
 import de.cinovo.q.query.type.impl.TypeSymbol;
 import de.cinovo.q.query.type.impl.TypeTime;
-import de.cinovo.q.query.value.impl.LongValue;
 import de.cinovo.q.query.value.impl.SymbolValue;
+import de.cinovo.q.query.value.impl.TimeValue;
 
 /**
  * SelectImpl test.
@@ -31,7 +30,7 @@ import de.cinovo.q.query.value.impl.SymbolValue;
  * 
  */
 public class SelectImplTest {
-
+	
 	/** */
 	@Test
 	public final void testPlain() {
@@ -40,9 +39,9 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.build();
-		assertEquals("select from test", select.toQ());
+		Assert.assertEquals("select from test", select.toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testWithColumns() {
@@ -51,9 +50,9 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.column(utctime).column(sym).build();
-		assertEquals("select utctime,sym from test", select.toQ());
+		Assert.assertEquals("select utctime,sym from test", select.toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testWithFilters() {
@@ -62,9 +61,9 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.filter(sym.filterEqualTo(SymbolValue.from("TEST"))).build();
-		assertEquals("select from test where sym=`TEST", select.toQ());
+		Assert.assertEquals("select from test where sym=`TEST", select.toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testWithColumnsAndFilters() {
@@ -73,9 +72,9 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.column(utctime).column(sym).filter(sym.filterEqualTo(SymbolValue.from("TEST"))).build();
-		assertEquals("select utctime,sym from test where sym=`TEST", select.toQ());
+		Assert.assertEquals("select utctime,sym from test where sym=`TEST", select.toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testWithColumnsGroupsAndFilter() {
@@ -84,9 +83,9 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.column(utctime).group(sym.group()).filter(sym.filterEqualTo(SymbolValue.from("TEST"))).build();
-		assertEquals("select utctime by sym from test where sym=`TEST", select.toQ());
+		Assert.assertEquals("select utctime by sym from test where sym=`TEST", select.toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testWithColumnsGroupsAndFilters() {
@@ -94,10 +93,10 @@ public class SelectImplTest {
 		final SymbolColumn sym = new SymbolColumn("sym");
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
-		final Select select = builder.column(utctime).group(sym.group()).group(utctime.xbar(LongValue.from(1L))).filter(sym.filterEqualTo(SymbolValue.from("TEST"))).build();
-		assertEquals("select utctime by sym,1j xbar utctime from test where sym=`TEST", select.toQ());
+		final Select select = builder.column(utctime).group(sym.group()).group(utctime.xbar(TimeValue.from(0, 0, 0, 1))).filter(sym.filterEqualTo(SymbolValue.from("TEST"))).build();
+		Assert.assertEquals("select utctime by sym,1j xbar utctime from test where sym=`TEST", select.toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testWithGroup() {
@@ -106,9 +105,9 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.group(sym.group()).build();
-		assertEquals("select by sym from test", select.toQ());
+		Assert.assertEquals("select by sym from test", select.toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testWithVirtualColumn() {
@@ -117,9 +116,9 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.column(sym.virtual("sym2")).build();
-		assertEquals("select sym2:sym from test", select.toQ());
+		Assert.assertEquals("select sym2:sym from test", select.toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testWithGroupAndAggregation() {
@@ -128,7 +127,7 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.column(sym.last().virtual("sym2")).column(utctime.min()).group(sym.group()).build();
-		assertEquals("select sym2:last sym,min utctime by sym from test", select.toQ());
+		Assert.assertEquals("select sym2:last sym,min utctime by sym from test", select.toQ());
 	}
-
+	
 }

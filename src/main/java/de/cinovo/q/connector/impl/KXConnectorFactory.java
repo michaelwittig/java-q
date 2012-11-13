@@ -55,13 +55,15 @@ public final class KXConnectorFactory {
 	/**
 	 * @param host Host
 	 * @param port Port
+	 * @param reconnectOnError Reconnect on error?
+	 * @param threadsafe Thread-safe implementation?
 	 * @param connect Connect?
 	 * @throws KXException If the connection can not be established
 	 * @throws KXError If the KXConnector is already connected
 	 * @return KXConnector
 	 */
-	public static KXConnectorSync create(final String host, final int port, final boolean connect) throws KXException, KXError {
-		final KXConnectorSync c = KXConnectorFactory.create(host, port);
+	public static KXConnectorSync create(final String host, final int port, final boolean reconnectOnError, final boolean threadsafe, final boolean connect) throws KXException, KXError {
+		final KXConnectorSync c = KXConnectorFactory.create(host, port, reconnectOnError, threadsafe);
 		if (connect) {
 			c.connect();
 		}
@@ -71,10 +73,17 @@ public final class KXConnectorFactory {
 	/**
 	 * @param host Host
 	 * @param port Port
+	 * @param reconnectOnError Reconnect on error?
+	 * @param threadsafe Thread-safe implementation?
 	 * @return KXConnector
 	 */
-	public static KXConnectorSync create(final String host, final int port) {
-		final KXConnectorSync c = new KXConnectorSyncImpl(host, port);
+	public static KXConnectorSync create(final String host, final int port, final boolean reconnectOnError, final boolean threadsafe) {
+		final KXConnectorSync c;
+		if (threadsafe) {
+			c = new KXconnectorSyncTSImpl(host, port, reconnectOnError);
+		} else {
+			c = new KXConnectorSyncImpl(host, port, reconnectOnError);
+		}
 		return c;
 	}
 	

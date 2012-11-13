@@ -46,7 +46,7 @@ public final class TypeSymbol implements NominalType<String> {
 			public Value<String, ? extends Type<String>> fromQ(final Object value) {
 				if (value instanceof String) {
 					return this.create((String) value);
-				} // TODO what to do woth Lists String[] ???
+				}
 				throw new IllegalArgumentException("Type is " + value.getClass().getSimpleName());
 			}
 		};

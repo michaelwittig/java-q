@@ -62,7 +62,7 @@ public final class DateTimeValue extends AValue<Date, TypeDateTime> {
 		if (this.get() == null) {
 			return DateTimeValue.NULL;
 		}
-		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.ddTHH:mm:ss.SSS");
+		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd'T'HH:mm:ss.SSS");
 		return sdf.format(this.get());
 	}
 }

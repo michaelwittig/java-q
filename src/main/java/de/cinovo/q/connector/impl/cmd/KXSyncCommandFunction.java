@@ -6,40 +6,39 @@
 // http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.connector.impl;
+package de.cinovo.q.connector.impl.cmd;
 
 import java.io.IOException;
 
 import kx.c;
 import kx.c.KException;
+import de.cinovo.q.connector.KXException;
+import de.cinovo.q.query.Function;
+import de.cinovo.q.query.Result;
 
 /**
- * KX string command without result.
+ * KX function command with result.
  * 
  * @author mwittig
  * 
  */
-final class KXAsyncCommandString implements KXAsyncCommand {
+public final class KXSyncCommandFunction extends AKXSyncCommand {
 	
-	/** Command. */
-	private final String cmd;
+	/** Function. */
+	private final Function function;
 	
 	
 	/**
-	 * @param aCmd Command
+	 * @param aFunction Function
 	 */
-	public KXAsyncCommandString(final String aCmd) {
+	public KXSyncCommandFunction(final Function aFunction) {
 		super();
-		this.cmd = aCmd;
-	}
-	
-	public String getCmd() {
-		return this.cmd;
+		this.function = aFunction;
 	}
 	
 	@Override
-	public void execute(final c c) throws KException, IOException {
-		c.ks(this.cmd);
+	public Result execute(final c c) throws KXException, KException, IOException {
+		return this.execute(c, this.function.toQ());
 	}
 	
 }

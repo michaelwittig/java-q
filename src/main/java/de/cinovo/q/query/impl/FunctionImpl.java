@@ -26,15 +26,20 @@ public final class FunctionImpl implements Function {
 	private final String name;
 	
 	/** Columns. */
+	@SuppressWarnings("rawtypes")
 	private final List<Value> params = new ArrayList<Value>();
 	
 	
+	/**
+	 * @param aName Name
+	 */
 	public FunctionImpl(final String aName) {
 		super();
 		this.name = aName;
 	}
 	
 	@Override
+	@SuppressWarnings("rawtypes")
 	public String toQ() {
 		final StringBuilder sb = new StringBuilder(this.name);
 		sb.append("[");
@@ -56,6 +61,7 @@ public final class FunctionImpl implements Function {
 	}
 	
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<Value> getParams() {
 		return this.params;
 	}
@@ -74,7 +80,7 @@ public final class FunctionImpl implements Function {
 		
 		
 		/**
-		 * @param table Table
+		 * @param name Function
 		 */
 		public FunctionBuilderImpl(final String name) {
 			this.function = new FunctionImpl(name);
