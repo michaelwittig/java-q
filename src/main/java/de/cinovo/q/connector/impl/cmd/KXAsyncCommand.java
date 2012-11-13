@@ -6,7 +6,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0.html
 // -------------------------------------------------------------------------------
 
-package de.cinovo.q.connector.impl;
+package de.cinovo.q.connector.impl.cmd;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import de.cinovo.q.connector.KXException;
  * @author mwittig
  * 
  */
-interface KXAsyncCommand {
+public interface KXAsyncCommand {
 	
 	/**
 	 * Execute the command via c.

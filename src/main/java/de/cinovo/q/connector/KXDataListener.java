@@ -8,6 +8,8 @@
 
 package de.cinovo.q.connector;
 
+import de.cinovo.q.query.Result;
+
 /**
  * KX data listener.
  * 
@@ -17,9 +19,18 @@ package de.cinovo.q.connector;
 public interface KXDataListener {
 	
 	/**
-	 * Data received.
+	 * KXException occurred. Must be handled by yourself!
 	 * 
-	 * @param data KX table
+	 * @param e Exception
 	 */
-	void dataReceived(KXTable data);
+	void exception(KXException e);
+	
+	/**
+	 * Result received.
+	 * 
+	 * @param handle Unique handle to identify received data
+	 * @param result Result
+	 */
+	void resultReceived(Result result);
+	
 }

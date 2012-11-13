@@ -16,8 +16,8 @@ import de.cinovo.q.connector.KXConnectorAsync;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
 import de.cinovo.q.connector.KXListener;
-import de.cinovo.q.connector.KXTable;
 import de.cinovo.q.connector.impl.KXConnectorFactory;
+import de.cinovo.q.query.Result;
 
 /**
  * Console subscriber.
@@ -26,13 +26,13 @@ import de.cinovo.q.connector.impl.KXConnectorFactory;
  * 
  */
 public final class ConsoleSubscriber implements KXListener {
-
+	
 	/** KX connector. */
 	private final KXConnectorAsync c = KXConnectorFactory.create(this, "localhost", 5010, true);
-
+	
+	
 	/**
-	 * @param args
-	 *            Arguments not needed
+	 * @param args Arguments not needed
 	 */
 	public static void main(final String[] args) {
 		try {
@@ -63,12 +63,12 @@ public final class ConsoleSubscriber implements KXListener {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/** */
 	public ConsoleSubscriber() {
 		super();
 	}
-
+	
 	/**
 	 * Start.
 	 */
@@ -81,7 +81,7 @@ public final class ConsoleSubscriber implements KXListener {
 			System.err.println("KXError: " + e);
 		}
 	}
-
+	
 	/**
 	 * Stop.
 	 */
@@ -92,38 +92,36 @@ public final class ConsoleSubscriber implements KXListener {
 			System.err.println("KXError: " + e);
 		}
 	}
-
+	
 	/**
 	 * Subscribe.
 	 * 
-	 * @param table
-	 *            Table
-	 * @param symbol
-	 *            Symbol
+	 * @param table Table
+	 * @param symbol Symbol
 	 */
 	public void subscribe(final String table, final String symbol) {
 		try {
-			this.c.subscribe("", new String[] { table }, new String[] { symbol });
+			this.c.subscribe("", new String[] {table}, new String[] {symbol});
 		} catch (final KXException e) {
 			System.err.println("KXException: " + e);
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	public void error(final KXError e) {
 		System.out.println(e);
 	}
-
+	
 	@Override
 	public void exception(final KXException e) {
 		System.out.println(e);
 		e.printStackTrace();
 	}
-
+	
 	@Override
-	public void dataReceived(final String handle, final KXTable data) {
-		System.out.println(data);
+	public void resultReceived(String handle, Result result) {
+		System.out.println(result);
 	}
-
+	
 }

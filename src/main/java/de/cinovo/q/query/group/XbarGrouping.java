@@ -9,22 +9,23 @@
 package de.cinovo.q.query.group;
 
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.value.impl.LongValue;
+import de.cinovo.q.query.value.Value;
 
 /**
  * Column can be grouped.
  * 
  * @author mwittig
  * 
+ * @param <J> Java type
  * @param <T> Tape
  * 
  */
-public interface XbarGrouping<T extends OrdinalType<?>> extends Grouping {
+public interface XbarGrouping<J, T extends OrdinalType<J>> extends Grouping {
 	
 	/**
 	 * @param xbar xbar
 	 * @return Group
 	 */
-	Group xbar(LongValue xbar);
+	Group xbar(Value<J, T> xbar);
 	
 }

@@ -15,12 +15,21 @@ import de.cinovo.q.query.Select;
 /**
  * KXConnector synchronous.
  * 
- * Thread-safe? no
+ * Thread-safe? depends on implementation
  * 
  * @author mwittig
  * 
  */
 public interface KXConnectorSync extends KXConnector {
+	
+	/**
+	 * Synchronous execute.
+	 * 
+	 * @param q Q code
+	 * @return Result
+	 * @throws KXException If something went wrong
+	 */
+	Result execute(String q) throws KXException;
 	
 	/**
 	 * Synchronous select.
@@ -32,12 +41,12 @@ public interface KXConnectorSync extends KXConnector {
 	Result select(Select select) throws KXException;
 	
 	/**
-	 * Synchronous execute.
+	 * Synchronous call.
 	 * 
 	 * @param function Function
 	 * @return Result
 	 * @throws KXException If something went wrong
 	 */
-	Result execute(Function function) throws KXException;
+	Result call(Function function) throws KXException;
 	
 }

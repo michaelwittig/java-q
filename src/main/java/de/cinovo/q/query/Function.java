@@ -31,6 +31,7 @@ public interface Function extends Q {
 	/**
 	 * @return Parameters
 	 */
+	@SuppressWarnings("rawtypes")
 	List<Value> getParams();
 	
 	
@@ -43,9 +44,10 @@ public interface Function extends Q {
 	public interface FunctionBuilder extends Builder<Function> {
 		
 		/**
-		 * @param param Parameter
+		 * @param value Value
 		 * @return FunctionBuilder
 		 */
+		@SuppressWarnings("rawtypes")
 		FunctionBuilder param(Value value);
 		
 	}

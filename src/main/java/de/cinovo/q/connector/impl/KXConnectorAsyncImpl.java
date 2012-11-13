@@ -28,7 +28,9 @@ import de.cinovo.q.connector.KXDataListener;
 import de.cinovo.q.connector.KXError;
 import de.cinovo.q.connector.KXException;
 import de.cinovo.q.connector.KXListener;
-import de.cinovo.q.connector.KXTable;
+import de.cinovo.q.connector.impl.cmd.KXAsyncCommand;
+import de.cinovo.q.connector.impl.cmd.KXAsyncCommandQ;
+import de.cinovo.q.query.Result;
 
 /**
  * KX Connector implementation.
@@ -38,11 +40,8 @@ import de.cinovo.q.connector.KXTable;
  */
 final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorAsync {
 	
-	/** Reconnect tiomeout offset per try. */
-	private static final int RECONNECT_OFFSET_PER_TRY = 1000;
-	
-	/** Stop comand. */
-	private static final KXAsyncCommandString STOP_COMMAND = new KXAsyncCommandString("");
+	/** Stop command. */
+	private static final KXAsyncCommandQ STOP_COMMAND = new KXAsyncCommandQ("");
 	
 	/** Listener. */
 	private final KXListener listener;
@@ -52,6 +51,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	
 	/** Callback executor service. */
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
+	
+	/** Commands. */
+	private final BlockingQueue<KXAsyncCommand> commands = new LinkedBlockingQueue<KXAsyncCommand>();
 	
 	/** Timer. */
 	private final Timer timer = new Timer();
@@ -133,7 +135,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		} else {
 			s.append("`");
 		}
-		this.execute(new KXAsyncCommandString(".u.sub[" + t.toString() + ";" + s.toString() + "]"));
+		this.execute(new KXAsyncCommandQ(".u.sub[" + t.toString() + ";" + s.toString() + "]"));
 	}
 	
 	@Override
@@ -147,24 +149,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	}
 	
 	@Override
-	public void query(final String handle, final String cmd) {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
-	public void query(final KXDataListener listener, final String cmd) {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
 	public KXListener getConnectorListener() {
 		return this.listener;
 	}
-	
-	
-	/** Commands. */
-	private final BlockingQueue<KXAsyncCommand> commands = new LinkedBlockingQueue<KXAsyncCommand>();
-	
 	
 	/**
 	 * Write to kx.
@@ -181,14 +168,13 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	private void reconnect() {
 		// TODO check if reconnection is already active
 		try {
-			KXConnectorAsyncImpl.this.disconnect();
+			this.disconnect();
 		} catch (final KXError e) {
 			// e.printStackTrace(); // TODO suppress, because this just happens if the connection is not established
 		}
-		
-		final int count = KXConnectorAsyncImpl.this.reconnectCounter.incrementAndGet();
+		final int count = this.reconnectCounter.incrementAndGet();
 		final long time = System.currentTimeMillis();
-		this.timer.schedule(new ReconnectTask(count), new Date(time + (count * KXConnectorAsyncImpl.RECONNECT_OFFSET_PER_TRY)));
+		this.timer.schedule(new ReconnectTask(count), new Date(time + (count * KXConnectorImpl.RECONNECT_OFFSET_PER_TRY)));
 	}
 	
 	/**
@@ -222,16 +208,16 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	}
 	
 	/**
-	 * Throw data.
+	 * Throw result.
 	 * 
-	 * @param t table
+	 * @param result Result
 	 */
-	private void throwData(final KXTable t) {
+	private void throwResult(final Result result) {
 		this.executor.execute(new Runnable() {
 			
 			@Override
 			public void run() {
-				KXConnectorAsyncImpl.this.listener.dataReceived("", t);
+				KXConnectorAsyncImpl.this.listener.resultReceived("", result);
 			}
 		});
 	}
@@ -275,6 +261,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 * 
 	 * @author mwittig
 	 * 
+	 *         TODO refactor like in KXconnectorSyncTSImpl
 	 */
 	private final class Executor implements Runnable {
 		
@@ -339,31 +326,17 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 			while (KXConnectorAsyncImpl.this.c.get() != null) {
 				try {
 					final Object res = KXConnectorAsyncImpl.this.c.get().k();
+					
 					if (res == null) {
 						// nothing to do here
 						continue;
-					} else if (res instanceof c.Flip) {
-						final c.Flip flip = (c.Flip) res;
-						final KXTable t = new KXTableImpl("", flip.x, flip.y);
-						KXConnectorAsyncImpl.this.throwData(t);
-					} else if (res instanceof Object[]) {
-						final Object[] tres = (Object[]) res;
-						if (tres[1] instanceof c.Flip) {
-							final String table = (String) tres[0];
-							final c.Flip flip = (c.Flip) tres[1];
-							final KXTable t = new KXTableImpl(table, flip.x, flip.y);
-							KXConnectorAsyncImpl.this.throwData(t);
-						} else if (tres[2] instanceof c.Flip) {
-							// final String cmd = (String) tres[0];
-							final String table = (String) tres[1];
-							final c.Flip flip = (c.Flip) tres[2];
-							final KXTable t = new KXTableImpl(table, flip.x, flip.y);
-							KXConnectorAsyncImpl.this.throwData(t);
-						} else {
-							KXConnectorAsyncImpl.this.throwKXError(new KXError("Unsupported async resulted type: " + res.getClass().getSimpleName()));
-						}
+					}
+					
+					final Result result = KXResultHelper.convert(res);
+					if (result == null) {
+						KXConnectorAsyncImpl.this.throwKXException(new KXException("Unsupported async result type: " + res.getClass().getSimpleName()));
 					} else {
-						KXConnectorAsyncImpl.this.throwKXError(new KXError("Unsupported async resulted type: " + res.getClass().getSimpleName()));
+						KXConnectorAsyncImpl.this.throwResult(result);
 					}
 				} catch (final SocketTimeoutException e) {
 					continue;
@@ -371,8 +344,8 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 					KXConnectorAsyncImpl.this.throwKXException(new KXException("UnsupportedEncodingException", e));
 				} catch (final KException e) {
 					KXConnectorAsyncImpl.this.throwKXException(new KXException("KException", e));
-					e.printStackTrace();
 				} catch (final IOException e) {
+					// TODO check this async reconnect implementation
 					if (KXConnectorAsyncImpl.this.reconnectOnError()) {
 						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
 						KXConnectorAsyncImpl.this.reconnect();

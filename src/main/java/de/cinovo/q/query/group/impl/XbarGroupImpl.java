@@ -11,19 +11,20 @@ package de.cinovo.q.query.group.impl;
 import de.cinovo.q.query.column.Column;
 import de.cinovo.q.query.group.Group;
 import de.cinovo.q.query.type.OrdinalType;
-import de.cinovo.q.query.value.impl.LongValue;
+import de.cinovo.q.query.value.Value;
 
 /**
  * Xbar group implementation.
  * 
  * @author mwittig
  * 
+ * @param <J> Java type
  * @param <T> Type
  */
-public final class XbarGroupImpl<T extends OrdinalType<?>> implements Group {
+public final class XbarGroupImpl<J, T extends OrdinalType<J>> implements Group {
 	
 	/** Xbar. */
-	private final LongValue xbar;
+	private final Value<J, T> xbar;
 	
 	/** Column. */
 	private final Column<T> column;
@@ -33,7 +34,7 @@ public final class XbarGroupImpl<T extends OrdinalType<?>> implements Group {
 	 * @param aXbar Xbar
 	 * @param aColumn Column
 	 */
-	public XbarGroupImpl(final LongValue aXbar, final Column<T> aColumn) { // TODO not always LONG value, derive from type!
+	public XbarGroupImpl(final Value<J, T> aXbar, final Column<T> aColumn) {
 		super();
 		this.column = aColumn;
 		this.xbar = aXbar;

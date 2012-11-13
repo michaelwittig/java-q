@@ -20,7 +20,6 @@ import de.cinovo.q.query.group.XbarGrouping;
 import de.cinovo.q.query.group.impl.XbarGroupImpl;
 import de.cinovo.q.query.type.OrdinalType;
 import de.cinovo.q.query.value.Value;
-import de.cinovo.q.query.value.impl.LongValue;
 
 /**
  * Abstract simple ordinal column.
@@ -30,7 +29,7 @@ import de.cinovo.q.query.value.impl.LongValue;
  * @param <J> Java type
  * @param <T> Type
  */
-public abstract class ASimpleOrdinalColumn<J, T extends OrdinalType<J>> extends ASimpleNominalColumn<J, T> implements ComparisonFiltering<J, T>, XbarGrouping<T>, AggregatingOrdinal<T> {
+public abstract class ASimpleOrdinalColumn<J, T extends OrdinalType<J>> extends ASimpleNominalColumn<J, T> implements ComparisonFiltering<J, T>, XbarGrouping<J, T>, AggregatingOrdinal<T> {
 	
 	/**
 	 * @param aName Name
@@ -61,8 +60,8 @@ public abstract class ASimpleOrdinalColumn<J, T extends OrdinalType<J>> extends 
 	}
 	
 	@Override
-	public final Group xbar(final LongValue xbar) {
-		return new XbarGroupImpl<T>(xbar, this);
+	public final Group xbar(final Value<J, T> xbar) {
+		return new XbarGroupImpl<J, T>(xbar, this);
 	}
 	
 	@Override

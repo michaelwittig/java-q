@@ -8,6 +8,7 @@
 
 package de.cinovo.q.connector;
 
+
 /**
  * KXConnector asynchronous.
  * 
@@ -51,24 +52,6 @@ public interface KXConnectorAsync extends KXConnector {
 	 * @param listener Listener
 	 */
 	void unsubscribe(KXDataListener listener);
-	
-	/**
-	 * Asynchronous query. Data is received via global KXConnectorListener.
-	 * 
-	 * @param handle Unique handle to identify received data
-	 * @param cmd Command
-	 * @throws KXException If something went wrong
-	 */
-	void query(String handle, String cmd) throws KXException;
-	
-	/**
-	 * Asynchronous query. Data is received via local KXDataListener.
-	 * 
-	 * @param listener Listener
-	 * @param cmd Command
-	 * @throws KXException If something went wrong
-	 */
-	void query(KXDataListener listener, String cmd) throws KXException;
 	
 	/**
 	 * @return KXConnectorListener
