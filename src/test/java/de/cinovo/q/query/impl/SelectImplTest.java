@@ -94,7 +94,7 @@ public class SelectImplTest {
 		final Table table = new TableBuilderImpl("test").column(utctime).column(sym).build();
 		final SelectBuilderImpl builder = new SelectBuilderImpl(table);
 		final Select select = builder.column(utctime).group(sym.group()).group(utctime.xbar(TimeValue.from(0, 0, 0, 1))).filter(sym.filterEqualTo(SymbolValue.from("TEST"))).build();
-		Assert.assertEquals("select utctime by sym,1j xbar utctime from test where sym=`TEST", select.toQ());
+		Assert.assertEquals("select utctime by sym,00:00:00.001 xbar utctime from test where sym=`TEST", select.toQ());
 	}
 	
 	/** */
