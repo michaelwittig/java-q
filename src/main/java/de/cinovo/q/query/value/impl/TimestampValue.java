@@ -11,6 +11,7 @@ package de.cinovo.q.query.value.impl;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -34,6 +35,14 @@ public final class TimestampValue extends AValue<Timestamp, TypeTimestamp> {
 	/** Millis to nanos. */
 	public static final int MILLIS_TO_NANOS = 1000 * TimestampValue.MICROS_TO_NANOS;
 	
+	
+	/**
+	 * @param value Value
+	 * @return Timestamp
+	 */
+	public static TimestampValue from(final Date value) {
+		return TimestampValue.from(new Timestamp(value.getTime()));
+	}
 	
 	/**
 	 * @param value Value
