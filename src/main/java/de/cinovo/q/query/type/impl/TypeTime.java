@@ -46,6 +46,9 @@ public final class TypeTime implements OrdinalType<Time> {
 			
 			@Override
 			public Value<Time, ? extends Type<Time>> fromQ(final Object aValue) {
+				if (aValue == null) {
+					return this.create(null);
+				}
 				if (aValue instanceof Time) {
 					return this.create((Time) aValue);
 				}

@@ -44,6 +44,9 @@ public final class TypeBoolean implements OrdinalType<Boolean> {
 			
 			@Override
 			public Value<Boolean, ? extends Type<Boolean>> fromQ(final Object value) {
+				if (value == null) {
+					return this.create(null);
+				}
 				if (value instanceof Boolean) {
 					return this.create((Boolean) value);
 				}
