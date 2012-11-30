@@ -78,6 +78,13 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 	}
 	
 	private Result cmd(final KXSyncCommand cmd, final boolean isReconnectAttemp) throws KXException {
+		if (!this.isConnected()) {
+			try {
+				this.connect();
+			} catch (final KXError e) {
+				e.printStackTrace(); // can not happen
+			}
+		}
 		try {
 			return cmd.execute(this.c);
 		} catch (final IOException e) {

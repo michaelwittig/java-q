@@ -1,8 +1,18 @@
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Apache License, Version 2.0
+// which accompanies this distribution, and is available at
+// http://www.apache.org/licenses/LICENSE-2.0.html
+// -------------------------------------------------------------------------------
+
 package de.cinovo.q.connector.impl;
 
 import kx.c;
 import de.cinovo.q.query.FlipFlipResult;
 import de.cinovo.q.query.FlipResult;
+import de.cinovo.q.query.ListResult;
+import de.cinovo.q.query.PrimitiveResult;
 import de.cinovo.q.query.Result;
 
 /**
@@ -30,8 +40,17 @@ public final class KXResultHelper {
 				final c.Flip data = (c.Flip) dict.y;
 				return new FlipFlipResult(key, data);
 			}
+		} else {
+			if (res.getClass().isArray()) {
+				if (res.getClass().getComponentType() == String.class) {
+					return new ListResult<String>((String[]) res);
+				}
+			} else {
+				if (res instanceof String) {
+					return new PrimitiveResult<String>((String) res);
+				}
+			}
 		}
 		return null; // can not be casted to a Q result
 	}
-	
 }
