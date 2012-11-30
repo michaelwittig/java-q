@@ -44,6 +44,9 @@ public final class TypeInteger implements OrdinalType<Integer> {
 			
 			@Override
 			public Value<Integer, ? extends Type<Integer>> fromQ(final Object value) {
+				if (value == null) {
+					return this.create(null);
+				}
 				if (value instanceof Integer) {
 					return this.create((Integer) value);
 				}
