@@ -46,6 +46,9 @@ public final class TypeFloat implements OrdinalType<BigDecimal> {
 			
 			@Override
 			public Value<BigDecimal, ? extends Type<BigDecimal>> fromQ(final Object value) {
+				if (value == null) {
+					return this.create(null);
+				}
 				if (value instanceof Float) {
 					return this.create(new BigDecimal((Float) value));
 				}

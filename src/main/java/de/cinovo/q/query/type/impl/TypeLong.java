@@ -44,6 +44,9 @@ public final class TypeLong implements OrdinalType<Long> {
 			
 			@Override
 			public Value<Long, ? extends Type<Long>> fromQ(final Object value) {
+				if (value == null) {
+					return this.create(null);
+				}
 				if (value instanceof Long) {
 					return this.create((Long) value);
 				}

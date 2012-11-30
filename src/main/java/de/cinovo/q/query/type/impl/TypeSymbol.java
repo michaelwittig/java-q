@@ -44,6 +44,9 @@ public final class TypeSymbol implements NominalType<String> {
 			
 			@Override
 			public Value<String, ? extends Type<String>> fromQ(final Object value) {
+				if (value == null) {
+					return this.create(null);
+				}
 				if (value instanceof String) {
 					return this.create((String) value);
 				}

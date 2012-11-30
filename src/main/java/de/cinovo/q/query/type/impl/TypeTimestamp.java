@@ -46,6 +46,9 @@ public final class TypeTimestamp implements OrdinalType<Timestamp> {
 			
 			@Override
 			public Value<Timestamp, ? extends Type<Timestamp>> fromQ(final Object value) {
+				if (value == null) {
+					return this.create(null);
+				}
 				if (value instanceof Timestamp) {
 					return this.create((Timestamp) value);
 				}

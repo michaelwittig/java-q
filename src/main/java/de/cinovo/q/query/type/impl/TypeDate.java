@@ -46,6 +46,9 @@ public final class TypeDate implements OrdinalType<Date> {
 			
 			@Override
 			public Value<Date, ? extends Type<Date>> fromQ(final Object aValue) {
+				if (aValue == null) {
+					return this.create(null);
+				}
 				if (aValue instanceof Date) {
 					return this.create((Date) aValue);
 				}
