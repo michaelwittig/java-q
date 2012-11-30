@@ -1,9 +1,18 @@
+// -------------------------------------------------------------------------------
+// Copyright (c) 2011-2012 Cinovo AG
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Apache License, Version 2.0
+// which accompanies this distribution, and is available at
+// http://www.apache.org/licenses/LICENSE-2.0.html
+// -------------------------------------------------------------------------------
+
 package de.cinovo.q.connector.impl;
 
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import kx.c;
@@ -128,15 +137,15 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		public void run() {
 			c c = null;
 			while (true) {
-				final FutureValue<Result> future;
-				final KXSyncCommand cmd;
+				final KXSyncCommandWithFutureValue t;
 				try {
-					final KXSyncCommandWithFutureValue t = KXconnectorSyncTSImpl.this.commands.take();
-					cmd = t.getCmd();
-					future = t.getFuture();
+					t = KXconnectorSyncTSImpl.this.commands.take();
 				} catch (final InterruptedException e) {
 					continue;
 				}
+				
+				final KXSyncCommand cmd = t.getCmd();
+				final FutureValue<Result> future = t.getFuture();
 				
 				if (cmd == KXconnectorSyncTSImpl.START_COMMAND) {
 					if (c != null) {
@@ -154,13 +163,21 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 					}
 				} else {
 					if (c == null) {
-						future.error(new KXError("Not connected"));
-						continue;
+						try {
+							c = new c(KXconnectorSyncTSImpl.this.getHost(), KXconnectorSyncTSImpl.this.getPort());
+						} catch (final KException e) {
+							future.error(e);
+							continue;
+						} catch (final IOException e) {
+							future.error(e);
+							continue;
+						}
 					}
 					
 					if (cmd == KXconnectorSyncTSImpl.STOP_COMMAND) {
 						try {
 							c.close();
+							c = null;
 						} catch (final Exception e) {
 							e.printStackTrace();
 						}
@@ -176,7 +193,17 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 					} catch (final KException e) {
 						future.error(new KXException("Q failed", e));
 					} catch (final IOException e) {
-						future.error(new KXException("Could not talk to " + KXconnectorSyncTSImpl.this.getHost() + ":" + KXconnectorSyncTSImpl.this.getPort(), e));
+						if ((t.tryReconnect() == true) && KXconnectorSyncTSImpl.this.reconnectOnError()) {
+							c = null;
+							try {
+								Thread.sleep(KXConnectorImpl.RECONNECT_OFFSET_PER_TRY);
+							} catch (final InterruptedException ie) {
+								ie.printStackTrace();
+							}
+							KXconnectorSyncTSImpl.this.commands.offer(t);
+						} else {
+							future.error(new KXException("Could not talk to " + KXconnectorSyncTSImpl.this.getHost() + ":" + KXconnectorSyncTSImpl.this.getPort(), e));
+						}
 					}
 				}
 			}
@@ -198,6 +225,9 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		
 		/** Result future. */
 		private final FutureValue<Result> future;
+		
+		/** Indicates if the command is in the queue the 3nd time (reconnect). */
+		private final AtomicBoolean reconnectTry = new AtomicBoolean(false);
 		
 		
 		/**
@@ -222,6 +252,13 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		 */
 		public FutureValue<Result> getFuture() {
 			return this.future;
+		}
+		
+		/**
+		 * @return true if the command was not yet in reconnect state
+		 */
+		public boolean tryReconnect() {
+			return this.reconnectTry.compareAndSet(false, true);
 		}
 		
 	}
