@@ -38,24 +38,24 @@ public final class KXResultHelper {
 			if ((dict.x instanceof c.Flip) && (dict.y instanceof c.Flip)) {
 				final c.Flip key = (c.Flip) dict.x;
 				final c.Flip data = (c.Flip) dict.y;
-				return new FlipFlipResult(key, data);
+				return new FlipFlipResult("", key, data);
 			}
 		} else {
-            if (res instanceof Object[]) {
-                final Object[] oa = (Object[]) res;
-                if (oa.length == 2 && oa[0] instanceof String && oa[1] instanceof c.Flip) {
-                    final String table =  (String) oa[0];
-                    final c.Flip flip = (c.Flip) oa[1];
-                    return new FlipResult(table, flip);
-                } else if (oa.length == 3 && oa[1] instanceof String && oa[2] instanceof c.Flip) {
-                    final String table =  (String) oa[1];
-                    final c.Flip flip = (c.Flip) oa[2];
-                    return new FlipResult(table, flip);
-                } else {
-                    return new ListResult<Object>(oa);
-                }
-            } else if (res.getClass().isArray()) {
-                if (res.getClass().getComponentType() == String.class) {
+			if (res instanceof Object[]) {
+				final Object[] oa = (Object[]) res;
+				if ((oa.length == 2) && (oa[0] instanceof String) && (oa[1] instanceof c.Flip)) {
+					final String table = (String) oa[0];
+					final c.Flip flip = (c.Flip) oa[1];
+					return new FlipResult(table, flip);
+				} else if ((oa.length == 3) && (oa[1] instanceof String) && (oa[2] instanceof c.Flip)) {
+					final String table = (String) oa[1];
+					final c.Flip flip = (c.Flip) oa[2];
+					return new FlipResult(table, flip);
+				} else {
+					return new ListResult<Object>(oa);
+				}
+			} else if (res.getClass().isArray()) {
+				if (res.getClass().getComponentType() == String.class) {
 					return new ListResult<String>((String[]) res);
 				}
 			} else {

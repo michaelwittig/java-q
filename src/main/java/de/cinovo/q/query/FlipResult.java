@@ -33,10 +33,11 @@ public final class FlipResult extends ATableResult {
 	
 	
 	/**
+	 * @param aName Name
 	 * @param aFlip Flip
 	 */
 	public FlipResult(final String aName, final Flip aFlip) {
-        super(aName);
+		super(aName);
 		this.flip = aFlip;
 		final HashMap<String, Integer> tmp = new HashMap<String, Integer>();
 		for (int i = 0; i < this.flip.x.length; i++) {
