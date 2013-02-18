@@ -9,6 +9,7 @@
 package de.cinovo.q.connector.impl;
 
 import java.io.IOException;
+import java.util.TimeZone;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -155,6 +156,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 					
 					try {
 						c = new c(KXconnectorSyncTSImpl.this.getHost(), KXconnectorSyncTSImpl.this.getPort());
+						c.tz = TimeZone.getTimeZone("UTC");
 						future.set(null);
 					} catch (final KException e) {
 						future.error(e);

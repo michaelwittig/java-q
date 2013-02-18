@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
@@ -79,6 +80,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 			if (!this.c.compareAndSet(null, new c(this.getHost(), this.getPort()))) {
 				throw new KXError("Already connected");
 			}
+			this.c.get().tz = TimeZone.getTimeZone("UTC");
 			new Thread(new Reader()).start();
 			new Thread(new Executor(this.c.get())).start();
 		} catch (final KException e) {
