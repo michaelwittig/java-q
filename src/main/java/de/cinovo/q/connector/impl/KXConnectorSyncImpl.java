@@ -9,6 +9,7 @@
 package de.cinovo.q.connector.impl;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 import kx.c;
 import kx.c.KException;
@@ -53,6 +54,7 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 				throw new KXError("Already connected");
 			}
 			this.c = new c(this.getHost(), this.getPort());
+			this.c.tz = TimeZone.getTimeZone("UTC");
 		} catch (final KException e) {
 			throw new KXException("KException", e);
 		} catch (final IOException e) {
