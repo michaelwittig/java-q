@@ -42,10 +42,12 @@ public final class FlipFlipResult extends ATableResult {
 	
 	
 	/**
+	 * @param aName Name
 	 * @param aKey Key flip
 	 * @param aData Data flip
 	 */
-	public FlipFlipResult(final Flip aKey, final Flip aData) {
+	public FlipFlipResult(final String aName, final Flip aKey, final Flip aData) {
+		super(aName);
 		this.key = aKey;
 		this.data = aData;
 		final HashMap<String, Integer> keyTmp = new HashMap<String, Integer>();
