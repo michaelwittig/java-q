@@ -13,14 +13,27 @@ package de.cinovo.q.query;
  * 
  */
 public abstract class ATableResult implements TableResult {
-	
+
+    private final String name;
+
+    /**
+     * @param aName Table name
+     */
+    ATableResult(final String aName) {
+        this.name = aName;
+    }
+
 	/**
 	 * @param col Column name
 	 * @param row Row
 	 * @return Value
 	 */
 	abstract Object getAt(final String col, final int row);
-	
+
+	public String getName() {
+        return this.name;
+    }
+
 	/**
 	 * @return Column names
 	 */
