@@ -32,7 +32,7 @@ abstract class AValue<J, T extends Type<J>> implements Value<J, T> {
 	 * @param aValue Value
 	 * @param aType Type
 	 */
-	public AValue(final J aValue, final T aType) {
+	AValue(final J aValue, final T aType) {
 		super();
 		this.value = aValue;
 		this.type = aType;

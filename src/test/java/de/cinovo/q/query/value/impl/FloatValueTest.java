@@ -1,5 +1,4 @@
 // -------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------
 // Copyright (c) 2011-2012 Cinovo AG
 // All rights reserved. This program and the accompanying materials
 // are made available under the terms of the Apache License, Version 2.0

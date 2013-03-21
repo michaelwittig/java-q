@@ -15,7 +15,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import de.cinovo.q.query.type.OrdinalList;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.impl.TypeList;
 import de.cinovo.q.query.type.impl.TypeTimestamp;
 
 /**
@@ -84,15 +85,15 @@ public final class TimestampValue extends AValue<Timestamp, TypeTimestamp> {
 	 * @param values Values
 	 * @return List of timestamps
 	 */
-	public static OrdinalList<Timestamp, TypeTimestamp> froms(final Timestamp[] values) {
-		return new OrdinalListImpl<Timestamp, TypeTimestamp>(values, TypeTimestamp.get());
+	public static ListValue<Timestamp, TypeList<Timestamp, Type<Timestamp>>> froms(final Timestamp[] values) {
+		return new ListValue<Timestamp, TypeList<Timestamp, Type<Timestamp>>>(values, TypeList.getTimestamp());
 	}
 	
 	/**
 	 * @param value Value
 	 * @param type Type
 	 */
-	public TimestampValue(final Timestamp value, final TypeTimestamp type) {
+	private TimestampValue(final Timestamp value, final TypeTimestamp type) {
 		super(value, type);
 	}
 	

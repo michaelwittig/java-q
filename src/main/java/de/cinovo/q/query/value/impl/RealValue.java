@@ -10,7 +10,8 @@ package de.cinovo.q.query.value.impl;
 
 import java.math.BigDecimal;
 
-import de.cinovo.q.query.type.OrdinalList;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.impl.TypeList;
 import de.cinovo.q.query.type.impl.TypeReal;
 
 /**
@@ -37,15 +38,15 @@ public final class RealValue extends AValue<BigDecimal, TypeReal> {
 	 * @param values Values
 	 * @return List of reals
 	 */
-	public static OrdinalList<BigDecimal, TypeReal> froms(final BigDecimal[] values) {
-		return new OrdinalListImpl<BigDecimal, TypeReal>(values, TypeReal.get());
+	public static ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>> froms(final BigDecimal[] values) {
+		return new ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>>(values, TypeList.getReal());
 	}
 	
 	/**
 	 * @param value Value
 	 * @param type Type
 	 */
-	public RealValue(final BigDecimal value, final TypeReal type) {
+	private RealValue(final BigDecimal value, final TypeReal type) {
 		super(value, type);
 	}
 	
