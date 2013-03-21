@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------
-// Copyright (c) 2011-2012 Cinovo AG
+// Copyright (c) 2011-2013 Cinovo AG
 // All rights reserved. This program and the accompanying materials
 // are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
@@ -38,7 +38,6 @@ public final class TableRowImpl implements TableRow {
 		this.i = anI;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public <J, T extends Type<J>> Value<J, T> get(final Column<T> column) {
 		return (Value<J, T>) column.getType().geValueFactory().fromQ(this.table.getAt(column, this.i));

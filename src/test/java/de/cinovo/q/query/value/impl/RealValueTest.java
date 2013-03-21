@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------
-// Copyright (c) 2011-2012 Cinovo AG
+// Copyright (c) 2011-2013 Cinovo AG
 // All rights reserved. This program and the accompanying materials
 // are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
@@ -8,10 +8,9 @@
 
 package de.cinovo.q.query.value.impl;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -21,65 +20,65 @@ import org.junit.Test;
  * 
  */
 public class RealValueTest {
-
+	
 	/** */
 	@Test
 	public final void testNullQ() {
-		assertEquals("0Ne", RealValue.from(null).toQ());
+		Assert.assertEquals("0Ne", RealValue.from(null).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testNeg1Q() {
-		assertEquals("-1e", RealValue.from(new BigDecimal("-1")).toQ());
+		Assert.assertEquals("-1e", RealValue.from(new BigDecimal("-1")).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void test0Q() {
-		assertEquals("0e", RealValue.from(BigDecimal.ZERO).toQ());
+		Assert.assertEquals("0e", RealValue.from(BigDecimal.ZERO).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void test1Q() {
-		assertEquals("1e", RealValue.from(BigDecimal.ONE).toQ());
+		Assert.assertEquals("1e", RealValue.from(BigDecimal.ONE).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testNeg15Q() {
-		assertEquals("-1.5e", RealValue.from(new BigDecimal("-1.5")).toQ());
+		Assert.assertEquals("-1.5e", RealValue.from(new BigDecimal("-1.5")).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void test05Q() {
-		assertEquals("0.5e", RealValue.from(new BigDecimal("0.5")).toQ());
+		Assert.assertEquals("0.5e", RealValue.from(new BigDecimal("0.5")).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void test15Q() {
-		assertEquals("1.5e", RealValue.from(new BigDecimal("1.5")).toQ());
+		Assert.assertEquals("1.5e", RealValue.from(new BigDecimal("1.5")).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testListEmpty() {
-		assertEquals("()", RealValue.froms(new BigDecimal[] {}).toQ());
+		Assert.assertEquals("()", RealValue.froms(new BigDecimal[] {}).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testListWithOneItem() {
-		assertEquals("(1.5e)", RealValue.froms(new BigDecimal[] { new BigDecimal("1.5") }).toQ());
+		Assert.assertEquals("(1.5e)", RealValue.froms(new BigDecimal[] {new BigDecimal("1.5")}).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testListWithTwoItems() {
-		assertEquals("(1.5e,2.5e)", RealValue.froms(new BigDecimal[] { new BigDecimal("1.5"), new BigDecimal("2.5") }).toQ());
+		Assert.assertEquals("(1.5e,2.5e)", RealValue.froms(new BigDecimal[] {new BigDecimal("1.5"), new BigDecimal("2.5")}).toQ());
 	}
-
+	
 }

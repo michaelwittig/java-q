@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------
-// Copyright (c) 2011-2012 Cinovo AG
+// Copyright (c) 2011-2013 Cinovo AG
 // All rights reserved. This program and the accompanying materials
 // are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
@@ -48,7 +48,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	private final KXListener listener;
 	
 	/** Connection. */
-	private final AtomicReference<c> c = new AtomicReference<c>();
+	private final AtomicReference<c> cref = new AtomicReference<c>();
 	
 	/** Callback executor service. */
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -77,12 +77,12 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	@Override
 	public void connect() throws KXException, KXError {
 		try {
-			if (!this.c.compareAndSet(null, new c(this.getHost(), this.getPort()))) {
+			if (!this.cref.compareAndSet(null, new c(this.getHost(), this.getPort()))) {
 				throw new KXError("Already connected");
 			}
-			this.c.get().tz = TimeZone.getTimeZone("UTC");
+			this.cref.get().tz = TimeZone.getTimeZone("UTC");
 			new Thread(new Reader()).start();
-			new Thread(new Executor(this.c.get())).start();
+			new Thread(new Executor(this.cref.get())).start();
 		} catch (final KException e) {
 			throw new KXException("KException", e);
 		} catch (final IOException e) {
@@ -97,18 +97,18 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	
 	@Override
 	public void disconnect() throws KXError {
-		final c old = this.c.get();
+		final c old = this.cref.get();
 		if (old == null) {
 			throw new KXError("Not connected");
 		}
-		if (!this.c.compareAndSet(old, null)) {
+		if (!this.cref.compareAndSet(old, null)) {
 			throw new KXError("Already disconnected");
 		}
 		this.commands.offer(KXConnectorAsyncImpl.STOP_COMMAND);
 		try {
 			old.close();
 		} catch (final IOException e) {
-			// e.printStackTrace(); // TODO suppress
+			// suppress
 		}
 	}
 	
@@ -172,7 +172,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		try {
 			this.disconnect();
 		} catch (final KXError e) {
-			// e.printStackTrace(); // TODO suppress, because this just happens if the connection is not established
+			// suppress, because this just happens if the connection is not established
 		}
 		final int count = this.reconnectCounter.incrementAndGet();
 		final long time = System.currentTimeMillis();
@@ -253,7 +253,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 				KXConnectorAsyncImpl.this.throwKXError(new KXError("Reconnect #" + this.count + " failed"));
 				e.printStackTrace();
 			} catch (final KXError e) {
-				// e.printStackTrace(); // TODO suppress, because this just happens if the connection is already established
+				// suppress, because this just happens if the connection is already established
 			}
 		}
 	}
@@ -325,9 +325,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		@Override
 		public void run() {
 			KXConnectorAsyncImpl.this.reconnectCounter.set(0);
-			while (KXConnectorAsyncImpl.this.c.get() != null) {
+			while (KXConnectorAsyncImpl.this.cref.get() != null) {
 				try {
-					final Object res = KXConnectorAsyncImpl.this.c.get().k();
+					final Object res = KXConnectorAsyncImpl.this.cref.get().k();
 					
 					if (res == null) {
 						// nothing to do here
@@ -362,7 +362,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	
 	@Override
 	public boolean isConnected() {
-		if (this.c.get() != null) {
+		if (this.cref.get() != null) {
 			return true;
 		}
 		return false;
