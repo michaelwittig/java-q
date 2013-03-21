@@ -8,8 +8,9 @@
 
 package de.cinovo.q.query.value.impl;
 
-import de.cinovo.q.query.type.OrdinalList;
+import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeBoolean;
+import de.cinovo.q.query.type.impl.TypeList;
 
 /**
  * Boolean value.
@@ -35,15 +36,15 @@ public final class BooleanValue extends AValue<Boolean, TypeBoolean> {
 	 * @param values Values
 	 * @return List of reals
 	 */
-	public static OrdinalList<Boolean, TypeBoolean> froms(final Boolean[] values) {
-		return new OrdinalListImpl<Boolean, TypeBoolean>(values, TypeBoolean.get());
+	public static ListValue<Boolean, TypeList<Boolean, Type<Boolean>>> froms(final Boolean[] values) {
+		return new ListValue<Boolean, TypeList<Boolean, Type<Boolean>>>(values, TypeList.getBoolean());
 	}
 	
 	/**
 	 * @param value Value
 	 * @param type Type
 	 */
-	public BooleanValue(final Boolean value, final TypeBoolean type) {
+	private BooleanValue(final Boolean value, final TypeBoolean type) {
 		super(value, type);
 	}
 	

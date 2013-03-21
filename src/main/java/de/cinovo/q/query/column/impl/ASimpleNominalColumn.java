@@ -22,7 +22,10 @@ import de.cinovo.q.query.group.Group;
 import de.cinovo.q.query.group.Grouping;
 import de.cinovo.q.query.type.List;
 import de.cinovo.q.query.type.NominalType;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.impl.TypeList;
 import de.cinovo.q.query.value.Value;
+import de.cinovo.q.query.value.impl.ListValue;
 
 /**
  * Abstract simple nominal column.
@@ -131,10 +134,19 @@ public abstract class ASimpleNominalColumn<J, T extends NominalType<J>> implemen
 	}
 	
 	@Override
-	public final Filter filterIn(final List<J, T> list) {
+	public final Filter filterIn(final ListValue<J, TypeList<J, Type<J>>> list) {
 		return this.createFilter(FilterComparator.in, list);
 	}
 	
+	/**
+	 * @param comarator Comparator
+	 * @param value Value
+	 * @return Filter
+	 */
+	protected final Filter createFilter(final FilterComparator comarator, final ListValue<J, TypeList<J, Type<J>>> value) {
+		return new FilterImpl<J, T>(this, comarator, value);
+	}
+
 	/**
 	 * @param comarator Comparator
 	 * @param value Value
