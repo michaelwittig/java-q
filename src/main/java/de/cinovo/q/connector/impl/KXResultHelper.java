@@ -9,6 +9,8 @@
 package de.cinovo.q.connector.impl;
 
 import kx.c;
+import de.cinovo.q.connector.KXException;
+import de.cinovo.q.query.EmptyResult;
 import de.cinovo.q.query.FlipFlipResult;
 import de.cinovo.q.query.FlipResult;
 import de.cinovo.q.query.ListResult;
@@ -29,10 +31,11 @@ public final class KXResultHelper {
 	 * 
 	 * @param res Result from q
 	 * @return Result
+	 * @throws KXException If the result type is not supported
 	 */
-	public static Result convert(final Object res) {
+	public static Result convert(final Object res) throws KXException {
 		if (res == null) {
-			return null;
+			return new EmptyResult();
 		}
 		if (res instanceof c.Flip) {
 			return new FlipResult("", (c.Flip) res);
@@ -67,6 +70,6 @@ public final class KXResultHelper {
 		if (res instanceof String) {
 			return new PrimitiveResult<String>((String) res);
 		}
-		return null; // can not be casted to a Q result
+		throw new KXException("Unsupported sync result type: " + res.getClass().getSimpleName());
 	}
 }
