@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------
-// Copyright (c) 2011-2012 Cinovo AG
+// Copyright (c) 2011-2013 Cinovo AG
 // All rights reserved. This program and the accompanying materials
 // are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
@@ -146,7 +146,7 @@ public abstract class ASimpleNominalColumn<J, T extends NominalType<J>> implemen
 	protected final Filter createFilter(final FilterComparator comarator, final ListValue<J, TypeList<J, Type<J>>> value) {
 		return new FilterImpl<J, T>(this, comarator, value);
 	}
-
+	
 	/**
 	 * @param comarator Comparator
 	 * @param value Value

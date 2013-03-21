@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------
-// Copyright (c) 2011-2012 Cinovo AG
+// Copyright (c) 2011-2013 Cinovo AG
 // All rights reserved. This program and the accompanying materials
 // are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
@@ -14,11 +14,24 @@ import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeList;
 import de.cinovo.q.query.value.Value;
 
+/**
+ * List value.
+ * 
+ * @author mwittig
+ * 
+ * @param <J> Java type
+ * @param <T> Type
+ */
 public class ListValue<J, T extends TypeList<J, Type<J>>> extends AValue<J[], T> {
-
+	
 	/** Values. */
 	private final ArrayList<Value<J, ? extends Type<J>>> values;
 	
+	
+	/**
+	 * @param aValue Value
+	 * @param aType Type
+	 */
 	public ListValue(final J[] aValue, final T aType) {
 		super(aValue, aType);
 		if (aValue != null) {
@@ -31,7 +44,7 @@ public class ListValue<J, T extends TypeList<J, Type<J>>> extends AValue<J[], T>
 		}
 		
 	}
-
+	
 	@Override
 	public final String toQ() {
 		final StringBuilder sb = new StringBuilder();
@@ -46,9 +59,9 @@ public class ListValue<J, T extends TypeList<J, Type<J>>> extends AValue<J[], T>
 			}
 			sb.append(")");
 		} else {
-			sb.append("()"); // TODO is this correct?
+			sb.append("()");
 		}
 		return sb.toString();
 	}
-
+	
 }

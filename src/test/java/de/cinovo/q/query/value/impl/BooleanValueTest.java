@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------
-// Copyright (c) 2011-2012 Cinovo AG
+// Copyright (c) 2011-2013 Cinovo AG
 // All rights reserved. This program and the accompanying materials
 // are made available under the terms of the Apache License, Version 2.0
 // which accompanies this distribution, and is available at
@@ -8,49 +8,63 @@
 
 package de.cinovo.q.query.value.impl;
 
-import static org.junit.Assert.*;
-
+import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * Boolean value test.
+ * 
+ * @author mwittig
+ * 
+ */
 public class BooleanValueTest {
-
+	
+	/**
+	 * Null.
+	 */
 	@Test
 	public void testNullQ() {
-		assertEquals("", BooleanValue.from(null).toQ());
+		Assert.assertEquals("", BooleanValue.from(null).toQ());
 	}
 	
+	/**
+	 * True.
+	 */
 	@Test
 	public void testTrueQ() {
-		assertEquals("1b", BooleanValue.from(true).toQ());
+		Assert.assertEquals("1b", BooleanValue.from(true).toQ());
 	}
 	
+	/**
+	 * False.
+	 */
 	@Test
 	public void testFalseQ() {
-		assertEquals("0b", BooleanValue.from(false).toQ());
+		Assert.assertEquals("0b", BooleanValue.from(false).toQ());
 	}
 	
 	/** */
 	@Test
 	public final void testListNull() {
-		assertEquals("()", BooleanValue.froms(null).toQ());
+		Assert.assertEquals("()", BooleanValue.froms(null).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testListEmpty() {
-		assertEquals("()", BooleanValue.froms(new Boolean[] {}).toQ());
+		Assert.assertEquals("()", BooleanValue.froms(new Boolean[] {}).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testListWithOneItem() {
-		assertEquals("(1b)", BooleanValue.froms(new Boolean[] { true }).toQ());
+		Assert.assertEquals("(1b)", BooleanValue.froms(new Boolean[] {true}).toQ());
 	}
-
+	
 	/** */
 	@Test
 	public final void testListWithTwoItems() {
-		assertEquals("(1b,0b)", BooleanValue.froms(new Boolean[] { true, false }).toQ());
+		Assert.assertEquals("(1b,0b)", BooleanValue.froms(new Boolean[] {true, false}).toQ());
 	}
-
+	
 }
