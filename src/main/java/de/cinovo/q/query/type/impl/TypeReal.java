@@ -41,7 +41,7 @@ public final class TypeReal implements OrdinalType<BigDecimal> {
 			
 			@Override
 			public Value<BigDecimal, ? extends Type<BigDecimal>> create(final BigDecimal aValue) {
-				return new RealValue(aValue, TypeReal.this);
+				return RealValue.from(aValue);
 			}
 			
 			@Override

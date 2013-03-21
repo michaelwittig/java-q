@@ -8,8 +8,9 @@
 
 package de.cinovo.q.query.value.impl;
 
-import de.cinovo.q.query.type.OrdinalList;
+import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeInteger;
+import de.cinovo.q.query.type.impl.TypeList;
 
 /**
  * Integer value.
@@ -35,15 +36,15 @@ public final class IntegerValue extends AValue<Integer, TypeInteger> {
 	 * @param values Values
 	 * @return List of integers
 	 */
-	public static OrdinalList<Integer, TypeInteger> froms(final Integer[] values) {
-		return new OrdinalListImpl<Integer, TypeInteger>(values, TypeInteger.get());
+	public static ListValue<Integer, TypeList<Integer, Type<Integer>>> froms(final Integer[] values) {
+		return new ListValue<Integer, TypeList<Integer, Type<Integer>>>(values, TypeList.getInteger());
 	}
 	
 	/**
 	 * @param value Value
 	 * @param type Type
 	 */
-	public IntegerValue(final Integer value, final TypeInteger type) {
+	private IntegerValue(final Integer value, final TypeInteger type) {
 		super(value, type);
 	}
 	
