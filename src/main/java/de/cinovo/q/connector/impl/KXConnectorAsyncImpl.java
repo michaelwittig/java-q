@@ -333,13 +333,14 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 						// nothing to do here
 						continue;
 					}
-					
-					final Result result = KXResultHelper.convert(res);
-					if (result == null) {
-						KXConnectorAsyncImpl.this.throwKXException(new KXException("Unsupported async result type: " + res.getClass().getSimpleName()));
-					} else {
-						KXConnectorAsyncImpl.this.throwResult(result);
+					final Result result;
+					try {
+						result = KXResultHelper.convert(res);
+					} catch (final KXException e) {
+						KXConnectorAsyncImpl.this.throwKXException(e);
+						continue;
 					}
+					KXConnectorAsyncImpl.this.throwResult(result);
 				} catch (final SocketTimeoutException e) {
 					continue;
 				} catch (final UnsupportedEncodingException e) {
