@@ -34,10 +34,6 @@ public abstract class AKXSyncCommand implements KXSyncCommand {
 	 */
 	protected final Result execute(final c c, final String q) throws KXException, KException, IOException {
 		final Object res = c.k(q);
-		final Result result = KXResultHelper.convert(res);
-		if (result == null) {
-			throw new KXException("Unsupported sync result type: " + res.getClass().getSimpleName());
-		}
-		return result;
+		return KXResultHelper.convert(res);
 	}
 }
