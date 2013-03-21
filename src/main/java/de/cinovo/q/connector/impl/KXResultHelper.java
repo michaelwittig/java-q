@@ -31,38 +31,41 @@ public final class KXResultHelper {
 	 * @return Result
 	 */
 	public static Result convert(final Object res) {
+		if (res == null) {
+			return null;
+		}
 		if (res instanceof c.Flip) {
 			return new FlipResult("", (c.Flip) res);
-		} else if (res instanceof c.Dict) {
+		}
+		if (res instanceof c.Dict) {
 			final c.Dict dict = (c.Dict) res;
 			if ((dict.x instanceof c.Flip) && (dict.y instanceof c.Flip)) {
 				final c.Flip key = (c.Flip) dict.x;
 				final c.Flip data = (c.Flip) dict.y;
 				return new FlipFlipResult("", key, data);
 			}
-		} else {
-			if (res instanceof Object[]) {
-				final Object[] oa = (Object[]) res;
-				if ((oa.length == 2) && (oa[0] instanceof String) && (oa[1] instanceof c.Flip)) {
-					final String table = (String) oa[0];
-					final c.Flip flip = (c.Flip) oa[1];
-					return new FlipResult(table, flip);
-				} else if ((oa.length == 3) && (oa[1] instanceof String) && (oa[2] instanceof c.Flip)) {
-					final String table = (String) oa[1];
-					final c.Flip flip = (c.Flip) oa[2];
-					return new FlipResult(table, flip);
-				} else {
-					return new ListResult<Object>(oa);
-				}
-			} else if (res.getClass().isArray()) {
-				if (res.getClass().getComponentType() == String.class) {
-					return new ListResult<String>((String[]) res);
-				}
+		}
+		if (res instanceof Object[]) {
+			final Object[] oa = (Object[]) res;
+			if ((oa.length == 2) && (oa[0] instanceof String) && (oa[1] instanceof c.Flip)) {
+				final String table = (String) oa[0];
+				final c.Flip flip = (c.Flip) oa[1];
+				return new FlipResult(table, flip);
+			} else if ((oa.length == 3) && (oa[1] instanceof String) && (oa[2] instanceof c.Flip)) {
+				final String table = (String) oa[1];
+				final c.Flip flip = (c.Flip) oa[2];
+				return new FlipResult(table, flip);
 			} else {
-				if (res instanceof String) {
-					return new PrimitiveResult<String>((String) res);
-				}
+				return new ListResult<Object>(oa);
 			}
+		}
+		if (res.getClass().isArray()) {
+			if (res.getClass().getComponentType() == String.class) {
+				return new ListResult<String>((String[]) res);
+			}
+		}
+		if (res instanceof String) {
+			return new PrimitiveResult<String>((String) res);
 		}
 		return null; // can not be casted to a Q result
 	}
