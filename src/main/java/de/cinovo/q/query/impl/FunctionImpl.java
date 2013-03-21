@@ -87,7 +87,7 @@ public final class FunctionImpl implements Function {
 		}
 		
 		@Override
-		public FunctionBuilder param(final Value param) {
+		public FunctionBuilder param(final Value<?, ?> param) {
 			this.function.params.add(param);
 			return this;
 		}

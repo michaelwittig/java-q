@@ -47,8 +47,7 @@ public interface Function extends Q {
 		 * @param value Value
 		 * @return FunctionBuilder
 		 */
-		@SuppressWarnings("rawtypes")
-		FunctionBuilder param(Value value);
+		FunctionBuilder param(Value<?, ?> value);
 		
 	}
 	

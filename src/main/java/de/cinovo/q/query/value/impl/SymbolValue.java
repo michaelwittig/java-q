@@ -8,7 +8,8 @@
 
 package de.cinovo.q.query.value.impl;
 
-import de.cinovo.q.query.type.NominalList;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.impl.TypeList;
 import de.cinovo.q.query.type.impl.TypeSymbol;
 
 /**
@@ -35,15 +36,15 @@ public final class SymbolValue extends AValue<String, TypeSymbol> {
 	 * @param values Values
 	 * @return List of symbols
 	 */
-	public static NominalList<String, TypeSymbol> froms(final String[] values) {
-		return new NominalListImpl<String, TypeSymbol>(values, TypeSymbol.get());
+	public static ListValue<String, TypeList<String, Type<String>>> froms(final String...values) {
+		return new ListValue<String, TypeList<String, Type<String>>>(values, TypeList.getSymbol());
 	}
 	
 	/**
 	 * @param value Value
 	 * @param type Type
 	 */
-	public SymbolValue(final String value, final TypeSymbol type) {
+	private SymbolValue(final String value, final TypeSymbol type) {
 		super(value, type);
 	}
 	

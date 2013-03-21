@@ -12,8 +12,9 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-import de.cinovo.q.query.type.OrdinalList;
+import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeDate;
+import de.cinovo.q.query.type.impl.TypeList;
 
 /**
  * Time value.
@@ -45,8 +46,8 @@ public final class DateValue extends AValue<Date, TypeDate> {
 	 * @param values Values
 	 * @return List of times
 	 */
-	public static OrdinalList<Date, TypeDate> froms(final Date[] values) {
-		return new OrdinalListImpl<Date, TypeDate>(values, TypeDate.get());
+	public static ListValue<Date, TypeList<Date, Type<Date>>> froms(final Date[] values) {
+		return new ListValue<Date, TypeList<Date, Type<Date>>>(values, TypeList.getDate());
 	}
 	
 	/**

@@ -10,8 +10,9 @@ package de.cinovo.q.query.value.impl;
 
 import java.math.BigDecimal;
 
-import de.cinovo.q.query.type.OrdinalList;
+import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeFloat;
+import de.cinovo.q.query.type.impl.TypeList;
 
 /**
  * Float value.
@@ -37,15 +38,15 @@ public final class FloatValue extends AValue<BigDecimal, TypeFloat> {
 	 * @param values Values
 	 * @return List of floats
 	 */
-	public static OrdinalList<BigDecimal, TypeFloat> froms(final BigDecimal[] values) {
-		return new OrdinalListImpl<BigDecimal, TypeFloat>(values, TypeFloat.get());
+	public static ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>> froms(final BigDecimal[] values) {
+		return new ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>>(values, TypeList.getFloat());
 	}
 	
 	/**
 	 * @param value Value
 	 * @param type Type
 	 */
-	public FloatValue(final BigDecimal value, final TypeFloat type) {
+	private FloatValue(final BigDecimal value, final TypeFloat type) {
 		super(value, type);
 	}
 	

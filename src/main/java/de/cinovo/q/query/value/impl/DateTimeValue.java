@@ -12,8 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import de.cinovo.q.query.type.OrdinalList;
+import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeDateTime;
+import de.cinovo.q.query.type.impl.TypeList;
 
 /**
  * DateTime value.
@@ -45,15 +46,15 @@ public final class DateTimeValue extends AValue<Date, TypeDateTime> {
 	 * @param values Values
 	 * @return List of times
 	 */
-	public static OrdinalList<Date, TypeDateTime> froms(final Date[] values) {
-		return new OrdinalListImpl<Date, TypeDateTime>(values, TypeDateTime.get());
+	public static ListValue<Date, TypeList<Date, Type<Date>>> froms(final Date[] values) {
+		return new ListValue<Date, TypeList<Date, Type<Date>>>(values, TypeList.getDateTime());
 	}
 	
 	/**
 	 * @param value Value
 	 * @param type Type
 	 */
-	public DateTimeValue(final Date value, final TypeDateTime type) {
+	private DateTimeValue(final Date value, final TypeDateTime type) {
 		super(value, type);
 	}
 	

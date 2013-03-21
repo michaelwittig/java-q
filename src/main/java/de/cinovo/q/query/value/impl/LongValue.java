@@ -8,7 +8,8 @@
 
 package de.cinovo.q.query.value.impl;
 
-import de.cinovo.q.query.type.OrdinalList;
+import de.cinovo.q.query.type.Type;
+import de.cinovo.q.query.type.impl.TypeList;
 import de.cinovo.q.query.type.impl.TypeLong;
 
 /**
@@ -35,15 +36,15 @@ public final class LongValue extends AValue<Long, TypeLong> {
 	 * @param values Values
 	 * @return List of longs
 	 */
-	public static OrdinalList<Long, TypeLong> froms(final Long[] values) {
-		return new OrdinalListImpl<Long, TypeLong>(values, TypeLong.get());
+	public static ListValue<Long, TypeList<Long, Type<Long>>> froms(final Long[] values) {
+		return new ListValue<Long, TypeList<Long, Type<Long>>>(values, TypeList.getLong());
 	}
 	
 	/**
 	 * @param value Value
 	 * @param type Type
 	 */
-	public LongValue(final Long value, final TypeLong type) {
+	private LongValue(final Long value, final TypeLong type) {
 		super(value, type);
 	}
 	
