@@ -70,6 +70,9 @@ public final class KXResultHelper {
 		if (res instanceof String) {
 			return new PrimitiveResult<String>((String) res);
 		}
+		if (res instanceof Long) {
+			return new PrimitiveResult<Long>((Long) res);
+		}
 		throw new KXException("Unsupported sync result type: " + res.getClass().getSimpleName());
 	}
 }

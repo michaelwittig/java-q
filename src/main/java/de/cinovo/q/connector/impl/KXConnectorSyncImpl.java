@@ -70,7 +70,7 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 		try {
 			this.c.close();
 		} catch (final IOException e) {
-			e.printStackTrace();
+			// supress
 		}
 		this.c = null;
 	}
@@ -84,7 +84,7 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 			try {
 				this.connect();
 			} catch (final KXError e) {
-				e.printStackTrace(); // can not happen
+				// can not happen
 			}
 		}
 		try {
@@ -94,7 +94,7 @@ final class KXConnectorSyncImpl extends KXConnectorImpl implements KXConnectorSy
 				try {
 					Thread.sleep(KXConnectorImpl.RECONNECT_OFFSET_PER_TRY);
 				} catch (final InterruptedException ie) {
-					ie.printStackTrace();
+					// supress
 				}
 				try {
 					this.disconnect();

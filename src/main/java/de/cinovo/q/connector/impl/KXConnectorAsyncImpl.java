@@ -15,11 +15,13 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import kx.c;
@@ -59,8 +61,11 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	/** Timer. */
 	private final Timer timer = new Timer();
 	
-	/** Reconnect counter. */
-	private final AtomicInteger reconnectCounter = new AtomicInteger(0);
+	/** Subscriptions. */
+	private final CopyOnWriteArrayList<KXAsyncCommandQ> subscribes = new CopyOnWriteArrayList<KXAsyncCommandQ>();
+	
+	/** Current run. */
+	private final AtomicReference<UUID> currentRun = new AtomicReference<UUID>();
 	
 	
 	/**
@@ -76,19 +81,21 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	
 	@Override
 	public void connect() throws KXException, KXError {
+		final UUID run = UUID.randomUUID();
+		this.currentRun.set(run);
 		try {
 			if (!this.cref.compareAndSet(null, new c(this.getHost(), this.getPort()))) {
 				throw new KXError("Already connected");
 			}
 			this.cref.get().tz = TimeZone.getTimeZone("UTC");
-			new Thread(new Reader()).start();
-			new Thread(new Executor(this.cref.get())).start();
+			new Thread(new Reader(run)).start();
+			new Thread(new Executor(run, this.cref.get())).start();
 		} catch (final KException e) {
 			throw new KXException("KException", e);
 		} catch (final IOException e) {
 			if (this.reconnectOnError()) {
 				this.throwKXError(new KXError("Could not connect to " + this.getHost() + ":" + this.getPort()));
-				this.reconnect();
+				this.reconnect(run);
 			} else {
 				throw new KXException("Could not connect to " + this.getHost() + ":" + this.getPort(), e);
 			}
@@ -97,6 +104,10 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	
 	@Override
 	public void disconnect() throws KXError {
+		this.disconnect(true);
+	}
+	
+	private void disconnect(final boolean clearSubscriptions) throws KXError {
 		final c old = this.cref.get();
 		if (old == null) {
 			throw new KXError("Not connected");
@@ -104,11 +115,40 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		if (!this.cref.compareAndSet(old, null)) {
 			throw new KXError("Already disconnected");
 		}
+		if (clearSubscriptions == true) {
+			this.subscribes.clear();
+		}
 		this.commands.offer(KXConnectorAsyncImpl.STOP_COMMAND);
 		try {
 			old.close();
 		} catch (final IOException e) {
 			// suppress
+		}
+	}
+	
+	private void disconnectSilent(final UUID run, final boolean clearSubscriptions) {
+		if (this.currentRun.compareAndSet(run, null) == true) {
+			try {
+				this.disconnect(clearSubscriptions);
+			} catch (final KXError e) {
+				// suppress, because this just happens if the connection is not established
+			}
+		}
+	}
+	
+	/**
+	 * Reconnect.
+	 */
+	private void reconnect(final UUID run) {
+		if (this.currentRun.compareAndSet(run, null) == true) {
+			
+			try {
+				this.disconnect(false);
+			} catch (final KXError e) {
+				// suppress, because this just happens if the connection is not established
+			}
+			final long time = System.currentTimeMillis();
+			this.timer.schedule(new ReconnectTask(), new Date(time + (KXConnectorImpl.RECONNECT_OFFSET_PER_TRY)));
 		}
 	}
 	
@@ -137,7 +177,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		} else {
 			s.append("`");
 		}
-		this.execute(new KXAsyncCommandQ(".u.sub[" + t.toString() + ";" + s.toString() + "]"));
+		final KXAsyncCommandQ q = new KXAsyncCommandQ(".u.sub[" + t.toString() + ";" + s.toString() + "]");
+		this.subscribes.add(q);
+		this.execute(q);
 	}
 	
 	@Override
@@ -162,21 +204,6 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 */
 	private void execute(final KXAsyncCommand cmd) {
 		this.commands.offer(cmd);
-	}
-	
-	/**
-	 * Reconnect.
-	 */
-	private void reconnect() {
-		// TODO check if reconnection is already active
-		try {
-			this.disconnect();
-		} catch (final KXError e) {
-			// suppress, because this just happens if the connection is not established
-		}
-		final int count = this.reconnectCounter.incrementAndGet();
-		final long time = System.currentTimeMillis();
-		this.timer.schedule(new ReconnectTask(count), new Date(time + (count * KXConnectorImpl.RECONNECT_OFFSET_PER_TRY)));
 	}
 	
 	/**
@@ -233,25 +260,20 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 */
 	private final class ReconnectTask extends TimerTask {
 		
-		/** Count. */
-		private final int count;
-		
-		
-		/**
-		 * @param aCount Count
-		 */
-		public ReconnectTask(final int aCount) {
+		/** */
+		public ReconnectTask() {
 			super();
-			this.count = aCount;
 		}
 		
 		@Override
 		public void run() {
 			try {
 				KXConnectorAsyncImpl.this.connect();
+				for (final KXAsyncCommandQ q : KXConnectorAsyncImpl.this.subscribes) {
+					KXConnectorAsyncImpl.this.execute(q);
+				}
 			} catch (final KXException e) {
-				KXConnectorAsyncImpl.this.throwKXError(new KXError("Reconnect #" + this.count + " failed"));
-				e.printStackTrace();
+				KXConnectorAsyncImpl.this.throwKXError(new KXError("Reconnect failed"));
 			} catch (final KXError e) {
 				// suppress, because this just happens if the connection is already established
 			}
@@ -262,19 +284,22 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 * Executor.
 	 * 
 	 * @author mwittig
-	 * 
-	 *         TODO refactor like in KXconnectorSyncTSImpl
 	 */
 	private final class Executor implements Runnable {
+		
+		/** Run. */
+		private final UUID run;
 		
 		/** C. */
 		private final c c;
 		
 		
 		/**
+		 * @param aRun Run
 		 * @param aC C
 		 */
-		public Executor(final c aC) {
+		public Executor(final UUID aRun, final c aC) {
+			this.run = aRun;
 			this.c = aC;
 		}
 		
@@ -283,8 +308,23 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 			while (true) {
 				final KXAsyncCommand cmd;
 				try {
-					cmd = KXConnectorAsyncImpl.this.commands.take();
+					cmd = KXConnectorAsyncImpl.this.commands.poll(1, TimeUnit.SECONDS);
 				} catch (final InterruptedException e) {
+					continue;
+				}
+				if (cmd == null) { // we do not received an command within 1 second
+					try {
+						this.c.ks("1"); // ping server
+					} catch (final Exception e) {
+						if (KXConnectorAsyncImpl.this.reconnectOnError()) {
+							KXConnectorAsyncImpl.this.reconnect(this.run);
+							KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
+						} else {
+							KXConnectorAsyncImpl.this.disconnectSilent(this.run, true);
+							KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
+						}
+						break;
+					}
 					continue;
 				}
 				if (cmd == KXConnectorAsyncImpl.STOP_COMMAND) {
@@ -299,11 +339,13 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 				} catch (final IOException e) {
 					if (KXConnectorAsyncImpl.this.reconnectOnError()) {
 						KXConnectorAsyncImpl.this.commands.offer(cmd);
+						KXConnectorAsyncImpl.this.reconnect(this.run);
 						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
-						KXConnectorAsyncImpl.this.reconnect();
-						break;
+					} else {
+						KXConnectorAsyncImpl.this.disconnectSilent(this.run, true);
+						KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
 					}
-					KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
+					break;
 				}
 			}
 		}
@@ -317,18 +359,23 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 */
 	private final class Reader implements Runnable {
 		
-		/** */
-		public Reader() {
+		/** Run. */
+		private final UUID run;
+		
+		
+		/**
+		 * @param aRun Run
+		 */
+		public Reader(final UUID aRun) {
 			super();
+			this.run = aRun;
 		}
 		
 		@Override
 		public void run() {
-			KXConnectorAsyncImpl.this.reconnectCounter.set(0);
 			while (KXConnectorAsyncImpl.this.cref.get() != null) {
 				try {
 					final Object res = KXConnectorAsyncImpl.this.cref.get().k();
-					
 					if (res == null) {
 						// nothing to do here
 						continue;
@@ -348,13 +395,14 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 				} catch (final KException e) {
 					KXConnectorAsyncImpl.this.throwKXException(new KXException("KException", e));
 				} catch (final IOException e) {
-					// TODO check this async reconnect implementation
 					if (KXConnectorAsyncImpl.this.reconnectOnError()) {
+						KXConnectorAsyncImpl.this.reconnect(this.run);
 						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
-						KXConnectorAsyncImpl.this.reconnect();
-						break;
+					} else {
+						KXConnectorAsyncImpl.this.disconnectSilent(this.run, true);
+						KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
 					}
-					KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
+					break;
 				}
 			}
 		}

@@ -35,4 +35,9 @@ public final class PrimitiveResult<J> implements Result {
 		return this.primitive;
 	}
 	
+	@Override
+	public String toString() {
+		return "PrimitiveResult [primitive=" + this.primitive + "]";
+	}
+	
 }

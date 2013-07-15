@@ -171,6 +171,11 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 				} else {
 					if (c == null) {
 						try {
+							try {
+								Thread.sleep(KXConnectorImpl.RECONNECT_OFFSET_PER_TRY);
+							} catch (final InterruptedException ie) {
+								// suppress
+							}
 							c = new c(KXconnectorSyncTSImpl.this.getHost(), KXconnectorSyncTSImpl.this.getPort());
 						} catch (final KException e) {
 							future.set(e);
@@ -186,7 +191,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 							c.close();
 							c = null;
 						} catch (final Exception e) {
-							e.printStackTrace();
+							// suppress
 						}
 						future.set(KXconnectorSyncTSImpl.EMPTY_RESULT);
 						break;
@@ -202,11 +207,6 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 					} catch (final IOException e) {
 						if ((t.tryReconnect() == true) && KXconnectorSyncTSImpl.this.reconnectOnError()) {
 							c = null;
-							try {
-								Thread.sleep(KXConnectorImpl.RECONNECT_OFFSET_PER_TRY);
-							} catch (final InterruptedException ie) {
-								ie.printStackTrace();
-							}
 							KXconnectorSyncTSImpl.this.commands.offer(t);
 						} else {
 							future.set(new KXException("Could not talk to " + KXconnectorSyncTSImpl.this.getHost() + ":" + KXconnectorSyncTSImpl.this.getPort(), e));
