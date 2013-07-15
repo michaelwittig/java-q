@@ -40,16 +40,21 @@ import de.cinovo.q.query.Select;
 final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnectorSync {
 	
 	/** Stop command. */
-	private static final KXSyncCommandQ STOP_COMMAND = new KXSyncCommandQ("");
+	private final static KXSyncCommandQ STOP_COMMAND = new KXSyncCommandQ("");
 	
 	/** Start command. */
-	private static final KXSyncCommandQ START_COMMAND = new KXSyncCommandQ("");
+	private final static KXSyncCommandQ START_COMMAND = new KXSyncCommandQ("");
+	
+	/** Empty response. */
+	private final static Result EMPTY_RESULT = new Result() {
+		// nothing to do here
+	};
 	
 	/** Commands. */
 	private final BlockingQueue<KXSyncCommandWithFutureValue> commands = new LinkedBlockingQueue<KXSyncCommandWithFutureValue>();
 	
 	/** Executor. */
-	private AtomicReference<Executor> executor = new AtomicReference<Executor>(null);
+	private final AtomicReference<Executor> executor = new AtomicReference<Executor>(null);
 	
 	
 	/**
@@ -150,28 +155,28 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 				
 				if (cmd == KXconnectorSyncTSImpl.START_COMMAND) {
 					if (c != null) {
-						future.error(new KXError("Already connected"));
+						future.set(new KXError("Already connected"));
 						continue;
 					}
 					
 					try {
 						c = new c(KXconnectorSyncTSImpl.this.getHost(), KXconnectorSyncTSImpl.this.getPort());
 						c.tz = TimeZone.getTimeZone("UTC");
-						future.set(null);
+						future.set(KXconnectorSyncTSImpl.EMPTY_RESULT);
 					} catch (final KException e) {
-						future.error(e);
+						future.set(e);
 					} catch (final IOException e) {
-						future.error(e);
+						future.set(e);
 					}
 				} else {
 					if (c == null) {
 						try {
 							c = new c(KXconnectorSyncTSImpl.this.getHost(), KXconnectorSyncTSImpl.this.getPort());
 						} catch (final KException e) {
-							future.error(e);
+							future.set(e);
 							continue;
 						} catch (final IOException e) {
-							future.error(e);
+							future.set(e);
 							continue;
 						}
 					}
@@ -183,7 +188,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 						} catch (final Exception e) {
 							e.printStackTrace();
 						}
-						future.set(null);
+						future.set(KXconnectorSyncTSImpl.EMPTY_RESULT);
 						break;
 					}
 					
@@ -191,9 +196,9 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 						final Result result = cmd.execute(c);
 						future.set(result);
 					} catch (final KXException e) {
-						future.error(e);
+						future.set(e);
 					} catch (final KException e) {
-						future.error(new KXException("Q failed", e));
+						future.set(new KXException("Q failed", e));
 					} catch (final IOException e) {
 						if ((t.tryReconnect() == true) && KXconnectorSyncTSImpl.this.reconnectOnError()) {
 							c = null;
@@ -204,7 +209,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 							}
 							KXconnectorSyncTSImpl.this.commands.offer(t);
 						} else {
-							future.error(new KXException("Could not talk to " + KXconnectorSyncTSImpl.this.getHost() + ":" + KXconnectorSyncTSImpl.this.getPort(), e));
+							future.set(new KXException("Could not talk to " + KXconnectorSyncTSImpl.this.getHost() + ":" + KXconnectorSyncTSImpl.this.getPort(), e));
 						}
 					}
 				}

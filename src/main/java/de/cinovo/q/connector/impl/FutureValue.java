@@ -21,12 +21,14 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
+ * Future implementation.
  * 
- * Copyright 2012 Cinovo AG
+ * Thread-safe? yes
  * 
- * @author thoeger, mwittig
+ * @author mwittig
  * 
- * @param <T> the return type
+ * @param <T> result type
+ * 
  */
 public final class FutureValue<T> implements Future<T> {
 	
@@ -95,15 +97,6 @@ public final class FutureValue<T> implements Future<T> {
 			throw new ExecutionException((Exception) o);
 		}
 		return (T) o;
-	}
-	
-	/**
-	 * @param value Value
-	 * @deprecated Use set(value) instead
-	 */
-	@Deprecated
-	public void setResult(final T value) {
-		this.set(value);
 	}
 	
 	/**
