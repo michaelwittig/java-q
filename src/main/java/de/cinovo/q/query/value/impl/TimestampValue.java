@@ -11,6 +11,7 @@ package de.cinovo.q.query.value.impl;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -87,6 +88,14 @@ public final class TimestampValue extends AValue<Timestamp, TypeTimestamp> {
 	 */
 	public static ListValue<Timestamp, TypeList<Timestamp, Type<Timestamp>>> froms(final Timestamp[] values) {
 		return new ListValue<Timestamp, TypeList<Timestamp, Type<Timestamp>>>(values, TypeList.getTimestamp());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of timestamps
+	 */
+	public static ListValue<Timestamp, TypeList<Timestamp, Type<Timestamp>>> froms(final Collection<Timestamp> values) {
+		return new ListValue<Timestamp, TypeList<Timestamp, Type<Timestamp>>>(values.toArray(new Timestamp[values.size()]), TypeList.getTimestamp());
 	}
 	
 	/**

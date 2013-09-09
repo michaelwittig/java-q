@@ -8,6 +8,8 @@
 
 package de.cinovo.q.query.value.impl;
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -46,7 +48,13 @@ public class BooleanValueTest {
 	/** */
 	@Test
 	public final void testListNull() {
-		Assert.assertEquals("()", BooleanValue.froms(null).toQ());
+		Assert.assertEquals("()", BooleanValue.froms(new Boolean[0]).toQ());
+	}
+	
+	/** */
+	@Test
+	public final void testListNull2() {
+		Assert.assertEquals("()", BooleanValue.froms(new ArrayList<Boolean>(0)).toQ());
 	}
 	
 	/** */

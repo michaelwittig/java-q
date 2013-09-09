@@ -9,6 +9,7 @@
 package de.cinovo.q.query.value.impl;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeFloat;
@@ -40,6 +41,14 @@ public final class FloatValue extends AValue<BigDecimal, TypeFloat> {
 	 */
 	public static ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>> froms(final BigDecimal[] values) {
 		return new ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>>(values, TypeList.getFloat());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of floats
+	 */
+	public static ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>> froms(final Collection<BigDecimal> values) {
+		return new ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>>(values.toArray(new BigDecimal[values.size()]), TypeList.getFloat());
 	}
 	
 	/**

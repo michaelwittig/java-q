@@ -8,6 +8,8 @@
 
 package de.cinovo.q.query.value.impl;
 
+import java.util.Collection;
+
 import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeInteger;
 import de.cinovo.q.query.type.impl.TypeList;
@@ -38,6 +40,14 @@ public final class IntegerValue extends AValue<Integer, TypeInteger> {
 	 */
 	public static ListValue<Integer, TypeList<Integer, Type<Integer>>> froms(final Integer[] values) {
 		return new ListValue<Integer, TypeList<Integer, Type<Integer>>>(values, TypeList.getInteger());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of integers
+	 */
+	public static ListValue<Integer, TypeList<Integer, Type<Integer>>> froms(final Collection<Integer> values) {
+		return new ListValue<Integer, TypeList<Integer, Type<Integer>>>(values.toArray(new Integer[values.size()]), TypeList.getInteger());
 	}
 	
 	/**

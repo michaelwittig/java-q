@@ -9,6 +9,7 @@
 package de.cinovo.q.query.value.impl;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeList;
@@ -40,6 +41,14 @@ public final class RealValue extends AValue<BigDecimal, TypeReal> {
 	 */
 	public static ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>> froms(final BigDecimal[] values) {
 		return new ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>>(values, TypeList.getReal());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of reals
+	 */
+	public static ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>> froms(final Collection<BigDecimal> values) {
+		return new ListValue<BigDecimal, TypeList<BigDecimal, Type<BigDecimal>>>(values.toArray(new BigDecimal[values.size()]), TypeList.getReal());
 	}
 	
 	/**

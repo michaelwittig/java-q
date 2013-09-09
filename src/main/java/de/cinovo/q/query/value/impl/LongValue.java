@@ -8,6 +8,8 @@
 
 package de.cinovo.q.query.value.impl;
 
+import java.util.Collection;
+
 import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeList;
 import de.cinovo.q.query.type.impl.TypeLong;
@@ -38,6 +40,14 @@ public final class LongValue extends AValue<Long, TypeLong> {
 	 */
 	public static ListValue<Long, TypeList<Long, Type<Long>>> froms(final Long[] values) {
 		return new ListValue<Long, TypeList<Long, Type<Long>>>(values, TypeList.getLong());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of longs
+	 */
+	public static ListValue<Long, TypeList<Long, Type<Long>>> froms(final Collection<Long> values) {
+		return new ListValue<Long, TypeList<Long, Type<Long>>>(new Long[values.size()], TypeList.getLong());
 	}
 	
 	/**

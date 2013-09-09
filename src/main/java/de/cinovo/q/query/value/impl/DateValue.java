@@ -10,6 +10,7 @@ package de.cinovo.q.query.value.impl;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.TimeZone;
 
 import de.cinovo.q.query.type.Type;
@@ -48,6 +49,14 @@ public final class DateValue extends AValue<Date, TypeDate> {
 	 */
 	public static ListValue<Date, TypeList<Date, Type<Date>>> froms(final Date[] values) {
 		return new ListValue<Date, TypeList<Date, Type<Date>>>(values, TypeList.getDate());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of times
+	 */
+	public static ListValue<Date, TypeList<Date, Type<Date>>> froms(final Collection<Date> values) {
+		return new ListValue<Date, TypeList<Date, Type<Date>>>(values.toArray(new Date[values.size()]), TypeList.getDate());
 	}
 	
 	/**

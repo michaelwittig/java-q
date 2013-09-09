@@ -8,6 +8,8 @@
 
 package de.cinovo.q.query.value.impl;
 
+import java.util.Collection;
+
 import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeList;
 import de.cinovo.q.query.type.impl.TypeSymbol;
@@ -38,6 +40,14 @@ public final class SymbolValue extends AValue<String, TypeSymbol> {
 	 */
 	public static ListValue<String, TypeList<String, Type<String>>> froms(final String... values) {
 		return new ListValue<String, TypeList<String, Type<String>>>(values, TypeList.getSymbol());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of symbols
+	 */
+	public static ListValue<String, TypeList<String, Type<String>>> froms(final Collection<String> values) {
+		return new ListValue<String, TypeList<String, Type<String>>>(values.toArray(new String[values.size()]), TypeList.getSymbol());
 	}
 	
 	/**

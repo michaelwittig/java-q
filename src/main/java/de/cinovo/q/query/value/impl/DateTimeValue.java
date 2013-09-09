@@ -9,6 +9,7 @@
 package de.cinovo.q.query.value.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -48,6 +49,14 @@ public final class DateTimeValue extends AValue<Date, TypeDateTime> {
 	 */
 	public static ListValue<Date, TypeList<Date, Type<Date>>> froms(final Date[] values) {
 		return new ListValue<Date, TypeList<Date, Type<Date>>>(values, TypeList.getDateTime());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of times
+	 */
+	public static ListValue<Date, TypeList<Date, Type<Date>>> froms(final Collection<Date> values) {
+		return new ListValue<Date, TypeList<Date, Type<Date>>>(values.toArray(new Date[values.size()]), TypeList.getDateTime());
 	}
 	
 	/**

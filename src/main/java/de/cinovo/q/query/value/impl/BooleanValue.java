@@ -8,6 +8,8 @@
 
 package de.cinovo.q.query.value.impl;
 
+import java.util.Collection;
+
 import de.cinovo.q.query.type.Type;
 import de.cinovo.q.query.type.impl.TypeBoolean;
 import de.cinovo.q.query.type.impl.TypeList;
@@ -38,6 +40,14 @@ public final class BooleanValue extends AValue<Boolean, TypeBoolean> {
 	 */
 	public static ListValue<Boolean, TypeList<Boolean, Type<Boolean>>> froms(final Boolean[] values) {
 		return new ListValue<Boolean, TypeList<Boolean, Type<Boolean>>>(values, TypeList.getBoolean());
+	}
+	
+	/**
+	 * @param values Values
+	 * @return List of reals
+	 */
+	public static ListValue<Boolean, TypeList<Boolean, Type<Boolean>>> froms(final Collection<Boolean> values) {
+		return new ListValue<Boolean, TypeList<Boolean, Type<Boolean>>>(values.toArray(new Boolean[values.size()]), TypeList.getBoolean());
 	}
 	
 	/**
