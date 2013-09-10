@@ -71,7 +71,7 @@ public final class FlipResult extends ATableResult {
 		if (this.colName2Index.containsKey(col)) {
 			return this.getAt(this.colName2Index.get(col), row);
 		}
-		throw new IllegalArgumentException("Column not found in table");
+		throw new IllegalArgumentException("Column " + col + " not found in table");
 	}
 	
 	@Override

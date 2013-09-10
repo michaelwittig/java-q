@@ -92,7 +92,7 @@ public final class FlipFlipResult extends ATableResult {
 		} else if (this.dataColName2Index.containsKey(col)) {
 			return this.getAt(this.data, this.dataColName2Index.get(col), row);
 		}
-		throw new IllegalArgumentException("Column not found in table");
+		throw new IllegalArgumentException("Column " + col + " not found in keyed table");
 	}
 	
 	@Override
