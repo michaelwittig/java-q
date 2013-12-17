@@ -86,7 +86,7 @@ public final class FlipFlipResult extends ATableResult {
 	}
 	
 	@Override
-	Object getAt(final String col, final int row) {
+	public Object getAt(final String col, final int row) {
 		if (this.keyColName2Index.containsKey(col)) {
 			return this.getAt(this.key, this.keyColName2Index.get(col), row);
 		} else if (this.dataColName2Index.containsKey(col)) {
@@ -96,7 +96,12 @@ public final class FlipFlipResult extends ATableResult {
 	}
 	
 	@Override
-	String[] getColNames() {
+	public Object getAt(final int col, final int row) {
+		return this.getAt(this.cols[col], row);
+	}
+	
+	@Override
+	public String[] getColNames() {
 		return this.cols;
 	}
 	

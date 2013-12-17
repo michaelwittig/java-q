@@ -16,11 +16,11 @@ import de.cinovo.q.query.Result;
  * 
  */
 @SuppressWarnings("javadoc")
-public final class KXConnectorAsyncImplTest extends AReconnectTest<KXConnectorAsyncImpl> {
+public final class KXConnectorAsyncImplReconnectTest extends ATest {
 	
 	@Test
 	public void testConnectionFail() throws Exception {
-		this.startKDB();
+		this.launchQProcess();
 		final KXConnectorAsyncImpl c = new KXConnectorAsyncImpl(new KXListener() {
 			
 			@Override
@@ -41,7 +41,7 @@ public final class KXConnectorAsyncImplTest extends AReconnectTest<KXConnectorAs
 		c.connect();
 		c.subscribe("test", new String[] {"test"}, new String[] {"TEST"});
 		Thread.sleep(1500);
-		this.stopKDB();
+		this.terminateQProcess();
 		Thread.sleep(1500);
 		try {
 			c.disconnect();
@@ -49,16 +49,16 @@ public final class KXConnectorAsyncImplTest extends AReconnectTest<KXConnectorAs
 		} catch (final Exception e) {
 			// nothing
 		}
-		this.startKDB();
+		this.launchQProcess();
 		c.connect();
 		Thread.sleep(500);
 		c.disconnect();
-		this.stopKDB();
+		this.terminateQProcess();
 	}
 	
 	@Test()
 	public void testConnectionFailWithReconnect() throws Exception {
-		this.startKDB();
+		this.launchQProcess();
 		final KXConnectorAsyncImpl c = new KXConnectorAsyncImpl(new KXListener() {
 			
 			@Override
@@ -79,11 +79,11 @@ public final class KXConnectorAsyncImplTest extends AReconnectTest<KXConnectorAs
 		c.connect();
 		c.subscribe("test", new String[] {"test"}, new String[] {"TEST"});
 		Thread.sleep(1500);
-		this.stopKDB();
+		this.terminateQProcess();
 		Thread.sleep(3000);
-		this.startKDB();
+		this.launchQProcess();
 		Thread.sleep(1500);
 		c.disconnect();
-		this.stopKDB();
+		this.terminateQProcess();
 	}
 }

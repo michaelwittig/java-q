@@ -35,4 +35,23 @@ public interface TableResult extends Result {
 	 */
 	Object getAt(final Column<?> col, final int row);
 	
+	/**
+	 * @param colName Column name
+	 * @param row Row index
+	 * @return Object or null
+	 */
+	Object getAt(final String colName, final int row);
+	
+	/**
+	 * @param colIndex Column index
+	 * @param row Row index
+	 * @return Object or null
+	 */
+	Object getAt(final int colIndex, final int row);
+	
+	/**
+	 * @return List of all column names
+	 */
+	String[] getColNames();
+	
 }

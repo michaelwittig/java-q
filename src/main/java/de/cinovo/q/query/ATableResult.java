@@ -25,23 +25,11 @@ public abstract class ATableResult implements TableResult {
 	}
 	
 	/**
-	 * @param col Column name
-	 * @param row Row
-	 * @return Value
-	 */
-	abstract Object getAt(final String col, final int row);
-	
-	/**
 	 * @return Table name
 	 */
 	public String getName() {
 		return this.name;
 	}
-	
-	/**
-	 * @return Column names
-	 */
-	abstract String[] getColNames();
 	
 	@Override
 	public String toString() {
