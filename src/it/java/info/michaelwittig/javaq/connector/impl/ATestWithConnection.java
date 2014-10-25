@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 
 /**
+ * Assumes running q process on localhost:5000!
+ * 
  * @author mwittig
  * 
  * @param <T> KXConnector

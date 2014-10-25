@@ -22,6 +22,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import kx.c;
 import kx.c.KException;
 
+import com.google.common.util.concurrent.SettableFuture;
+
 /**
  * KX Connector implementation.
  * 
@@ -64,7 +66,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		if (!this.executor.compareAndSet(null, new Executor())) {
 			throw new KXError("Already connected");
 		}
-		final FutureValue<Result> future = new FutureValue<Result>();
+		final SettableFuture<Result> future = SettableFuture.create();
 		this.commands.offer(new KXSyncCommandWithFutureValue(KXconnectorSyncTSImpl.START_COMMAND, future));
 		new Thread(this.executor.get()).start();
 		try {
@@ -85,7 +87,8 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		if (!this.executor.compareAndSet(old, null)) {
 			throw new KXError("Already disconnected");
 		}
-		this.commands.offer(new KXSyncCommandWithFutureValue(KXconnectorSyncTSImpl.STOP_COMMAND, new FutureValue<Result>()));
+		final SettableFuture<Result> future = SettableFuture.create();
+		this.commands.offer(new KXSyncCommandWithFutureValue(KXconnectorSyncTSImpl.STOP_COMMAND, future));
 	}
 	
 	@Override
@@ -97,7 +100,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 	}
 	
 	private Result cmd(final KXSyncCommand cmd) throws KXException {
-		final FutureValue<Result> future = new FutureValue<Result>();
+		final SettableFuture<Result> future = SettableFuture.create();
 		this.commands.offer(new KXSyncCommandWithFutureValue(cmd, future));
 		try {
 			return future.get();
@@ -144,11 +147,11 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 				}
 				
 				final KXSyncCommand cmd = t.getCmd();
-				final FutureValue<Result> future = t.getFuture();
+				final SettableFuture<Result> future = t.getFuture();
 				
 				if (cmd == KXconnectorSyncTSImpl.START_COMMAND) {
 					if (c != null) {
-						future.set(new KXError("Already connected"));
+						future.setException(new KXError("Already connected"));
 						continue;
 					}
 					
@@ -157,9 +160,9 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 						c.tz = TimeZone.getTimeZone("UTC");
 						future.set(KXconnectorSyncTSImpl.EMPTY_RESULT);
 					} catch (final KException e) {
-						future.set(e);
+						future.setException(e);
 					} catch (final IOException e) {
-						future.set(e);
+						future.setException(e);
 					}
 				} else {
 					if (c == null) {
@@ -171,10 +174,10 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 							}
 							c = new c(KXconnectorSyncTSImpl.this.getHost(), KXconnectorSyncTSImpl.this.getPort());
 						} catch (final KException e) {
-							future.set(e);
+							future.setException(e);
 							continue;
 						} catch (final IOException e) {
-							future.set(e);
+							future.setException(e);
 							continue;
 						}
 					}
@@ -194,15 +197,15 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 						final Result result = cmd.execute(c);
 						future.set(result);
 					} catch (final KXException e) {
-						future.set(e);
+						future.setException(e);
 					} catch (final KException e) {
-						future.set(new KXException("Q failed", e));
+						future.setException(new KXException("Q failed", e));
 					} catch (final IOException e) {
 						if ((t.tryReconnect() == true) && KXconnectorSyncTSImpl.this.reconnectOnError()) {
 							c = null;
 							KXconnectorSyncTSImpl.this.commands.offer(t);
 						} else {
-							future.set(new KXException("Could not talk to " + KXconnectorSyncTSImpl.this.getHost() + ":" + KXconnectorSyncTSImpl.this.getPort(), e));
+							future.setException(new KXException("Could not talk to " + KXconnectorSyncTSImpl.this.getHost() + ":" + KXconnectorSyncTSImpl.this.getPort(), e));
 						}
 					}
 				}
@@ -221,7 +224,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		private final KXSyncCommand cmd;
 		
 		/** Result future. */
-		private final FutureValue<Result> future;
+		private final SettableFuture<Result> future;
 		
 		/** Indicates if the command is in the queue the 3nd time (reconnect). */
 		private final AtomicBoolean reconnectTry = new AtomicBoolean(false);
@@ -231,7 +234,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		 * @param cmd Command
 		 * @param future Result future
 		 */
-		public KXSyncCommandWithFutureValue(final KXSyncCommand cmd, final FutureValue<Result> future) {
+		public KXSyncCommandWithFutureValue(final KXSyncCommand cmd, final SettableFuture<Result> future) {
 			super();
 			this.cmd = cmd;
 			this.future = future;
@@ -247,7 +250,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		/**
 		 * @return Result future
 		 */
-		public FutureValue<Result> getFuture() {
+		public SettableFuture<Result> getFuture() {
 			return this.future;
 		}
 		

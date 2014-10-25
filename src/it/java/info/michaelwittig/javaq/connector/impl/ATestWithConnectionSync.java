@@ -64,65 +64,70 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	// Primitive
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveBoolean() throws Exception {
 		final PrimitiveResult<Boolean> res = (PrimitiveResult<Boolean>) this.c().execute("1b");
 		Assert.assertEquals(true, res.getPrimitive());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveByte() throws Exception {
 		final PrimitiveResult<Byte> res = (PrimitiveResult<Byte>) this.c().execute("0x00");
 		Assert.assertEquals(Byte.valueOf((byte) 0), res.getPrimitive());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveShort() throws Exception {
 		final PrimitiveResult<Short> res = (PrimitiveResult<Short>) this.c().execute("1h");
 		Assert.assertEquals(Short.valueOf((short) 1), res.getPrimitive());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveInteger() throws Exception {
-		try {
-			final PrimitiveResult<Integer> res = (PrimitiveResult<Integer>) this.c().execute("1i");
-			Assert.assertEquals(Integer.valueOf(1), res.getPrimitive());
-		} finally {
-			this.terminateQProcess();
-		}
+		final PrimitiveResult<Integer> res = (PrimitiveResult<Integer>) this.c().execute("1i");
+		Assert.assertEquals(Integer.valueOf(1), res.getPrimitive());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveLong() throws Exception {
 		final PrimitiveResult<Integer> res = (PrimitiveResult<Integer>) this.c().execute("1j");
 		Assert.assertEquals(Long.valueOf(1), res.getPrimitive());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveReal() throws Exception {
 		final PrimitiveResult<Float> res = (PrimitiveResult<Float>) this.c().execute("1e");
 		Assert.assertEquals(Float.valueOf(1.0f), res.getPrimitive());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveFloat() throws Exception {
 		final PrimitiveResult<Double> res = (PrimitiveResult<Double>) this.c().execute("1f");
 		Assert.assertEquals(Double.valueOf(1.0), res.getPrimitive());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveChar() throws Exception {
 		final PrimitiveResult<Character> res = (PrimitiveResult<Character>) this.c().execute("\"a\"");
 		Assert.assertEquals(Character.valueOf('a'), res.getPrimitive());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveSymbol() throws Exception {
 		final PrimitiveResult<String> res = (PrimitiveResult<String>) this.c().execute("`abc");
 		Assert.assertEquals("abc", res.getPrimitive());
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
+	@SuppressWarnings({"deprecation", "unchecked"})
 	public void testReadPrimitiveTimestamp() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -132,6 +137,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveMonth() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -140,8 +146,8 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 		TimeZone.setDefault(tz);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
+	@SuppressWarnings({"deprecation", "unchecked"})
 	public void testReadPrimitiveDate() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -150,8 +156,8 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 		TimeZone.setDefault(tz);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
+	@SuppressWarnings({"deprecation", "unchecked"})
 	public void testReadPrimitiveDatetime() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -161,6 +167,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveTimespan() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -170,6 +177,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveMinute() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -179,6 +187,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveSeconde() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -187,8 +196,8 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 		TimeZone.setDefault(tz);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
+	@SuppressWarnings({"deprecation", "unchecked"})
 	public void testReadPrimitiveTime() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -198,6 +207,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadPrimitiveGuid() throws Exception {
 		final PrimitiveResult<UUID> res = (PrimitiveResult<UUID>) this.c().execute("first -2?0Ng");
 		Assert.assertNotNull(res.getPrimitive());
@@ -206,65 +216,70 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	// List
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListBoolean() throws Exception {
 		final ListResult<Boolean> res = (ListResult<Boolean>) this.c().execute("enlist 1b");
 		Assert.assertArrayEquals(new Boolean[] {true}, res.getList());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListByte() throws Exception {
 		final ListResult<Byte> res = (ListResult<Byte>) this.c().execute("enlist 0x00");
 		Assert.assertArrayEquals(new Byte[] {(byte) 0}, res.getList());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListShort() throws Exception {
 		final ListResult<Short> res = (ListResult<Short>) this.c().execute("enlist 1h");
 		Assert.assertArrayEquals(new Short[] {(short) 1}, res.getList());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListInteger() throws Exception {
-		try {
-			final ListResult<Integer> res = (ListResult<Integer>) this.c().execute("enlist 1i");
-			Assert.assertArrayEquals(new Integer[] {1}, res.getList());
-		} finally {
-			this.terminateQProcess();
-		}
+		final ListResult<Integer> res = (ListResult<Integer>) this.c().execute("enlist 1i");
+		Assert.assertArrayEquals(new Integer[] {1}, res.getList());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListLong() throws Exception {
 		final ListResult<Integer> res = (ListResult<Integer>) this.c().execute("enlist 1j");
 		Assert.assertArrayEquals(new Long[] {1L}, res.getList());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListReal() throws Exception {
 		final ListResult<Float> res = (ListResult<Float>) this.c().execute("enlist 1e");
 		Assert.assertArrayEquals(new Float[] {1.0f}, res.getList());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListFloat() throws Exception {
 		final ListResult<Double> res = (ListResult<Double>) this.c().execute("enlist 1f");
 		Assert.assertArrayEquals(new Double[] {1.0}, res.getList());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListChar() throws Exception {
 		final ListResult<Character> res = (ListResult<Character>) this.c().execute("enlist \"a\"");
 		Assert.assertArrayEquals(new Character[] {'a'}, res.getList());
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListSymbol() throws Exception {
 		final ListResult<String> res = (ListResult<String>) this.c().execute("enlist `abc");
 		Assert.assertArrayEquals(new String[] {"abc"}, res.getList());
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
+	@SuppressWarnings({"deprecation", "unchecked"})
 	public void testReadListTimestamp() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -274,6 +289,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListMonth() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -282,8 +298,8 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 		TimeZone.setDefault(tz);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
+	@SuppressWarnings({"deprecation", "unchecked"})
 	public void testReadListDate() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -292,8 +308,8 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 		TimeZone.setDefault(tz);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
+	@SuppressWarnings({"deprecation", "unchecked"})
 	public void testReadListDatetime() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -303,6 +319,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListTimespan() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -312,6 +329,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListMinute() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -321,6 +339,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListSeconde() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -329,8 +348,8 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 		TimeZone.setDefault(tz);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
+	@SuppressWarnings({"deprecation", "unchecked"})
 	public void testReadListTime() throws Exception {
 		final TimeZone tz = TimeZone.getDefault();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -340,6 +359,7 @@ public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testReadListGuid() throws Exception {
 		final ListResult<UUID> res = (ListResult<UUID>) this.c().execute("-2?0Ng");
 		Assert.assertEquals(2, res.getList().length);
