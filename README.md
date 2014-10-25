@@ -1,8 +1,8 @@
 # Home
 
-Hej folks! Again and again we have to interact with a [kdb+](http://kx.com/kdb+.php) and [kdb+tick](http://kx.com/kdb+tick.php). The guys from [KX Systems](http://kx.com/) provide us [c.java](http://code.kx.com/wsvn/code/kx/kdb%2B/c/kx/c.java) to interact with their product. You might experienced that c.java is not really using an object oriented style (because q does not?), so we started to write our own wrapper and called it Q Connector. Feel free to create [Issues](https://github.com/cinovo/de.cinovo.q.connector/issues) if something is missing for you. And now: have fun:) 
+Hej folks! Again and again we have to interact with a [kdb+](http://kx.com/kdb+.php) and [kdb+tick](http://kx.com/kdb+tick.php). The guys from [KX Systems](http://kx.com/) provide us [c.java](http://code.kx.com/wsvn/code/kx/kdb%2B/c/kx/c.java) to interact with their product. You might experienced that c.java is not really using an object oriented style (because q does not?), so we started to write our own wrapper and called it Q Connector. Feel free to create [Issues](https://github.com/michaelwittig/java-q/issues) if something is missing for you. And now: have fun:) 
 
-[Learn more about the Features](https://github.com/cinovo/de.cinovo.q.connector/wiki/Features) or continue to learn about our design goals and principles:
+[Learn more about the Features](https://github.com/michaelwittig/java-q/wiki/Features) or continue to learn about our design goals and principles:
 
 ## Encapsulation
 **You do not need to be a Q god to use this library!**
@@ -20,14 +20,14 @@ We encapsulate all the q stuff for you! It's just simple Java. Look at the folow
 
 Your schema is defined by code not by text! You get easy refactoring and lesser typos for free:)
 
-[Learn more about how to define your schema with a few lines of code.](https://github.com/cinovo/de.cinovo.q.connector/wiki/HowTo:-Schema)
+[Learn more about how to define your schema with a few lines of code.](https://github.com/michaelwittig/java-q/wiki/HowTo:-Schema)
 <pre><code>final MyTable table = MyTable.get();</code></pre>
 
 ## Synchronous Access
 
 ###  Queries using select
 
-[Learn more about how to create a q query.](https://github.com/cinovo/de.cinovo.q.connector/wiki/HowTo:-Query)
+[Learn more about how to create a q query.](https://github.com/michaelwittig/java-q/wiki/HowTo:-Query)
 <pre><code>MyTable table = MyTable.get();
 
 // create select
@@ -60,4 +60,4 @@ kx.disconnect();</code></pre>
 
 ### Subscription using .u.sub[]
 
-[Learn more about how to subscribe to q kdb+tick environement.](https://github.com/cinovo/de.cinovo.q.connector/wiki/HowTo:-Subscription)
+[Learn more about how to subscribe to q kdb+tick environement.](https://github.com/michaelwittig/java-q/wiki/HowTo:-Subscription)
