@@ -34,9 +34,10 @@ Your schema is defined by code not by text! You get easy refactoring and lesser 
 [Learn more about how to create a q query.](https://github.com/michaelwittig/java-q/wiki/HowTo:-Query)
 
 ```java
+// get table schema
 MyTable table = MyTable.get();
 
-// create select
+// create select query
 Select select = table.select()
 	.column(table.size().sum())
 	.column(table.price().avg())
@@ -50,9 +51,9 @@ System.out.println("q: " + select.toQ());
 KXConnectorSync kx = KXConnectorFactory.create("localhost", 5011);
 kx.connect();
 
-// execute select and print the result
-final Result result = kx.select(select);
-for (final TableRow row : table.read(result)) {
+// execute select query and print the result
+Result result = kx.select(select);
+for (TableRow row : table.read(result)) {
 	System.out.println(row.get(table.time()));
 	System.out.println(row.get(table.sym()));
 	System.out.println(row.get(table.price()));
