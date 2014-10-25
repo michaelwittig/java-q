@@ -1,6 +1,6 @@
 # Home
 
-Hej folks! Again and again we have to interact with a [kdb+](http://kx.com/kdb+.php) and [kdb+tick](http://kx.com/kdb+tick.php). The guys from [KX Systems](http://kx.com/) provide us [c.java](http://code.kx.com/wsvn/code/kx/kdb%2B/c/kx/c.java) to interact with their product. You might experienced that c.java is not really using an object oriented style (because q does not?), so we started to write our own wrapper and called it Q Connector. Feel free to create [Issues](https://github.com/michaelwittig/java-q/issues) if something is missing for you. And now: have fun:) 
+Hej folks! Again and again we have to interact with a [kdb+](http://kx.com/kdb+.php) and [kdb+tick](http://kx.com/kdb+tick.php). The guys from [KX Systems](http://kx.com/) provide us [c.java](http://code.kx.com/wsvn/code/kx/kdb%2B/c/kx/c.java) to interact with their product. You might experienced that c.java is not really using an object oriented style (because q does not?), so we started to write our own wrapper and called it java-q. Feel free to create [Issues](https://github.com/michaelwittig/java-q/issues) if something is missing for you. And now: have fun:) 
 
 [Learn more about the Features](https://github.com/michaelwittig/java-q/wiki/Features) or continue to learn about our design goals and principles:
 
