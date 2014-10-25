@@ -1,12 +1,12 @@
 package info.michaelwittig.javaq.connector;
 
 /**
- * KXExceptiosn must be handled by yourself! They are indicating that the system is not in a proper state any longer.
+ * QConnectorExceptions must be handled by yourself! They are indicating that the system is not in a proper state any longer.
  * 
  * @author mwittig
  * 
  */
-public final class KXException extends Exception {
+public final class QConnectorException extends Exception {
 	
 	/** Serial version UID. */
 	private static final long serialVersionUID = 1L;
@@ -16,20 +16,20 @@ public final class KXException extends Exception {
 	 * @param message Message
 	 * @param cause Cause
 	 */
-	public KXException(final String message, final Throwable cause) {
+	public QConnectorException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 	
 	/**
 	 * @param message Message
 	 */
-	public KXException(final String message) {
+	public QConnectorException(final String message) {
 		super(message);
 	}
 	
 	@Override
 	public String toString() {
-		return "KXException: " + this.getMessage();
+		return "QConnectorException: " + this.getMessage();
 	}
 	
 }

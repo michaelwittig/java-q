@@ -1,8 +1,8 @@
 package info.michaelwittig.javaq.connector.impl;
 
-import info.michaelwittig.javaq.connector.KXError;
-import info.michaelwittig.javaq.connector.KXException;
-import info.michaelwittig.javaq.connector.KXListener;
+import info.michaelwittig.javaq.connector.QConnectorError;
+import info.michaelwittig.javaq.connector.QConnectorException;
+import info.michaelwittig.javaq.connector.QConnectorListener;
 import info.michaelwittig.javaq.query.Result;
 
 import org.junit.Assert;
@@ -13,20 +13,20 @@ import org.junit.Test;
  * 
  */
 @SuppressWarnings("javadoc")
-public final class KXConnectorAsyncImplReconnectTest extends ATest {
+public final class QConnectorAsyncImplReconnectTest extends ATest {
 	
 	@Test
 	public void testConnectionFail() throws Exception {
 		this.launchQProcess();
-		final KXConnectorAsyncImpl c = new KXConnectorAsyncImpl(new KXListener() {
+		final QConnectorAsyncImpl c = new QConnectorAsyncImpl(new QConnectorListener() {
 			
 			@Override
-			public void error(KXError e) {
+			public void error(QConnectorError e) {
 				// reports about reconnects
 			}
 			
 			@Override
-			public void exception(KXException e) {
+			public void exception(QConnectorException e) {
 				// reports about exceptions
 			}
 			
@@ -56,15 +56,15 @@ public final class KXConnectorAsyncImplReconnectTest extends ATest {
 	@Test()
 	public void testConnectionFailWithReconnect() throws Exception {
 		this.launchQProcess();
-		final KXConnectorAsyncImpl c = new KXConnectorAsyncImpl(new KXListener() {
+		final QConnectorAsyncImpl c = new QConnectorAsyncImpl(new QConnectorListener() {
 			
 			@Override
-			public void error(KXError e) {
+			public void error(QConnectorError e) {
 				// reports about reconnects
 			}
 			
 			@Override
-			public void exception(KXException e) {
+			public void exception(QConnectorException e) {
 				throw new RuntimeException(e);
 			}
 			

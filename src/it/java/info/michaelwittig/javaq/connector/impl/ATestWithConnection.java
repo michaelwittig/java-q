@@ -1,6 +1,6 @@
 package info.michaelwittig.javaq.connector.impl;
 
-import info.michaelwittig.javaq.connector.KXConnector;
+import info.michaelwittig.javaq.connector.QConnector;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,11 +10,11 @@ import org.junit.Before;
  * 
  * @author mwittig
  * 
- * @param <T> KXConnector
+ * @param <T> QConnector
  * 
  */
 @SuppressWarnings("javadoc")
-public abstract class ATestWithConnection<T extends KXConnector> extends ATest {
+public abstract class ATestWithConnection<T extends QConnector> extends ATest {
 	
 	private volatile T c;
 	

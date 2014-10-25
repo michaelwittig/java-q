@@ -1,10 +1,10 @@
 package info.michaelwittig.javaq.demo;
 
-import info.michaelwittig.javaq.connector.KXConnectorAsync;
-import info.michaelwittig.javaq.connector.KXError;
-import info.michaelwittig.javaq.connector.KXException;
-import info.michaelwittig.javaq.connector.KXListener;
-import info.michaelwittig.javaq.connector.impl.KXConnectorFactory;
+import info.michaelwittig.javaq.connector.QConnectorAsync;
+import info.michaelwittig.javaq.connector.QConnectorError;
+import info.michaelwittig.javaq.connector.QConnectorException;
+import info.michaelwittig.javaq.connector.QConnectorListener;
+import info.michaelwittig.javaq.connector.impl.QConnectorFactory;
 import info.michaelwittig.javaq.query.Result;
 
 import java.io.BufferedReader;
@@ -17,10 +17,10 @@ import java.io.InputStreamReader;
  * @author mwittig
  * 
  */
-public final class ConsoleSubscriber implements KXListener {
+public final class ConsoleSubscriber implements QConnectorListener {
 	
-	/** KX connector. */
-	private final KXConnectorAsync c = KXConnectorFactory.create(this, "localhost", 5010, true);
+	/** Q connector. */
+	private final QConnectorAsync c = QConnectorFactory.create(this, "localhost", 5010, true);
 	
 	
 	/**
@@ -67,10 +67,10 @@ public final class ConsoleSubscriber implements KXListener {
 	public void start() {
 		try {
 			this.c.connect();
-		} catch (final KXException e) {
-			System.err.println("KXException: " + e);
-		} catch (final KXError e) {
-			System.err.println("KXError: " + e);
+		} catch (final QConnectorException e) {
+			System.err.println("QConnectorException: " + e);
+		} catch (final QConnectorError e) {
+			System.err.println("QConnectorError: " + e);
 		}
 	}
 	
@@ -80,8 +80,8 @@ public final class ConsoleSubscriber implements KXListener {
 	public void stop() {
 		try {
 			this.c.disconnect();
-		} catch (final KXError e) {
-			System.err.println("KXError: " + e);
+		} catch (final QConnectorError e) {
+			System.err.println("QConnectorError: " + e);
 		}
 	}
 	
@@ -94,19 +94,19 @@ public final class ConsoleSubscriber implements KXListener {
 	public void subscribe(final String table, final String symbol) {
 		try {
 			this.c.subscribe("", new String[] {table}, new String[] {symbol});
-		} catch (final KXException e) {
-			System.err.println("KXException: " + e);
+		} catch (final QConnectorException e) {
+			System.err.println("QConnectorException: " + e);
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public void error(final KXError e) {
+	public void error(final QConnectorError e) {
 		System.out.println(e);
 	}
 	
 	@Override
-	public void exception(final KXException e) {
+	public void exception(final QConnectorException e) {
 		System.out.println(e);
 		e.printStackTrace();
 	}

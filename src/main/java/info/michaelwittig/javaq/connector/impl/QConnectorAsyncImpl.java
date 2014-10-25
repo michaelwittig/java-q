@@ -1,12 +1,12 @@
 package info.michaelwittig.javaq.connector.impl;
 
-import info.michaelwittig.javaq.connector.KXConnectorAsync;
-import info.michaelwittig.javaq.connector.KXDataListener;
-import info.michaelwittig.javaq.connector.KXError;
-import info.michaelwittig.javaq.connector.KXException;
-import info.michaelwittig.javaq.connector.KXListener;
-import info.michaelwittig.javaq.connector.impl.cmd.KXAsyncCommand;
-import info.michaelwittig.javaq.connector.impl.cmd.KXAsyncCommandQ;
+import info.michaelwittig.javaq.connector.QConnectorAsync;
+import info.michaelwittig.javaq.connector.QConnectorDataListener;
+import info.michaelwittig.javaq.connector.QConnectorError;
+import info.michaelwittig.javaq.connector.QConnectorListener;
+import info.michaelwittig.javaq.connector.QConnectorException;
+import info.michaelwittig.javaq.connector.impl.cmd.ConnectorAsyncCommand;
+import info.michaelwittig.javaq.connector.impl.cmd.ConnectorAsyncCommandQ;
 import info.michaelwittig.javaq.query.Result;
 
 import java.io.IOException;
@@ -29,18 +29,18 @@ import kx.c;
 import kx.c.KException;
 
 /**
- * KX Connector implementation.
+ * Q Connector implementation.
  * 
  * @author mwittig
  * 
  */
-final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorAsync {
+final class QConnectorAsyncImpl extends QConnectorImpl implements QConnectorAsync {
 	
 	/** Stop command. */
-	private static final KXAsyncCommandQ STOP_COMMAND = new KXAsyncCommandQ("");
+	private static final ConnectorAsyncCommandQ STOP_COMMAND = new ConnectorAsyncCommandQ("");
 	
 	/** Listener. */
-	private final KXListener listener;
+	private final QConnectorListener listener;
 	
 	/** Connection. */
 	private final AtomicReference<c> cref = new AtomicReference<c>();
@@ -49,13 +49,13 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 	
 	/** Commands. */
-	private final BlockingQueue<KXAsyncCommand> commands = new LinkedBlockingQueue<KXAsyncCommand>();
+	private final BlockingQueue<ConnectorAsyncCommand> commands = new LinkedBlockingQueue<ConnectorAsyncCommand>();
 	
 	/** Timer. */
 	private final Timer timer = new Timer();
 	
 	/** Subscriptions. */
-	private final CopyOnWriteArrayList<KXAsyncCommandQ> subscribes = new CopyOnWriteArrayList<KXAsyncCommandQ>();
+	private final CopyOnWriteArrayList<ConnectorAsyncCommandQ> subscribes = new CopyOnWriteArrayList<ConnectorAsyncCommandQ>();
 	
 	/** Current run. */
 	private final AtomicReference<UUID> currentRun = new AtomicReference<UUID>();
@@ -67,51 +67,51 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 * @param aPort Port
 	 * @param aReconnectOnError Reconnect on error?
 	 */
-	protected KXConnectorAsyncImpl(final KXListener aListener, final String aHost, final int aPort, final boolean aReconnectOnError) {
+	protected QConnectorAsyncImpl(final QConnectorListener aListener, final String aHost, final int aPort, final boolean aReconnectOnError) {
 		super(aHost, aPort, aReconnectOnError);
 		this.listener = aListener;
 	}
 	
 	@Override
-	public void connect() throws KXException, KXError {
+	public void connect() throws QConnectorException, QConnectorError {
 		final UUID run = UUID.randomUUID();
 		this.currentRun.set(run);
 		try {
 			if (!this.cref.compareAndSet(null, new c(this.getHost(), this.getPort()))) {
-				throw new KXError("Already connected");
+				throw new QConnectorError("Already connected");
 			}
 			this.cref.get().tz = TimeZone.getTimeZone("UTC");
 			new Thread(new Reader(run)).start();
 			new Thread(new Executor(run, this.cref.get())).start();
 		} catch (final KException e) {
-			throw new KXException("KException", e);
+			throw new QConnectorException("KException", e);
 		} catch (final IOException e) {
 			if (this.reconnectOnError()) {
-				this.throwKXError(new KXError("Could not connect to " + this.getHost() + ":" + this.getPort()));
+				this.throwQError(new QConnectorError("Could not connect to " + this.getHost() + ":" + this.getPort()));
 				this.reconnect(run);
 			} else {
-				throw new KXException("Could not connect to " + this.getHost() + ":" + this.getPort(), e);
+				throw new QConnectorException("Could not connect to " + this.getHost() + ":" + this.getPort(), e);
 			}
 		}
 	}
 	
 	@Override
-	public void disconnect() throws KXError {
+	public void disconnect() throws QConnectorError {
 		this.disconnect(true);
 	}
 	
-	private void disconnect(final boolean clearSubscriptions) throws KXError {
+	private void disconnect(final boolean clearSubscriptions) throws QConnectorError {
 		final c old = this.cref.get();
 		if (old == null) {
-			throw new KXError("Not connected");
+			throw new QConnectorError("Not connected");
 		}
 		if (!this.cref.compareAndSet(old, null)) {
-			throw new KXError("Already disconnected");
+			throw new QConnectorError("Already disconnected");
 		}
 		if (clearSubscriptions == true) {
 			this.subscribes.clear();
 		}
-		this.commands.offer(KXConnectorAsyncImpl.STOP_COMMAND);
+		this.commands.offer(QConnectorAsyncImpl.STOP_COMMAND);
 		try {
 			old.close();
 		} catch (final IOException e) {
@@ -123,7 +123,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		if (this.currentRun.compareAndSet(run, null) == true) {
 			try {
 				this.disconnect(clearSubscriptions);
-			} catch (final KXError e) {
+			} catch (final QConnectorError e) {
 				// suppress, because this just happens if the connection is not established
 			}
 		}
@@ -137,21 +137,21 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 			
 			try {
 				this.disconnect(false);
-			} catch (final KXError e) {
+			} catch (final QConnectorError e) {
 				// suppress, because this just happens if the connection is not established
 			}
 			final long time = System.currentTimeMillis();
-			this.timer.schedule(new ReconnectTask(), new Date(time + (KXConnectorImpl.RECONNECT_OFFSET_PER_TRY)));
+			this.timer.schedule(new ReconnectTask(), new Date(time + (QConnectorImpl.RECONNECT_OFFSET_PER_TRY)));
 		}
 	}
 	
 	@Override
-	public void subscribe(final KXDataListener aListener, final String[] tables, final String[] symbols) throws KXException {
+	public void subscribe(final QConnectorDataListener aListener, final String[] tables, final String[] symbols) throws QConnectorException {
 		throw new UnsupportedOperationException();
 	}
 	
 	@Override
-	public void subscribe(final String handle, final String[] tables, final String[] symbols) throws KXException {
+	public void subscribe(final String handle, final String[] tables, final String[] symbols) throws QConnectorException {
 		final StringBuilder t = new StringBuilder();
 		if (tables.length > 0) {
 			for (final String table : tables) {
@@ -170,7 +170,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		} else {
 			s.append("`");
 		}
-		final KXAsyncCommandQ q = new KXAsyncCommandQ(".u.sub[" + t.toString() + ";" + s.toString() + "]");
+		final ConnectorAsyncCommandQ q = new ConnectorAsyncCommandQ(".u.sub[" + t.toString() + ";" + s.toString() + "]");
 		this.subscribes.add(q);
 		this.execute(q);
 	}
@@ -181,12 +181,12 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	}
 	
 	@Override
-	public void unsubscribe(final KXDataListener aListener) {
+	public void unsubscribe(final QConnectorDataListener aListener) {
 		throw new UnsupportedOperationException();
 	}
 	
 	@Override
-	public KXListener getConnectorListener() {
+	public QConnectorListener getConnectorListener() {
 		return this.listener;
 	}
 	
@@ -195,7 +195,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 * 
 	 * @param cmd Command
 	 */
-	private void execute(final KXAsyncCommand cmd) {
+	private void execute(final ConnectorAsyncCommand cmd) {
 		this.commands.offer(cmd);
 	}
 	
@@ -204,12 +204,12 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 * 
 	 * @param e Exception
 	 */
-	private void throwKXException(final KXException e) {
+	private void throwQException(final QConnectorException e) {
 		this.executor.execute(new Runnable() {
 			
 			@Override
 			public void run() {
-				KXConnectorAsyncImpl.this.listener.exception(e);
+				QConnectorAsyncImpl.this.listener.exception(e);
 			}
 		});
 	}
@@ -219,12 +219,12 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 	 * 
 	 * @param e Error
 	 */
-	private void throwKXError(final KXError e) {
+	private void throwQError(final QConnectorError e) {
 		this.executor.execute(new Runnable() {
 			
 			@Override
 			public void run() {
-				KXConnectorAsyncImpl.this.listener.error(e);
+				QConnectorAsyncImpl.this.listener.error(e);
 			}
 		});
 	}
@@ -239,7 +239,7 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 			
 			@Override
 			public void run() {
-				KXConnectorAsyncImpl.this.listener.resultReceived("", result);
+				QConnectorAsyncImpl.this.listener.resultReceived("", result);
 			}
 		});
 	}
@@ -261,13 +261,13 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		@Override
 		public void run() {
 			try {
-				KXConnectorAsyncImpl.this.connect();
-				for (final KXAsyncCommandQ q : KXConnectorAsyncImpl.this.subscribes) {
-					KXConnectorAsyncImpl.this.execute(q);
+				QConnectorAsyncImpl.this.connect();
+				for (final ConnectorAsyncCommandQ q : QConnectorAsyncImpl.this.subscribes) {
+					QConnectorAsyncImpl.this.execute(q);
 				}
-			} catch (final KXException e) {
-				KXConnectorAsyncImpl.this.throwKXError(new KXError("Reconnect failed"));
-			} catch (final KXError e) {
+			} catch (final QConnectorException e) {
+				QConnectorAsyncImpl.this.throwQError(new QConnectorError("Reconnect failed"));
+			} catch (final QConnectorError e) {
 				// suppress, because this just happens if the connection is already established
 			}
 		}
@@ -299,9 +299,9 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		@Override
 		public void run() {
 			while (true) {
-				final KXAsyncCommand cmd;
+				final ConnectorAsyncCommand cmd;
 				try {
-					cmd = KXConnectorAsyncImpl.this.commands.poll(1, TimeUnit.SECONDS);
+					cmd = QConnectorAsyncImpl.this.commands.poll(1, TimeUnit.SECONDS);
 				} catch (final InterruptedException e) {
 					continue;
 				}
@@ -309,34 +309,34 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 					try {
 						this.c.ks("1"); // ping server
 					} catch (final Exception e) {
-						if (KXConnectorAsyncImpl.this.reconnectOnError()) {
-							KXConnectorAsyncImpl.this.reconnect(this.run);
-							KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
+						if (QConnectorAsyncImpl.this.reconnectOnError()) {
+							QConnectorAsyncImpl.this.reconnect(this.run);
+							QConnectorAsyncImpl.this.throwQError(new QConnectorError("Could not talk to " + QConnectorAsyncImpl.this.getHost() + ":" + QConnectorAsyncImpl.this.getPort()));
 						} else {
-							KXConnectorAsyncImpl.this.disconnectSilent(this.run, true);
-							KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
+							QConnectorAsyncImpl.this.disconnectSilent(this.run, true);
+							QConnectorAsyncImpl.this.throwQException(new QConnectorException("Could not talk to " + QConnectorAsyncImpl.this.getHost() + ":" + QConnectorAsyncImpl.this.getPort(), e));
 						}
 						break;
 					}
 					continue;
 				}
-				if (cmd == KXConnectorAsyncImpl.STOP_COMMAND) {
+				if (cmd == QConnectorAsyncImpl.STOP_COMMAND) {
 					break;
 				}
 				try {
 					cmd.execute(this.c);
-				} catch (final KXException e) {
-					KXConnectorAsyncImpl.this.throwKXException(e);
+				} catch (final QConnectorException e) {
+					QConnectorAsyncImpl.this.throwQException(e);
 				} catch (final KException e) {
-					KXConnectorAsyncImpl.this.throwKXException(new KXException("KException", e));
+					QConnectorAsyncImpl.this.throwQException(new QConnectorException("KException", e));
 				} catch (final IOException e) {
-					if (KXConnectorAsyncImpl.this.reconnectOnError()) {
-						KXConnectorAsyncImpl.this.commands.offer(cmd);
-						KXConnectorAsyncImpl.this.reconnect(this.run);
-						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
+					if (QConnectorAsyncImpl.this.reconnectOnError()) {
+						QConnectorAsyncImpl.this.commands.offer(cmd);
+						QConnectorAsyncImpl.this.reconnect(this.run);
+						QConnectorAsyncImpl.this.throwQError(new QConnectorError("Could not talk to " + QConnectorAsyncImpl.this.getHost() + ":" + QConnectorAsyncImpl.this.getPort()));
 					} else {
-						KXConnectorAsyncImpl.this.disconnectSilent(this.run, true);
-						KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not talk to " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
+						QConnectorAsyncImpl.this.disconnectSilent(this.run, true);
+						QConnectorAsyncImpl.this.throwQException(new QConnectorException("Could not talk to " + QConnectorAsyncImpl.this.getHost() + ":" + QConnectorAsyncImpl.this.getPort(), e));
 					}
 					break;
 				}
@@ -366,34 +366,34 @@ final class KXConnectorAsyncImpl extends KXConnectorImpl implements KXConnectorA
 		
 		@Override
 		public void run() {
-			while (KXConnectorAsyncImpl.this.cref.get() != null) {
+			while (QConnectorAsyncImpl.this.cref.get() != null) {
 				try {
-					final Object res = KXConnectorAsyncImpl.this.cref.get().k();
+					final Object res = QConnectorAsyncImpl.this.cref.get().k();
 					if (res == null) {
 						// nothing to do here
 						continue;
 					}
 					final Result result;
 					try {
-						result = KXResultHelper.convert(res);
-					} catch (final KXException e) {
-						KXConnectorAsyncImpl.this.throwKXException(e);
+						result = CResultHelper.convert(res);
+					} catch (final QConnectorException e) {
+						QConnectorAsyncImpl.this.throwQException(e);
 						continue;
 					}
-					KXConnectorAsyncImpl.this.throwResult(result);
+					QConnectorAsyncImpl.this.throwResult(result);
 				} catch (final SocketTimeoutException e) {
 					continue;
 				} catch (final UnsupportedEncodingException e) {
-					KXConnectorAsyncImpl.this.throwKXException(new KXException("UnsupportedEncodingException", e));
+					QConnectorAsyncImpl.this.throwQException(new QConnectorException("UnsupportedEncodingException", e));
 				} catch (final KException e) {
-					KXConnectorAsyncImpl.this.throwKXException(new KXException("KException", e));
+					QConnectorAsyncImpl.this.throwQException(new QConnectorException("KException", e));
 				} catch (final IOException e) {
-					if (KXConnectorAsyncImpl.this.reconnectOnError()) {
-						KXConnectorAsyncImpl.this.reconnect(this.run);
-						KXConnectorAsyncImpl.this.throwKXError(new KXError("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort()));
+					if (QConnectorAsyncImpl.this.reconnectOnError()) {
+						QConnectorAsyncImpl.this.reconnect(this.run);
+						QConnectorAsyncImpl.this.throwQError(new QConnectorError("Could not read from " + QConnectorAsyncImpl.this.getHost() + ":" + QConnectorAsyncImpl.this.getPort()));
 					} else {
-						KXConnectorAsyncImpl.this.disconnectSilent(this.run, true);
-						KXConnectorAsyncImpl.this.throwKXException(new KXException("Could not read from " + KXConnectorAsyncImpl.this.getHost() + ":" + KXConnectorAsyncImpl.this.getPort(), e));
+						QConnectorAsyncImpl.this.disconnectSilent(this.run, true);
+						QConnectorAsyncImpl.this.throwQException(new QConnectorException("Could not read from " + QConnectorAsyncImpl.this.getHost() + ":" + QConnectorAsyncImpl.this.getPort(), e));
 					}
 					break;
 				}

@@ -50,7 +50,7 @@ Select select = table.select()
 System.out.println("q: " + select.toQ());
 
 // connect to kdb+
-KXConnectorSync kx = KXConnectorFactory.create("localhost", 5011);
+QConnectorSync kx = QConnectorFactory.create("localhost", 5011);
 kx.connect();
 
 // execute select query and print the result

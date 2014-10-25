@@ -1,6 +1,6 @@
 package info.michaelwittig.javaq.connector.impl.cmd;
 
-import info.michaelwittig.javaq.connector.KXException;
+import info.michaelwittig.javaq.connector.QConnectorException;
 import info.michaelwittig.javaq.query.Result;
 
 import java.io.IOException;
@@ -9,12 +9,12 @@ import kx.c;
 import kx.c.KException;
 
 /**
- * KX Q command with result.
+ * Connector Q command with result.
  * 
  * @author mwittig
  * 
  */
-public final class KXSyncCommandQ extends AKXSyncCommand {
+public final class ConnectorSyncCommandQ extends AConnectorSyncCommand {
 	
 	/** Q. */
 	private final String q;
@@ -23,13 +23,13 @@ public final class KXSyncCommandQ extends AKXSyncCommand {
 	/**
 	 * @param aQ Q
 	 */
-	public KXSyncCommandQ(final String aQ) {
+	public ConnectorSyncCommandQ(final String aQ) {
 		super();
 		this.q = aQ;
 	}
 	
 	@Override
-	public Result execute(final c c) throws KXException, KException, IOException {
+	public Result execute(final c c) throws QConnectorException, KException, IOException {
 		return this.execute(c, this.q);
 	}
 	

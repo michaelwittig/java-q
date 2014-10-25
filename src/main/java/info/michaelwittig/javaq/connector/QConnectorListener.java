@@ -3,26 +3,26 @@ package info.michaelwittig.javaq.connector;
 import info.michaelwittig.javaq.query.Result;
 
 /**
- * KX listener.
+ * QConnector listener.
  * 
  * @author mwittig
  * 
  */
-public interface KXListener {
+public interface QConnectorListener {
 	
 	/**
-	 * KXError occurred. Is handled by the KXConnector. Just an information.
+	 * QConnectorError occurred. Is handled by the QConnector. Just an information.
 	 * 
 	 * @param e Error
 	 */
-	void error(KXError e);
+	void error(QConnectorError e);
 	
 	/**
-	 * KXException occurred. Must be handled by yourself!
+	 * QConnectorException occurred. Must be handled by yourself!
 	 * 
 	 * @param e Exception
 	 */
-	void exception(KXException e);
+	void exception(QConnectorException e);
 	
 	/**
 	 * Result received.

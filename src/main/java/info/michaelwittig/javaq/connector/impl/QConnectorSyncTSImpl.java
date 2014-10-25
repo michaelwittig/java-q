@@ -1,12 +1,12 @@
 package info.michaelwittig.javaq.connector.impl;
 
-import info.michaelwittig.javaq.connector.KXConnectorSync;
-import info.michaelwittig.javaq.connector.KXError;
-import info.michaelwittig.javaq.connector.KXException;
-import info.michaelwittig.javaq.connector.impl.cmd.KXSyncCommand;
-import info.michaelwittig.javaq.connector.impl.cmd.KXSyncCommandFunction;
-import info.michaelwittig.javaq.connector.impl.cmd.KXSyncCommandQ;
-import info.michaelwittig.javaq.connector.impl.cmd.KXSyncCommandSelect;
+import info.michaelwittig.javaq.connector.QConnectorError;
+import info.michaelwittig.javaq.connector.QConnectorSync;
+import info.michaelwittig.javaq.connector.QConnectorException;
+import info.michaelwittig.javaq.connector.impl.cmd.ConnectorSyncCommand;
+import info.michaelwittig.javaq.connector.impl.cmd.ConnectorSyncCommandFunction;
+import info.michaelwittig.javaq.connector.impl.cmd.ConnectorSyncCommandQ;
+import info.michaelwittig.javaq.connector.impl.cmd.ConnectorSyncCommandSelect;
 import info.michaelwittig.javaq.query.Function;
 import info.michaelwittig.javaq.query.Result;
 import info.michaelwittig.javaq.query.Select;
@@ -25,20 +25,20 @@ import kx.c.KException;
 import com.google.common.util.concurrent.SettableFuture;
 
 /**
- * KX Connector implementation.
+ * Q Connector implementation.
  * 
  * Thread-safe? yes
  * 
  * @author mwittig
  * 
  */
-final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnectorSync {
+final class QConnectorSyncTSImpl extends QConnectorImpl implements QConnectorSync {
 	
 	/** Stop command. */
-	private final static KXSyncCommandQ STOP_COMMAND = new KXSyncCommandQ("");
+	private final static ConnectorSyncCommandQ STOP_COMMAND = new ConnectorSyncCommandQ("");
 	
 	/** Start command. */
-	private final static KXSyncCommandQ START_COMMAND = new KXSyncCommandQ("");
+	private final static ConnectorSyncCommandQ START_COMMAND = new ConnectorSyncCommandQ("");
 	
 	/** Empty response. */
 	private final static Result EMPTY_RESULT = new Result() {
@@ -46,7 +46,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 	};
 	
 	/** Commands. */
-	private final BlockingQueue<KXSyncCommandWithFutureValue> commands = new LinkedBlockingQueue<KXSyncCommandWithFutureValue>();
+	private final BlockingQueue<ConnectorSyncCommandWithFutureValue> commands = new LinkedBlockingQueue<ConnectorSyncCommandWithFutureValue>();
 	
 	/** Executor. */
 	private final AtomicReference<Executor> executor = new AtomicReference<Executor>(null);
@@ -57,38 +57,38 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 	 * @param aPort Port
 	 * @param aReconnectOnError Reconnect on error?
 	 */
-	protected KXconnectorSyncTSImpl(String aHost, int aPort, boolean aReconnectOnError) {
+	protected QConnectorSyncTSImpl(String aHost, int aPort, boolean aReconnectOnError) {
 		super(aHost, aPort, aReconnectOnError);
 	}
 	
 	@Override
-	public void connect() throws KXException, KXError {
+	public void connect() throws QConnectorException, QConnectorError {
 		if (!this.executor.compareAndSet(null, new Executor())) {
-			throw new KXError("Already connected");
+			throw new QConnectorError("Already connected");
 		}
 		final SettableFuture<Result> future = SettableFuture.create();
-		this.commands.offer(new KXSyncCommandWithFutureValue(KXconnectorSyncTSImpl.START_COMMAND, future));
+		this.commands.offer(new ConnectorSyncCommandWithFutureValue(QConnectorSyncTSImpl.START_COMMAND, future));
 		new Thread(this.executor.get()).start();
 		try {
 			future.get();
 		} catch (final ExecutionException e) {
-			throw new KXException("KException", e);
+			throw new QConnectorException("KException", e);
 		} catch (final InterruptedException e) {
-			throw new KXException("KException", e);
+			throw new QConnectorException("KException", e);
 		}
 	}
 	
 	@Override
-	public void disconnect() throws KXError {
+	public void disconnect() throws QConnectorError {
 		final Executor old = this.executor.get();
 		if (old == null) {
-			throw new KXError("Not connected");
+			throw new QConnectorError("Not connected");
 		}
 		if (!this.executor.compareAndSet(old, null)) {
-			throw new KXError("Already disconnected");
+			throw new QConnectorError("Already disconnected");
 		}
 		final SettableFuture<Result> future = SettableFuture.create();
-		this.commands.offer(new KXSyncCommandWithFutureValue(KXconnectorSyncTSImpl.STOP_COMMAND, future));
+		this.commands.offer(new ConnectorSyncCommandWithFutureValue(QConnectorSyncTSImpl.STOP_COMMAND, future));
 	}
 	
 	@Override
@@ -99,31 +99,31 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		return false;
 	}
 	
-	private Result cmd(final KXSyncCommand cmd) throws KXException {
+	private Result cmd(final ConnectorSyncCommand cmd) throws QConnectorException {
 		final SettableFuture<Result> future = SettableFuture.create();
-		this.commands.offer(new KXSyncCommandWithFutureValue(cmd, future));
+		this.commands.offer(new ConnectorSyncCommandWithFutureValue(cmd, future));
 		try {
 			return future.get();
 		} catch (final InterruptedException e) {
-			throw new KXException(e.getMessage());
+			throw new QConnectorException(e.getMessage());
 		} catch (final ExecutionException e) {
-			throw new KXException(e.getMessage());
+			throw new QConnectorException(e.getMessage());
 		}
 	}
 	
 	@Override
-	public Result execute(final String q) throws KXException {
-		return this.cmd(new KXSyncCommandQ(q));
+	public Result execute(final String q) throws QConnectorException {
+		return this.cmd(new ConnectorSyncCommandQ(q));
 	}
 	
 	@Override
-	public Result select(final Select select) throws KXException {
-		return this.cmd(new KXSyncCommandSelect(select));
+	public Result select(final Select select) throws QConnectorException {
+		return this.cmd(new ConnectorSyncCommandSelect(select));
 	}
 	
 	@Override
-	public Result call(final Function function) throws KXException {
-		return this.cmd(new KXSyncCommandFunction(function));
+	public Result call(final Function function) throws QConnectorException {
+		return this.cmd(new ConnectorSyncCommandFunction(function));
 	}
 	
 	
@@ -139,26 +139,26 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		public void run() {
 			c c = null;
 			while (true) {
-				final KXSyncCommandWithFutureValue t;
+				final ConnectorSyncCommandWithFutureValue t;
 				try {
-					t = KXconnectorSyncTSImpl.this.commands.take();
+					t = QConnectorSyncTSImpl.this.commands.take();
 				} catch (final InterruptedException e) {
 					continue;
 				}
 				
-				final KXSyncCommand cmd = t.getCmd();
+				final ConnectorSyncCommand cmd = t.getCmd();
 				final SettableFuture<Result> future = t.getFuture();
 				
-				if (cmd == KXconnectorSyncTSImpl.START_COMMAND) {
+				if (cmd == QConnectorSyncTSImpl.START_COMMAND) {
 					if (c != null) {
-						future.setException(new KXError("Already connected"));
+						future.setException(new QConnectorError("Already connected"));
 						continue;
 					}
 					
 					try {
-						c = new c(KXconnectorSyncTSImpl.this.getHost(), KXconnectorSyncTSImpl.this.getPort());
+						c = new c(QConnectorSyncTSImpl.this.getHost(), QConnectorSyncTSImpl.this.getPort());
 						c.tz = TimeZone.getTimeZone("UTC");
-						future.set(KXconnectorSyncTSImpl.EMPTY_RESULT);
+						future.set(QConnectorSyncTSImpl.EMPTY_RESULT);
 					} catch (final KException e) {
 						future.setException(e);
 					} catch (final IOException e) {
@@ -168,11 +168,11 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 					if (c == null) {
 						try {
 							try {
-								Thread.sleep(KXConnectorImpl.RECONNECT_OFFSET_PER_TRY);
+								Thread.sleep(QConnectorImpl.RECONNECT_OFFSET_PER_TRY);
 							} catch (final InterruptedException ie) {
 								// suppress
 							}
-							c = new c(KXconnectorSyncTSImpl.this.getHost(), KXconnectorSyncTSImpl.this.getPort());
+							c = new c(QConnectorSyncTSImpl.this.getHost(), QConnectorSyncTSImpl.this.getPort());
 						} catch (final KException e) {
 							future.setException(e);
 							continue;
@@ -182,30 +182,30 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 						}
 					}
 					
-					if (cmd == KXconnectorSyncTSImpl.STOP_COMMAND) {
+					if (cmd == QConnectorSyncTSImpl.STOP_COMMAND) {
 						try {
 							c.close();
 							c = null;
 						} catch (final Exception e) {
 							// suppress
 						}
-						future.set(KXconnectorSyncTSImpl.EMPTY_RESULT);
+						future.set(QConnectorSyncTSImpl.EMPTY_RESULT);
 						break;
 					}
 					
 					try {
 						final Result result = cmd.execute(c);
 						future.set(result);
-					} catch (final KXException e) {
+					} catch (final QConnectorException e) {
 						future.setException(e);
 					} catch (final KException e) {
-						future.setException(new KXException("Q failed", e));
+						future.setException(new QConnectorException("Q failed", e));
 					} catch (final IOException e) {
-						if ((t.tryReconnect() == true) && KXconnectorSyncTSImpl.this.reconnectOnError()) {
+						if ((t.tryReconnect() == true) && QConnectorSyncTSImpl.this.reconnectOnError()) {
 							c = null;
-							KXconnectorSyncTSImpl.this.commands.offer(t);
+							QConnectorSyncTSImpl.this.commands.offer(t);
 						} else {
-							future.setException(new KXException("Could not talk to " + KXconnectorSyncTSImpl.this.getHost() + ":" + KXconnectorSyncTSImpl.this.getPort(), e));
+							future.setException(new QConnectorException("Could not talk to " + QConnectorSyncTSImpl.this.getHost() + ":" + QConnectorSyncTSImpl.this.getPort(), e));
 						}
 					}
 				}
@@ -218,10 +218,10 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 	 * 
 	 *         Wraps a command with a FutureValue.
 	 */
-	private final static class KXSyncCommandWithFutureValue {
+	private final static class ConnectorSyncCommandWithFutureValue {
 		
 		/** Command. */
-		private final KXSyncCommand cmd;
+		private final ConnectorSyncCommand cmd;
 		
 		/** Result future. */
 		private final SettableFuture<Result> future;
@@ -234,7 +234,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		 * @param cmd Command
 		 * @param future Result future
 		 */
-		public KXSyncCommandWithFutureValue(final KXSyncCommand cmd, final SettableFuture<Result> future) {
+		public ConnectorSyncCommandWithFutureValue(final ConnectorSyncCommand cmd, final SettableFuture<Result> future) {
 			super();
 			this.cmd = cmd;
 			this.future = future;
@@ -243,7 +243,7 @@ final class KXconnectorSyncTSImpl extends KXConnectorImpl implements KXConnector
 		/**
 		 * @return Command
 		 */
-		public KXSyncCommand getCmd() {
+		public ConnectorSyncCommand getCmd() {
 			return this.cmd;
 		}
 		

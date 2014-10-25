@@ -1,6 +1,6 @@
 package info.michaelwittig.javaq.connector.impl;
 
-import info.michaelwittig.javaq.connector.KXException;
+import info.michaelwittig.javaq.connector.QConnectorException;
 import info.michaelwittig.javaq.query.EmptyResult;
 import info.michaelwittig.javaq.query.FlipFlipResult;
 import info.michaelwittig.javaq.query.FlipResult;
@@ -18,16 +18,16 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author mwittig
  * 
  */
-public final class KXResultHelper {
+public final class CResultHelper {
 	
 	/**
-	 * Converts an result from the kx library to a QConnector Result.
+	 * Converts an result from the kx c library to a QConnector Result.
 	 * 
 	 * @param res Result from q
 	 * @return Result
-	 * @throws KXException If the result type is not supported
+	 * @throws QConnectorException If the result type is not supported
 	 */
-	public static Result convert(final Object res) throws KXException {
+	public static Result convert(final Object res) throws QConnectorException {
 		if (res == null) {
 			return new EmptyResult();
 		}
@@ -170,6 +170,6 @@ public final class KXResultHelper {
 		if (res instanceof UUID) { // q guid
 			return new PrimitiveResult<UUID>((UUID) res);
 		}
-		throw new KXException("Unsupported sync result type: " + res.getClass());
+		throw new QConnectorException("Unsupported sync result type: " + res.getClass());
 	}
 }

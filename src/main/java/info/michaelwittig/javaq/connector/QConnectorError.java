@@ -1,12 +1,12 @@
 package info.michaelwittig.javaq.connector;
 
 /**
- * KXErrors are handled by the KXConnector. They are just an information. Nothing needs to be done!
+ * QConnectorErrors are handled by the QConnector. They are just an information. Nothing needs to be done!
  * 
  * @author mwittig
  * 
  */
-public final class KXError extends Exception {
+public final class QConnectorError extends Exception {
 	
 	/** Serial version UID. */
 	private static final long serialVersionUID = 1L;
@@ -15,13 +15,13 @@ public final class KXError extends Exception {
 	/**
 	 * @param message Message
 	 */
-	public KXError(final String message) {
+	public QConnectorError(final String message) {
 		super(message);
 	}
 	
 	@Override
 	public String toString() {
-		return "KXError: " + this.getMessage();
+		return "QConnectorError: " + this.getMessage();
 	}
 	
 }

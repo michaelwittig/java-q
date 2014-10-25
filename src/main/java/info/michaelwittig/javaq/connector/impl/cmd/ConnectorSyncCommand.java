@@ -1,6 +1,7 @@
 package info.michaelwittig.javaq.connector.impl.cmd;
 
-import info.michaelwittig.javaq.connector.KXException;
+import info.michaelwittig.javaq.connector.QConnectorException;
+import info.michaelwittig.javaq.query.Result;
 
 import java.io.IOException;
 
@@ -8,21 +9,22 @@ import kx.c;
 import kx.c.KException;
 
 /**
- * KX command without result.
+ * Connector command with result.
  * 
  * @author mwittig
  * 
  */
-public interface KXAsyncCommand {
+public interface ConnectorSyncCommand {
 	
 	/**
 	 * Execute the command via c.
 	 * 
 	 * @param c C
-	 * @throws KXException If something went wrong
+	 * @return Result
+	 * @throws QConnectorException If something went wrong
 	 * @throws KException If something went wrong in q
 	 * @throws IOException If something went wrong on the transport layer
 	 */
-	void execute(final c c) throws KXException, KException, IOException;
+	Result execute(final c c) throws QConnectorException, KException, IOException;
 	
 }

@@ -1,8 +1,8 @@
 package info.michaelwittig.javaq.demo;
 
-import info.michaelwittig.javaq.connector.KXConnectorSync;
-import info.michaelwittig.javaq.connector.KXException;
-import info.michaelwittig.javaq.connector.impl.KXConnectorFactory;
+import info.michaelwittig.javaq.connector.QConnectorSync;
+import info.michaelwittig.javaq.connector.QConnectorException;
+import info.michaelwittig.javaq.connector.impl.QConnectorFactory;
 import info.michaelwittig.javaq.query.Function;
 import info.michaelwittig.javaq.query.impl.FunctionImpl;
 import info.michaelwittig.javaq.query.value.impl.SymbolValue;
@@ -48,7 +48,7 @@ public class ReconnectTest {
 	 */
 	public void testSyncTSReconnect() throws Exception {
 		System.out.println("sync thread-safe and reconnect");
-		final KXConnectorSync kx = KXConnectorFactory.create("localhost", ReconnectTest.Q_PORT, true, true);
+		final QConnectorSync kx = QConnectorFactory.create("localhost", ReconnectTest.Q_PORT, true, true);
 		try {
 			kx.connect();
 			this.testSyncReconnect(kx);
@@ -63,7 +63,7 @@ public class ReconnectTest {
 	 */
 	public void testSyncTSNoReconnect() throws Exception {
 		System.out.println("sync thread-safe");
-		final KXConnectorSync kx = KXConnectorFactory.create("localhost", ReconnectTest.Q_PORT, false, true);
+		final QConnectorSync kx = QConnectorFactory.create("localhost", ReconnectTest.Q_PORT, false, true);
 		try {
 			kx.connect();
 			this.testSyncNoReconnect(kx);
@@ -78,7 +78,7 @@ public class ReconnectTest {
 	 */
 	public void testSyncNotTSReconnect() throws Exception {
 		System.out.println("sync not thread-safe and reconnect");
-		final KXConnectorSync kx = KXConnectorFactory.create("localhost", ReconnectTest.Q_PORT, true, false);
+		final QConnectorSync kx = QConnectorFactory.create("localhost", ReconnectTest.Q_PORT, true, false);
 		try {
 			kx.connect();
 			this.testSyncReconnect(kx);
@@ -93,7 +93,7 @@ public class ReconnectTest {
 	 */
 	public void testSyncNotTSNoReconnect() throws Exception {
 		System.out.println("sync not thread-safe");
-		final KXConnectorSync kx = KXConnectorFactory.create("localhost", ReconnectTest.Q_PORT, false, false);
+		final QConnectorSync kx = QConnectorFactory.create("localhost", ReconnectTest.Q_PORT, false, false);
 		try {
 			kx.connect();
 			this.testSyncNoReconnect(kx);
@@ -107,14 +107,14 @@ public class ReconnectTest {
 	 * @param kx Connection
 	 * @throws Exception If the test fails
 	 */
-	public void testSyncReconnect(final KXConnectorSync kx) throws Exception {
+	public void testSyncReconnect(final QConnectorSync kx) throws Exception {
 		final Function fn = new FunctionImpl.FunctionBuilderImpl("tables").param(SymbolValue.from(("."))).build();
 		kx.call(fn);
 		System.out.println("result");
 		this.killQ();
 		try {
 			kx.call(fn);
-		} catch (final KXException e) {
+		} catch (final QConnectorException e) {
 			System.out.println("error as expected");
 		}
 		this.startQ();
@@ -126,21 +126,21 @@ public class ReconnectTest {
 	 * @param kx Connection
 	 * @throws Exception If the test fails
 	 */
-	public void testSyncNoReconnect(final KXConnectorSync kx) throws Exception {
+	public void testSyncNoReconnect(final QConnectorSync kx) throws Exception {
 		final Function fn = new FunctionImpl.FunctionBuilderImpl("tables").param(SymbolValue.from(("."))).build();
 		kx.call(fn);
 		System.out.println("result");
 		this.killQ();
 		try {
 			kx.call(fn);
-		} catch (final KXException e) {
+		} catch (final QConnectorException e) {
 			System.out.println("error as expected");
 		}
 		this.startQ();
 		try {
 			kx.call(fn);
 			throw new Exception("reconnect was done?");
-		} catch (final KXException e) {
+		} catch (final QConnectorException e) {
 			System.out.println("error as expected");
 		}
 	}

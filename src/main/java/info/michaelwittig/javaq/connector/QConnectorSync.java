@@ -5,40 +5,40 @@ import info.michaelwittig.javaq.query.Result;
 import info.michaelwittig.javaq.query.Select;
 
 /**
- * KXConnector synchronous.
+ * QConnector synchronous.
  * 
  * Thread-safe? depends on implementation
  * 
  * @author mwittig
  * 
  */
-public interface KXConnectorSync extends KXConnector {
+public interface QConnectorSync extends QConnector {
 	
 	/**
 	 * Synchronous execute.
 	 * 
 	 * @param q Q code
 	 * @return Result
-	 * @throws KXException If something went wrong
+	 * @throws QConnectorException If something went wrong
 	 */
-	Result execute(String q) throws KXException;
+	Result execute(String q) throws QConnectorException;
 	
 	/**
 	 * Synchronous select.
 	 * 
 	 * @param select Select
 	 * @return Result
-	 * @throws KXException If something went wrong
+	 * @throws QConnectorException If something went wrong
 	 */
-	Result select(Select select) throws KXException;
+	Result select(Select select) throws QConnectorException;
 	
 	/**
 	 * Synchronous call.
 	 * 
 	 * @param function Function
 	 * @return Result
-	 * @throws KXException If something went wrong
+	 * @throws QConnectorException If something went wrong
 	 */
-	Result call(Function function) throws KXException;
+	Result call(Function function) throws QConnectorException;
 	
 }

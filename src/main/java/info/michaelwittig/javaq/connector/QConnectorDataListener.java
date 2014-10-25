@@ -3,19 +3,19 @@ package info.michaelwittig.javaq.connector;
 import info.michaelwittig.javaq.query.Result;
 
 /**
- * KX data listener.
+ * QConnector data listener.
  * 
  * @author mwittig
  * 
  */
-public interface KXDataListener {
+public interface QConnectorDataListener {
 	
 	/**
-	 * KXException occurred. Must be handled by yourself!
+	 * QConnectorException occurred. Must be handled by yourself!
 	 * 
 	 * @param e Exception
 	 */
-	void exception(KXException e);
+	void exception(QConnectorException e);
 	
 	/**
 	 * Result received.

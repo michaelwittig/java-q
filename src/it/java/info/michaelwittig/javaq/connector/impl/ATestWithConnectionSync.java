@@ -1,6 +1,6 @@
 package info.michaelwittig.javaq.connector.impl;
 
-import info.michaelwittig.javaq.connector.KXConnectorSync;
+import info.michaelwittig.javaq.connector.QConnectorSync;
 import info.michaelwittig.javaq.query.ListResult;
 import info.michaelwittig.javaq.query.PrimitiveResult;
 import info.michaelwittig.javaq.query.TableResult;
@@ -20,17 +20,17 @@ import org.junit.Test;
 /**
  * @author mwittig
  * 
- * @param <T> KXConnectorSync
+ * @param <T> QConnectorSync
  * 
  */
 @SuppressWarnings("javadoc")
-public abstract class ATestWithConnectionSync<T extends KXConnectorSync> extends ATestWithConnection<T> {
+public abstract class ATestWithConnectionSync<T extends QConnectorSync> extends ATestWithConnection<T> {
 	
 	// Dict
 	
 	@Test
 	@Ignore
-	// not yet supported
+	// TODO Dicts are not yet supported
 	public void testReadSimpleDict() throws Exception {
 		this.c().execute("(`a`b`c)!(1 2 3)");
 	}

@@ -1,33 +1,31 @@
 package info.michaelwittig.javaq.connector;
 
 /**
- * TODO rename KX to Q or something
- * 
- * KXConnector.
+ * QConnector.
  * 
  * Error / Exception handling: Errors are failures that the system can handle automatically and to correct the failure situation. For
- * example if the connection is lost and reconnectOnError is true, the KXConnector will try to reconnect to the server. Exceptions are
+ * example if the connection is lost and reconnectOnError is true, the QConnector will try to reconnect to the server. Exceptions are
  * failures that the system can not handle by itself. For example an malformed q command.
  * 
  * @author mwittig
  * 
  */
-public abstract interface KXConnector {
+public abstract interface QConnector {
 	
 	/**
 	 * Connect.
 	 * 
-	 * @throws KXException If the connection can not be established
-	 * @throws KXError If the KXConnector is already connected
+	 * @throws QConnectorException If the connection can not be established
+	 * @throws QConnectorError If the QConnector is already connected
 	 */
-	void connect() throws KXException, KXError;
+	void connect() throws QConnectorException, QConnectorError;
 	
 	/**
 	 * Disconnect.
 	 * 
-	 * @throws KXError If the connection was disconnected already
+	 * @throws QConnectorError If the connection was disconnected already
 	 */
-	void disconnect() throws KXError;
+	void disconnect() throws QConnectorError;
 	
 	/**
 	 * @return Host

@@ -1,7 +1,7 @@
 package info.michaelwittig.javaq.demo.tabledefinition;
 
-import info.michaelwittig.javaq.connector.KXConnectorSync;
-import info.michaelwittig.javaq.connector.impl.KXConnectorFactory;
+import info.michaelwittig.javaq.connector.QConnectorSync;
+import info.michaelwittig.javaq.connector.impl.QConnectorFactory;
 import info.michaelwittig.javaq.query.Result;
 import info.michaelwittig.javaq.query.Select;
 import info.michaelwittig.javaq.query.Select.Sort.Direction;
@@ -29,7 +29,7 @@ public final class SelectQueryExample {
 		System.out.println("Q: " + select.toQ());
 		
 		// connect to kdb+
-		final KXConnectorSync kx = KXConnectorFactory.create("localhost", 5011, true, false);
+		final QConnectorSync kx = QConnectorFactory.create("localhost", 5011, true, false);
 		kx.connect();
 		
 		// execute select and print the result

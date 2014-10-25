@@ -6,12 +6,12 @@ import kx.c;
 import kx.c.KException;
 
 /**
- * KX Q command with result.
+ * Connector Q command with result.
  * 
  * @author mwittig
  * 
  */
-public final class KXAsyncCommandQ implements KXAsyncCommand {
+public final class ConnectorAsyncCommandQ implements ConnectorAsyncCommand {
 	
 	/** Q. */
 	private final String q;
@@ -20,7 +20,7 @@ public final class KXAsyncCommandQ implements KXAsyncCommand {
 	/**
 	 * @param aQ Q
 	 */
-	public KXAsyncCommandQ(final String aQ) {
+	public ConnectorAsyncCommandQ(final String aQ) {
 		super();
 		this.q = aQ;
 	}
