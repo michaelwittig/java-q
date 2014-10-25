@@ -1,6 +1,5 @@
 package info.michaelwittig.javaq.connector.impl;
 
-
 /**
  * @author mwittig
  * 
