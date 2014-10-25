@@ -6,9 +6,9 @@ Hej folks! Again and again we have to interact with a [kdb+](http://kx.com/kdb+.
 
 ## Encapsulation
 
-**You do not need to be a Q god to use this library!**
+**You do not need to be a q god to use this library!**
 
-We encapsulate all the q stuff for you! It's just simple Java. Look at the folowing example. Have you ever seen a [q-sql select](http://code.kx.com/wiki/JB:QforMortals/queries_q_sql) so Java pretty?
+We encapsulate all the q stuff for you! It's just simple Java. Look at the following example. Have you ever seen a [q-sql select](http://code.kx.com/wiki/JB:QforMortals/queries_q_sql) so Java pretty?
 
 ```java
 Select select = trade.select()
@@ -29,7 +29,7 @@ Your schema is defined by code not by text! You get easy refactoring and lesser 
 
 ## Synchronous Access
 
-###  Queries using select
+### Queries using select
 
 [Learn more about how to create a q query.](https://github.com/michaelwittig/java-q/wiki/HowTo:-Query)
 
@@ -44,7 +44,7 @@ Select select = table.select()
 	.filter(table.sym().filterIn(SymbolValue.froms(new String[] {"AAA", "BBB"})))
 	.order(Direction.descending, table.time())
 	.build();
-System.out.println("Q: " + select.toQ());
+System.out.println("q: " + select.toQ());
 
 // connect to kdb+
 KXConnectorSync kx = KXConnectorFactory.create("localhost", 5011);
