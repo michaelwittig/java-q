@@ -27,6 +27,28 @@ Your schema is defined by code not by text! You get easy refactoring and lesser 
 
 [Learn more about how to define your schema with a few lines of code.](https://github.com/michaelwittig/java-q/wiki/HowTo:-Schema)
 
+```java
+public class MyTable extends ATable {
+    private static MyTable INSTANCE = new MyTable();
+    public static MyTable get() {
+        return INSTANCE;
+    }
+    
+	public TimeColumn time = new TimeColumn("time");
+	public SymbolColumn sym = new SymbolColumn("sym");
+    public FloatColumn price = new FloatColumn("price");
+    public IntegerColumn size = new IntegerColumn("size");
+    
+    private MyTable() {
+        super("mytable");
+        this.addColumn(this.time);
+        this.addColumn(this.sym);
+        this.addColumn(this.price);
+        this.addColumn(this.size);
+    }
+}
+```
+
 ## Synchronous Access
 
 ### Queries using select
@@ -39,11 +61,11 @@ MyTable table = MyTable.get();
 
 // create select query
 Select select = table.select()
-	.column(table.size().sum())
-	.column(table.price().avg())
-	.group(table.sym().group())
-	.filter(table.sym().filterIn(SymbolValue.froms(new String[] {"AAA", "BBB"})))
-	.order(Direction.descending, table.time())
+	.column(table.size.sum())
+	.column(table.price.avg())
+	.group(table.sym.group())
+	.filter(table.sym.filterIn(SymbolValue.froms(new String[] {"AAA", "BBB"})))
+	.order(Direction.descending, table.time)
 	.build();
 System.out.println("q: " + select.toQ());
 
@@ -54,10 +76,10 @@ kx.connect();
 // execute select query and print the result
 Result result = kx.select(select);
 for (TableRow row : table.read(result)) {
-	System.out.println(row.get(table.time()));
-	System.out.println(row.get(table.sym()));
-	System.out.println(row.get(table.price()));
-	System.out.println(row.get(table.size()));
+	System.out.println(row.get(table.time));
+	System.out.println(row.get(table.sym));
+	System.out.println(row.get(table.price));
+	System.out.println(row.get(table.size));
 }
 
 // close connection
