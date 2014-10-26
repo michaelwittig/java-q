@@ -79,6 +79,17 @@ public final class QConnectorFactory {
 		return c;
 	}
 	
+	/**
+	 * Reconnect on error and is thread-safe.
+	 *
+	 * @param host Host
+	 * @param port Port
+	 * @return QConnector
+	 */
+	public static QConnectorSync create(final String host, final int port) {
+		return create(host, port, true, true);
+	}
+	
 	/** */
 	private QConnectorFactory() {
 		super();
