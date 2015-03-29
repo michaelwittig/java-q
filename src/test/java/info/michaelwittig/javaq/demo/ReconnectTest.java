@@ -15,7 +15,7 @@ public class ReconnectTest {
 	
 	private static final int Q_PORT = 9999;
 
-	private static final String Q_PATH = "D:\\Development\\Tools\\q\\w32\\q";
+	private static final String Q_PATH = "/Users/tullius/q/m32/q";
 	
 	private Process qprocess;
 	
@@ -24,7 +24,7 @@ public class ReconnectTest {
 	 * @param args Args
 	 * @throws Exception If the test fails
 	 */
-	public static void main(final String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		new ReconnectTest().test();
 	}
 	
