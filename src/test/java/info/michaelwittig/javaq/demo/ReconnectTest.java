@@ -14,7 +14,7 @@ import info.michaelwittig.javaq.query.value.impl.SymbolValue;
 public class ReconnectTest {
 	
 	private static final int Q_PORT = 9999;
-	
+
 	private static final String Q_PATH = "/Users/tullius/q/m32/q";
 	
 	private Process qprocess;
